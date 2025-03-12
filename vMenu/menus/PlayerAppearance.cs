@@ -20,11 +20,11 @@ namespace vMenuClient.menus
         private Menu savedPedsMenu;
         private Menu spawnPedsMenu;
         private Menu addonPedsMenu;
-        private readonly Menu mainPedsMenu = new("Main Peds", "Spawn A Ped");
-        private readonly Menu animalsPedsMenu = new("Animals", "Spawn A Ped");
-        private readonly Menu malePedsMenu = new("Male Peds", "Spawn A Ped");
-        private readonly Menu femalePedsMenu = new("Female Peds", "Spawn A Ped");
-        private readonly Menu otherPedsMenu = new("Other Peds", "Spawn A Ped");
+        private readonly Menu mainPedsMenu = new("Peds principaux", "Faire apparaître un ped");
+        private readonly Menu animalsPedsMenu = new("Animaux", "Faire apparaître un ped");
+        private readonly Menu malePedsMenu = new("Peds masculins", "Faire apparaître un ped");
+        private readonly Menu femalePedsMenu = new("Peds féminins", "Faire apparaître un ped");
+        private readonly Menu otherPedsMenu = new("Autres peds", "Faire apparaître un ped");
 
         public static Dictionary<string, uint> AddonPeds;
 
@@ -33,21 +33,20 @@ namespace vMenuClient.menus
         private readonly Dictionary<MenuListItem, int> drawablesMenuListItems = new();
         private readonly Dictionary<MenuListItem, int> propsMenuListItems = new();
 
-        #region create the menu
+        #region Créer le menu
         /// <summary>
-        /// Creates the menu(s).
+        /// Crée le(s) menu(s).
         /// </summary>
         private void CreateMenu()
         {
-            // Create the menu.
-            menu = new Menu(Game.Player.Name, "Player Appearance");
-            savedPedsMenu = new Menu(Game.Player.Name, "Saved Peds");
-            pedCustomizationMenu = new Menu(Game.Player.Name, "Customize Saved Ped");
-            spawnPedsMenu = new Menu(Game.Player.Name, "Spawn Ped");
-            addonPedsMenu = new Menu(Game.Player.Name, "Addon Peds");
+            // Crée le menu.
+            menu = new Menu(Game.Player.Name, "Apparence du joueur");
+            savedPedsMenu = new Menu(Game.Player.Name, "Peds sauvegardés");
+            pedCustomizationMenu = new Menu(Game.Player.Name, "Personnaliser le ped sauvegardé");
+            spawnPedsMenu = new Menu(Game.Player.Name, "Faire apparaître un ped");
+            addonPedsMenu = new Menu(Game.Player.Name, "Peds additionnels");
 
-
-            // Add the (submenus) to the menu pool.
+            // Ajoute les sous-menus au pool de menus.
             MenuController.AddSubmenu(menu, pedCustomizationMenu);
             MenuController.AddSubmenu(menu, savedPedsMenu);
             MenuController.AddSubmenu(menu, spawnPedsMenu);
@@ -58,27 +57,25 @@ namespace vMenuClient.menus
             MenuController.AddSubmenu(spawnPedsMenu, femalePedsMenu);
             MenuController.AddSubmenu(spawnPedsMenu, otherPedsMenu);
 
-            // Create the menu items.
-            var pedCustomization = new MenuItem("Ped Customization", "Modify your ped's appearance.") { Label = "→→→" };
-            var saveCurrentPed = new MenuItem("Save Ped", "Save your current ped. Note for the MP Male/Female peds this won't save most of their customization, just because that's impossible. Create those characters in the MP Character creator instead.");
-            var savedPedsBtn = new MenuItem("Saved Peds", "Edit, rename, clone, spawn or delete saved peds.") { Label = "→→→" };
-            var spawnPedsBtn = new MenuItem("Spawn Peds", "Change ped model by selecting one from the list or by selecting an addon ped from the list.") { Label = "→→→" };
+            // Crée les éléments du menu.
+            var pedCustomization = new MenuItem("Personnalisation du ped", "Modifiez l'apparence de votre ped.") { Label = "→→→" };
+            var saveCurrentPed = new MenuItem("Sauvegarder le ped", "Sauvegarde votre ped actuel. Notez que pour les peds MP masculins/féminins, cela ne sauvegardera pas la plupart de leurs personnalisations, car c'est impossible. Créez ces personnages dans le créateur de personnage MP à la place.");
+            var savedPedsBtn = new MenuItem("Peds sauvegardés", "Modifiez, renommez, clonez, faites apparaître ou supprimez des peds sauvegardés.") { Label = "→→→" };
+            var spawnPedsBtn = new MenuItem("Faire apparaître des peds", "Changez de modèle de ped en en sélectionnant un dans la liste ou en choisissant un ped additionnel dans la liste.") { Label = "→→→" };
 
+            var spawnByNameBtn = new MenuItem("Faire apparaître par nom", "Faites apparaître un ped en entrant son nom manuellement.");
+            var addonPedsBtn = new MenuItem("Peds additionnels", "Faites apparaître un ped à partir de la liste des peds additionnels.") { Label = "→→→" };
+            var mainPedsBtn = new MenuItem("Peds principaux", "Sélectionnez un nouveau ped à partir de la liste des peds principaux.") { Label = "→→→" };
+            var animalPedsBtn = new MenuItem("Animaux", "Devenez un animal. ~r~Notez que cela peut faire planter votre jeu ou celui d'autres joueurs si vous mourrez en tant qu'animal, le godmode ne peut PAS empêcher cela.") { Label = "→→→" };
+            var malePedsBtn = new MenuItem("Peds masculins", "Sélectionnez un ped masculin.") { Label = "→→→" };
+            var femalePedsBtn = new MenuItem("Peds féminins", "Sélectionnez un ped féminin.") { Label = "→→→" };
+            var otherPedsBtn = new MenuItem("Autres peds", "Sélectionnez un ped.") { Label = "→→→" };
 
-            var spawnByNameBtn = new MenuItem("Spawn By Name", "Spawn a ped by entering it's name manually.");
-            var addonPedsBtn = new MenuItem("Addon Peds", "Spawn a ped from the addon peds list.") { Label = "→→→" };
-            var mainPedsBtn = new MenuItem("Main Peds", "Select a new ped from the main player-peds list.") { Label = "→→→" };
-            var animalPedsBtn = new MenuItem("Animals", "Become an animal. ~r~Note this may crash your own or other players' game if you die as an animal, godmode can NOT prevent this.") { Label = "→→→" };
-            var malePedsBtn = new MenuItem("Male Peds", "Select a male ped.") { Label = "→→→" };
-            var femalePedsBtn = new MenuItem("Female Peds", "Select a female ped.") { Label = "→→→" };
-            var otherPedsBtn = new MenuItem("Other Peds", "Select a ped.") { Label = "→→→" };
+            var walkstyles = new List<string>() { "Normal", "Blessé", "Dur à cuire", "Femme", "Gangster", "Chic", "Sexy", "Business", "Ivre", "Hipster" };
+            var walkingStyle = new MenuListItem("Style de marche", walkstyles, 0, "Changez le style de marche de votre ped actuel. " + "Vous devez réappliquer ce style à chaque fois que vous changez de modèle de joueur ou chargez un ped sauvegardé.");
 
-            var walkstyles = new List<string>() { "Normal", "Injured", "Tough Guy", "Femme", "Gangster", "Posh", "Sexy", "Business", "Drunk", "Hipster" };
-            var walkingStyle = new MenuListItem("Walking Style", walkstyles, 0, "Change the walking style of your current ped. " +
-                "You need to re-apply this each time you change player model or load a saved ped.");
-
-            var clothingGlowAnimations = new List<string>() { "On", "Off", "Fade", "Flash" };
-            var clothingGlowType = new MenuListItem("Illuminated Clothing Style", clothingGlowAnimations, ClothingAnimationType, "Set the style of the animation used on your player's illuminated clothing items.");
+            var clothingGlowAnimations = new List<string>() { "Activé", "Désactivé", "Fondu", "Clignotant" };
+            var clothingGlowType = new MenuListItem("Style des vêtements illuminés", clothingGlowAnimations, ClothingAnimationType, "Définissez le style de l'animation utilisée sur les vêtements illuminés de votre joueur.");
 
             // Add items to the menu.
             menu.AddMenuItem(pedCustomization);
@@ -102,19 +99,19 @@ namespace vMenuClient.menus
             MenuController.BindMenuItem(menu, savedPedsMenu, savedPedsBtn);
             MenuController.BindMenuItem(menu, spawnPedsMenu, spawnPedsBtn);
 
-            var selectedSavedPedMenu = new Menu("Saved Ped", "renameme");
+            var selectedSavedPedMenu = new Menu("Ped sauvegardé", "renommer");
             MenuController.AddSubmenu(savedPedsMenu, selectedSavedPedMenu);
-            var spawnSavedPed = new MenuItem("Spawn Saved Ped", "Spawn this saved ped.");
-            var cloneSavedPed = new MenuItem("Clone Saved Ped", "Clone this saved ped.");
-            var renameSavedPed = new MenuItem("Rename Saved Ped", "Rename this saved ped.") { LeftIcon = MenuItem.Icon.WARNING };
-            var replaceSavedPed = new MenuItem("~r~Replace Saved Ped", "Replace this saved ped with your current ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
-            var deleteSavedPed = new MenuItem("~r~Delete Saved Ped", "Delete this saved ped. Note this can not be undone!") { LeftIcon = MenuItem.Icon.WARNING };
+            var spawnSavedPed = new MenuItem("Faire apparaître le ped sauvegardé", "Fait apparaître ce ped sauvegardé.");
+            var cloneSavedPed = new MenuItem("Cloner le ped sauvegardé", "Clone ce ped sauvegardé.");
+            var renameSavedPed = new MenuItem("Renommer le ped sauvegardé", "Renomme ce ped sauvegardé.") { LeftIcon = MenuItem.Icon.WARNING };
+            var replaceSavedPed = new MenuItem("~r~Remplacer le ped sauvegardé", "Remplace ce ped sauvegardé par votre ped actuel. Notez que cela ne peut pas être annulé !") { LeftIcon = MenuItem.Icon.WARNING };
+            var deleteSavedPed = new MenuItem("~r~Supprimer le ped sauvegardé", "Supprime ce ped sauvegardé. Notez que cela ne peut pas être annulé !") { LeftIcon = MenuItem.Icon.WARNING };
 
             if (!IsAllowed(Permission.PASpawnSaved))
             {
                 spawnSavedPed.Enabled = false;
                 spawnSavedPed.RightIcon = MenuItem.Icon.LOCK;
-                spawnSavedPed.Description = "You are not allowed to spawn saved peds.";
+                spawnSavedPed.Description = "Vous n'êtes pas autorisé à faire spawn des peds sauvegardés.";
             }
 
             selectedSavedPedMenu.AddMenuItem(spawnSavedPed);
@@ -133,7 +130,7 @@ namespace vMenuClient.menus
                 }
                 else if (item == cloneSavedPed)
                 {
-                    var name = await GetUserInput($"Enter a clone name ({savedPed.Key.Substring(4)})", savedPed.Key.Substring(4), 30);
+                    var name = await GetUserInput($"Saisir un nom de clone ({savedPed.Key.Substring(4)})", savedPed.Key.Substring(4), 30);
                     if (string.IsNullOrEmpty(name))
                     {
                         Notify.Error(CommonErrors.InvalidSaveName);
@@ -148,18 +145,18 @@ namespace vMenuClient.menus
                         {
                             if (StorageManager.SavePedInfo("ped_" + name, savedPed.Value, false))
                             {
-                                Notify.Success($"Saved Ped has successfully been cloned. Clone name: ~g~<C>{name}</C>~s~.");
+                                Notify.Success($"La Ped sauvegardée a été clonée avec succès. Nom du clone : ~g~<C>{name}</C>~s~.");
                             }
                             else
                             {
-                                Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your cloned ped. Don't worry, your original ped is unharmed.");
+                                Notify.Error(CommonErrors.UnknownError, placeholderValue: " Impossible de sauvegarder votre ped cloné. Ne vous inquiétez pas, votre ped original est indemne.");
                             }
                         }
                     }
                 }
                 else if (item == renameSavedPed)
                 {
-                    var name = await GetUserInput($"Enter a new name for: {savedPed.Key.Substring(4)}", savedPed.Key.Substring(4), 30);
+                    var name = await GetUserInput($"Saisir un nouveau nom pour : {savedPed.Key.Substring(4)}", savedPed.Key.Substring(4), 30);
                     if (string.IsNullOrEmpty(name))
                     {
                         Notify.Error(CommonErrors.InvalidSaveName);
@@ -168,12 +165,12 @@ namespace vMenuClient.menus
                     {
                         if ("ped_" + name == savedPed.Key)
                         {
-                            Notify.Error("You need to choose a different name, you can't use the same name as your existing ped.");
+                            Notify.Error("Vous devez choisir un nom différent, vous ne pouvez pas utiliser le même nom que votre ped existante.");
                             return;
                         }
                         if (StorageManager.SavePedInfo("ped_" + name, savedPed.Value, false))
                         {
-                            Notify.Success($"Saved Ped has successfully been renamed. New ped name: ~g~<C>{name}</C>~s~.");
+                            Notify.Success($"Le ped enregistrée a été renommée avec succès. Nouveau nom : ~g~<C>{name}</C>~s~.");
                             DeleteResourceKvp(savedPed.Key);
                             selectedSavedPedMenu.MenuSubtitle = name;
                             savedPed = new KeyValuePair<string, PedInfo>("ped_" + name, savedPed.Value);
@@ -186,36 +183,36 @@ namespace vMenuClient.menus
                 }
                 else if (item == replaceSavedPed)
                 {
-                    if (item.Label == "Are you sure?")
+                    if (item.Label == "Êtes-vous sûr ?")
                     {
                         item.Label = "";
                         var success = await SavePed(savedPed.Key.Substring(4), overrideExistingPed: true);
                         if (!success)
                         {
-                            Notify.Error(CommonErrors.UnknownError, placeholderValue: " Could not save your replaced ped. Don't worry, your original ped is unharmed.");
+                            Notify.Error(CommonErrors.UnknownError, placeholderValue: " La ped remplacée n'a pas pu être sauvegardée. Ne vous inquiétez pas, votre ped d'origine est indemne.");
                         }
                         else
                         {
-                            Notify.Success("Your saved ped has successfully been replaced.");
+                            Notify.Success("Votre ped enregistrée a été remplacée.");
                             savedPed = new KeyValuePair<string, PedInfo>(savedPed.Key, StorageManager.GetSavedPedInfo(savedPed.Key));
                         }
                     }
                     else
                     {
-                        item.Label = "Are you sure?";
+                        item.Label = "Êtes-vous sûr ?";
                     }
                 }
                 else if (item == deleteSavedPed)
                 {
-                    if (item.Label == "Are you sure?")
+                    if (item.Label == "Êtes-vous sûr ?")
                     {
                         DeleteResourceKvp(savedPed.Key);
-                        Notify.Success("Your saved ped has been deleted.");
+                        Notify.Success("Votre ped sauvegardé a été supprimée.");
                         selectedSavedPedMenu.GoBack();
                     }
                     else
                     {
-                        item.Label = "Are you sure?";
+                        item.Label = "Êtes-vous sûr ?";
                     }
                 }
             };
@@ -246,7 +243,7 @@ namespace vMenuClient.menus
                 {
                     if (size < 1 || !savedPedsMenu.GetMenuItems().Any(e => ped.Key == e.ItemData.Key))
                     {
-                        var btn = new MenuItem(ped.Key.Substring(4), "Click to manage this saved ped.") { Label = "→→→", ItemData = ped };
+                        var btn = new MenuItem(ped.Key.Substring(4), "Cliquez sur pour gérer les peds sauvegardée.") { Label = "→→→", ItemData = ped };
                         savedPedsMenu.AddMenuItem(btn);
                         MenuController.BindMenuItem(savedPedsMenu, selectedSavedPedMenu, btn);
                     }
@@ -312,13 +309,13 @@ namespace vMenuClient.menus
                         name = ped.Key;
                     }
 
-                    var pedBtn = new MenuItem(ped.Key, "Click to spawn this model.") { Label = $"({name})" };
+                    var pedBtn = new MenuItem(ped.Key, "Cliquez pour spawn ce modèle.") { Label = $"({name})" };
 
                     if (!IsModelInCdimage(ped.Value) || !IsModelAPed(ped.Value))
                     {
                         pedBtn.Enabled = false;
                         pedBtn.LeftIcon = MenuItem.Icon.LOCK;
-                        pedBtn.Description = "This ped is not (correctly) streamed. If you are the server owner, please ensure that the ped name and model are valid!";
+                        pedBtn.Description = "Ce ped n'est pas (correctement) diffusée. Si vous êtes le propriétaire du serveur, assurez-vous que le nom et le modèle du ped sont valides !";
                     }
 
                     addonPedsMenu.AddMenuItem(pedBtn);
@@ -347,7 +344,7 @@ namespace vMenuClient.menus
                 else
                 {
                     animalPedsBtn.Enabled = false;
-                    animalPedsBtn.Description = "This is disabled by the server owner, probably for a good reason because animals quite often crash the game.";
+                    animalPedsBtn.Description = "Cette fonction est désactivée par le propriétaire du serveur, probablement pour une bonne raison, car les animaux font souvent planter le jeu.";
                     animalPedsBtn.LeftIcon = MenuItem.Icon.LOCK;
                 }
 
@@ -357,46 +354,46 @@ namespace vMenuClient.menus
 
                 foreach (var animal in animalModels)
                 {
-                    var animalBtn = new MenuItem(animal.Key, "Click to spawn this animal.") { Label = $"({animal.Value})" };
+                    var animalBtn = new MenuItem(animal.Key, "Cliquez pour spawn cet animal.") { Label = $"({animal.Value})" };
                     animalsPedsMenu.AddMenuItem(animalBtn);
                 }
 
                 foreach (var ped in mainModels)
                 {
-                    var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    var pedBtn = new MenuItem(ped.Key, "Cliquez pour spawn ce ped") { Label = $"({ped.Value})" };
                     mainPedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in maleModels)
                 {
-                    var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    var pedBtn = new MenuItem(ped.Key, "Cliquez pour spawn ce ped") { Label = $"({ped.Value})" };
                     malePedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in femaleModels)
                 {
-                    var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    var pedBtn = new MenuItem(ped.Key, "Cliquez pour spawn ce ped") { Label = $"({ped.Value})" };
                     femalePedsMenu.AddMenuItem(pedBtn);
                 }
 
                 foreach (var ped in otherPeds)
                 {
-                    var pedBtn = new MenuItem(ped.Key, "Click to spawn this ped.") { Label = $"({ped.Value})" };
+                    var pedBtn = new MenuItem(ped.Key, "Cliquez pour spawn ce ped") { Label = $"({ped.Value})" };
                     otherPedsMenu.AddMenuItem(pedBtn);
                 }
 
                 async void FilterMenu(Menu m, Control c)
                 {
-                    var input = await GetUserInput("Filter by ped model name, leave this empty to reset the filter");
+                    var input = await GetUserInput("Filtrer par nom de modèle de ped, laisser ce champ vide pour réinitialiser le filtre");
                     if (!string.IsNullOrEmpty(input))
                     {
                         m.FilterMenuItems((mb) => mb.Label.ToLower().Contains(input.ToLower()) || mb.Text.ToLower().Contains(input.ToLower()));
-                        Subtitle.Custom("Filter applied.");
+                        Subtitle.Custom("Filtre appliqué.");
                     }
                     else
                     {
                         m.ResetFilter();
-                        Subtitle.Custom("Filter cleared.");
+                        Subtitle.Custom("Filtre effacé.");
                     }
                 }
 
@@ -409,13 +406,13 @@ namespace vMenuClient.menus
                 malePedsMenu.OnMenuClose += ResetMenuFilter;
                 femalePedsMenu.OnMenuClose += ResetMenuFilter;
 
-                otherPedsMenu.InstructionalButtons.Add(Control.Jump, "Filter List");
+                otherPedsMenu.InstructionalButtons.Add(Control.Jump, "Liste des filtres");
                 otherPedsMenu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(FilterMenu), true));
 
-                malePedsMenu.InstructionalButtons.Add(Control.Jump, "Filter List");
+                malePedsMenu.InstructionalButtons.Add(Control.Jump, "Liste des filtres");
                 malePedsMenu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(FilterMenu), true));
 
-                femalePedsMenu.InstructionalButtons.Add(Control.Jump, "Filter List");
+                femalePedsMenu.InstructionalButtons.Add(Control.Jump, "Liste des filtres");
                 femalePedsMenu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(FilterMenu), true));
 
 
@@ -433,7 +430,7 @@ namespace vMenuClient.menus
                             case "a_c_killerwhale":
                             case "a_c_sharkhammer":
                             case "a_c_sharktiger":
-                                Notify.Error("This animal can only be spawned when you are in water, otherwise you will die immediately.");
+                                Notify.Error("Cet animal ne peut apparaître que lorsque vous êtes dans l'eau, sinon vous mourrez immédiatement.");
                                 return;
                             default: break;
                         }
@@ -475,7 +472,7 @@ namespace vMenuClient.menus
                 {
                     if (item == spawnByNameBtn)
                     {
-                        var model = await GetUserInput("Ped Model Name", 30);
+                        var model = await GetUserInput("Modèle du Ped", 30);
                         if (!string.IsNullOrEmpty(model))
                         {
                             await SetPlayerSkin(model, new PedInfo() { version = -1 }, true);
@@ -514,11 +511,11 @@ namespace vMenuClient.menus
                 {
                     if (await SavePed())
                     {
-                        Notify.Success("Successfully saved your new ped.");
+                        Notify.Success("Sauvegarde réussie de votre nouveau ped.");
                     }
                     else
                     {
-                        Notify.Error("Could not save your current ped, does that save name already exist?");
+                        Notify.Error("Impossible d'enregistrer votre ped actuel, le nom de l'enregistrement existe-t-il déjà ?");
                     }
                 }
             };
@@ -555,8 +552,8 @@ namespace vMenuClient.menus
                             if (!IsHelpMessageBeingDisplayed())
                             {
                                 BeginTextCommandDisplayHelp("TWOSTRINGS");
-                                AddTextComponentSubstringPlayerName("Hold ~INPUT_SWITCH_VISOR~ to flip your helmet visor open or closed");
-                                AddTextComponentSubstringPlayerName("when on foot or on a motorcycle and when vMenu is closed.");
+                                AddTextComponentSubstringPlayerName("Maintenez ~INPUT_SWITCH_VISOR~ pour ouvrir ou fermer la visière de votre casque");
+                                AddTextComponentSubstringPlayerName("lorsque vous êtes à pied ou sur une moto et que vMenu est fermé.");
                                 EndTextCommandDisplayHelp(0, false, true, 6000);
                             }
                         }
@@ -639,7 +636,7 @@ namespace vMenuClient.menus
 
                     for (var i = 0; i < maxVariations; i++)
                     {
-                        drawableTexturesList.Add($"Drawable #{i + 1} (of {maxVariations})");
+                        drawableTexturesList.Add($"Texture #{i + 1} (sur {maxVariations})");
                     }
 
                     var drawableTextures = new MenuListItem($"{textureNames[drawable]}", drawableTexturesList, currentDrawable, $"Use ← & → to select a ~o~{textureNames[drawable]} Variation~s~, press ~r~enter~s~ to cycle through the available textures.");
@@ -661,11 +658,11 @@ namespace vMenuClient.menus
                 {
                     var propTexturesList = new List<string>
                     {
-                        $"Prop #1 (of {maxPropVariations + 1})"
+                        $"Accessoire #1 (sur {maxPropVariations + 1})"
                     };
                     for (var i = 0; i < maxPropVariations; i++)
                     {
-                        propTexturesList.Add($"Prop #{i + 2} (of {maxPropVariations + 1})");
+                        propTexturesList.Add($"Accessoire #{i + 2} (sur {maxPropVariations + 1})");
                     }
 
 
@@ -682,26 +679,26 @@ namespace vMenuClient.menus
         #region Textures & Props
         private readonly List<string> textureNames = new()
         {
-            "Head",
-            "Mask / Facial Hair",
-            "Hair Style / Color",
-            "Hands / Upper Body",
-            "Legs / Pants",
-            "Bags / Parachutes",
-            "Shoes",
-            "Neck / Scarfs",
-            "Shirt / Accessory",
-            "Body Armor / Accessory 2",
+            "Tête",
+            "Masque / Pilosité faciale",
+            "Style de cheveux / Couleur",
+            "Mains / Haut du corps",
+            "Jambes / Pantalons",
+            "Sacs / Parachutes",
+            "Chaussures",
+            "Cou / Écharpes",
+            "Chemise / Accessoire",
+            "Armure corporelle / Accessoire 2",
             "Badges / Logos",
-            "Shirt Overlay / Jackets",
+            "Chemise superposée / Vestes",
         };
 
         private readonly List<string> propNames = new()
         {
-            "Hats / Helmets", // id 0
-            "Glasses", // id 1
-            "Misc", // id 2
-            "Watches", // id 6
+            "Chapeaux / Casques", // id 0
+            "Lunettes", // id 1
+            "Divers", // id 2
+            "Montres", // id 6
             "Bracelets", // id 7
         };
         #endregion

@@ -31,27 +31,27 @@ namespace vMenuClient.menus
         private void CreateMenu()
         {
             // Menu
-            menu = new Menu(GetSafePlayerName(Game.Player.Name), "Personal Vehicle Options");
+            menu = new Menu(GetSafePlayerName(Game.Player.Name), "Options du véhicule personnel");
 
-            // menu items
-            var setVehice = new MenuItem("Set Vehicle", "Sets your current vehicle as your personal vehicle. If you already have a personal vehicle set then this will override your selection.") { Label = "Current Vehicle: None" };
-            var toggleEngine = new MenuItem("Toggle Engine", "Toggles the engine on or off, even when you're not inside of the vehicle. This does not work if someone else is currently using your vehicle.");
-            var toggleLights = new MenuListItem("Set Vehicle Lights", new List<string>() { "Force On", "Force Off", "Reset" }, 0, "This will enable or disable your vehicle headlights, the engine of your vehicle needs to be running for this to work.");
-            var toggleStance = new MenuListItem("Vehicle Stance", new List<string>() { "Default", "Lowered" }, 0, "Select stance for your Personal Vehicle.");
-            var kickAllPassengers = new MenuItem("Kick Passengers", "This will remove all passengers from your personal vehicle.");
-            //MenuItem
-            var lockDoors = new MenuItem("Lock Vehicle Doors", "This will lock all your vehicle doors for all players. Anyone already inside will always be able to leave the vehicle, even if the doors are locked.");
-            var unlockDoors = new MenuItem("Unlock Vehicle Doors", "This will unlock all your vehicle doors for all players.");
-            var doorsMenuBtn = new MenuItem("Vehicle Doors", "Open, close, remove and restore vehicle doors here.")
+            // Éléments du menu
+            var setVehice = new MenuItem("Définir le véhicule", "Définit votre véhicule actuel comme votre véhicule personnel. Si vous avez déjà un véhicule personnel défini, cela remplacera votre sélection.") { Label = "Véhicule actuel : Aucun" };
+            var toggleEngine = new MenuItem("Activer/Désactiver le moteur", "Active ou désactive le moteur, même lorsque vous n'êtes pas à l'intérieur du véhicule. Cela ne fonctionne pas si quelqu'un d'autre utilise actuellement votre véhicule.");
+            var toggleLights = new MenuListItem("Contrôle des phares", new List<string>() { "Forcer l'allumage", "Forcer l'extinction", "Réinitialiser" }, 0, "Cela activera ou désactivera les phares de votre véhicule. Le moteur de votre véhicule doit être en marche pour que cela fonctionne.");
+            var toggleStance = new MenuListItem("Position du véhicule", new List<string>() { "Par défaut", "Abaissé" }, 0, "Sélectionnez la position de votre véhicule personnel.");
+            var kickAllPassengers = new MenuItem("Expulser les passagers", "Cela supprimera tous les passagers de votre véhicule personnel.");
+            // MenuItem
+            var lockDoors = new MenuItem("Verrouiller les portes du véhicule", "Cela verrouillera toutes les portes de votre véhicule pour tous les joueurs. Toute personne déjà à l'intérieur pourra toujours quitter le véhicule, même si les portes sont verrouillées.");
+            var unlockDoors = new MenuItem("Déverrouiller les portes du véhicule", "Cela déverrouillera toutes les portes de votre véhicule pour tous les joueurs.");
+            var doorsMenuBtn = new MenuItem("Portes du véhicule", "Ouvrez, fermez, retirez et restaurez les portes du véhicule ici.")
             {
                 Label = "→→→"
             };
-            var soundHorn = new MenuItem("Sound Horn", "Sounds the horn of the vehicle.");
-            var toggleAlarm = new MenuItem("Toggle Alarm Sound", "Toggles the vehicle alarm sound on or off. This does not set an alarm. It only toggles the current sounding status of the alarm.");
-            var enableBlip = new MenuCheckboxItem("Add Blip For Personal Vehicle", "Enables or disables the blip that gets added when you mark a vehicle as your personal vehicle.", EnableVehicleBlip) { Style = MenuCheckboxItem.CheckboxStyle.Cross };
-            var exclusiveDriver = new MenuCheckboxItem("Exclusive Driver", "If enabled, then you will be the only one that can enter the drivers seat. Other players will not be able to drive the car. They can still be passengers.", false) { Style = MenuCheckboxItem.CheckboxStyle.Cross };
-            //submenu
-            VehicleDoorsMenu = new Menu("Vehicle Doors", "Vehicle Doors Management");
+            var soundHorn = new MenuItem("Klaxonner", "Fait sonner le klaxon du véhicule.");
+            var toggleAlarm = new MenuItem("Activer/Désactiver l'alarme", "Active ou désactive le son de l'alarme du véhicule. Cela ne configure pas une alarme. Cela ne fait que basculer l'état actuel du son de l'alarme.");
+            var enableBlip = new MenuCheckboxItem("Ajouter un blip pour le véhicule personnel", "Active ou désactive le blip qui est ajouté lorsque vous marquez un véhicule comme votre véhicule personnel.", EnableVehicleBlip) { Style = MenuCheckboxItem.CheckboxStyle.Cross };
+            var exclusiveDriver = new MenuCheckboxItem("Conducteur exclusif", "Si activé, vous serez le seul à pouvoir entrer dans le siège du conducteur. Les autres joueurs ne pourront pas conduire la voiture. Ils pourront toujours être passagers.", false) { Style = MenuCheckboxItem.CheckboxStyle.Cross };
+            // Sous-menu
+            VehicleDoorsMenu = new Menu("Portes du véhicule", "Gestion des portes du véhicule");
             MenuController.AddSubmenu(menu, VehicleDoorsMenu);
             MenuController.BindMenuItem(menu, VehicleDoorsMenu, doorsMenuBtn);
 
@@ -130,7 +130,7 @@ namespace vMenuClient.menus
                     {
                         if (!NetworkRequestControlOfEntity(CurrentPersonalVehicle.Handle))
                         {
-                            Notify.Error("You currently can't control this vehicle. Is someone else currently driving your car? Please try again after making sure other players are not controlling your vehicle.");
+                            Notify.Error("Vous ne pouvez actuellement pas contrôler ce véhicule. Quelqu'un d'autre conduit-il actuellement votre véhicule ? Veuillez réessayer après vous être assuré que d'autres joueurs ne contrôlent pas votre véhicule.");
                             return;
                         }
                     }
@@ -167,7 +167,7 @@ namespace vMenuClient.menus
                 }
                 else
                 {
-                    Notify.Error("You have not yet selected a personal vehicle, or your vehicle has been deleted. Set a personal vehicle before you can use these options.");
+                    Notify.Error("Vous n'avez pas encore sélectionné de véhicule personnel ou votre véhicule a été supprimé. Définissez un véhicule personnel avant de pouvoir utiliser ces options.");
                 }
             };
 
@@ -186,11 +186,11 @@ namespace vMenuClient.menus
                                 CurrentPersonalVehicle.AttachBlip();
                             }
                             CurrentPersonalVehicle.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
-                            CurrentPersonalVehicle.AttachedBlip.Name = "Personal Vehicle";
+                            CurrentPersonalVehicle.AttachedBlip.Name = "Véhicule personnel";
                         }
                         else
                         {
-                            Notify.Error("You have not yet selected a personal vehicle, or your vehicle has been deleted. Set a personal vehicle before you can use these options.");
+                            Notify.Error("Vous n'avez pas encore sélectionné de véhicule personnel ou votre véhicule a été supprimé. Définissez un véhicule personnel avant de pouvoir utiliser ces options.");
                         }
 
                     }
@@ -224,7 +224,7 @@ namespace vMenuClient.menus
                         else
                         {
                             item.Checked = !_checked;
-                            Notify.Error("You currently can't control this vehicle. Is someone else currently driving your car? Please try again after making sure other players are not controlling your vehicle.");
+                            Notify.Error("Vous ne pouvez actuellement pas contrôler ce véhicule. Quelqu'un d'autre conduit-il actuellement votre véhicule ? Veuillez réessayer après vous être assuré que d'autres joueurs ne contrôlent pas votre véhicule.");
                         }
                     }
                 }
@@ -252,14 +252,14 @@ namespace vMenuClient.menus
                                         veh.AttachBlip();
                                     }
                                     veh.AttachedBlip.Sprite = BlipSprite.PersonalVehicleCar;
-                                    veh.AttachedBlip.Name = "Personal Vehicle";
+                                    veh.AttachedBlip.Name = "Véhicule personnel";
                                 }
                                 var name = GetLabelText(veh.DisplayName);
                                 if (string.IsNullOrEmpty(name) || name.ToLower() == "null")
                                 {
                                     name = veh.DisplayName;
                                 }
-                                item.Label = $"Current Vehicle: {name}";
+                                item.Label = $"Véhicule actuel : {name}";
                             }
                             else
                             {
@@ -287,7 +287,7 @@ namespace vMenuClient.menus
                         }
                         else
                         {
-                            Notify.Info("There are no other players in your vehicle that need to be kicked out.");
+                            Notify.Info("Il n'y a pas d'autres joueurs dans votre véhicule qui doivent être expulsés.");
                         }
                     }
                     else
@@ -296,7 +296,7 @@ namespace vMenuClient.menus
                         {
                             if (!NetworkRequestControlOfEntity(CurrentPersonalVehicle.Handle))
                             {
-                                Notify.Error("You currently can't control this vehicle. Is someone else currently driving your car? Please try again after making sure other players are not controlling your vehicle.");
+                                Notify.Error("Vous ne pouvez actuellement pas contrôler ce véhicule. Quelqu'un d'autre conduit-il actuellement votre véhicule ? Veuillez réessayer après vous être assuré que d'autres joueurs ne contrôlent pas votre véhicule.");
                                 return;
                             }
                         }
@@ -329,25 +329,26 @@ namespace vMenuClient.menus
                 }
                 else
                 {
-                    Notify.Error("You have not yet selected a personal vehicle, or your vehicle has been deleted. Set a personal vehicle before you can use these options.");
+                    Notify.Error("Vous n'avez pas encore sélectionné de véhicule personnel ou votre véhicule a été supprimé. Définissez un véhicule personnel avant de pouvoir utiliser ces options.");
                 }
             };
 
             #region Doors submenu 
-            var openAll = new MenuItem("Open All Doors", "Open all vehicle doors.");
-            var closeAll = new MenuItem("Close All Doors", "Close all vehicle doors.");
-            var LF = new MenuItem("Left Front Door", "Open/close the left front door.");
-            var RF = new MenuItem("Right Front Door", "Open/close the right front door.");
-            var LR = new MenuItem("Left Rear Door", "Open/close the left rear door.");
-            var RR = new MenuItem("Right Rear Door", "Open/close the right rear door.");
-            var HD = new MenuItem("Hood", "Open/close the hood.");
-            var TR = new MenuItem("Trunk", "Open/close the trunk.");
-            var E1 = new MenuItem("Extra 1", "Open/close the extra door (#1). Note this door is not present on most vehicles.");
-            var E2 = new MenuItem("Extra 2", "Open/close the extra door (#2). Note this door is not present on most vehicles.");
-            var BB = new MenuItem("Bomb Bay", "Open/close the bomb bay. Only available on some planes.");
-            var doors = new List<string>() { "Front Left", "Front Right", "Rear Left", "Rear Right", "Hood", "Trunk", "Extra 1", "Extra 2", "Bomb Bay" };
-            var removeDoorList = new MenuListItem("Remove Door", doors, 0, "Remove a specific vehicle door completely.");
-            var deleteDoors = new MenuCheckboxItem("Delete Removed Doors", "When enabled, doors that you remove using the list above will be deleted from the world. If disabled, then the doors will just fall on the ground.", false);
+            var openAll = new MenuItem("Ouvrir toutes les portes", "Ouvre toutes les portes du véhicule.");
+            var closeAll = new MenuItem("Fermer toutes les portes", "Ferme toutes les portes du véhicule.");
+            var LF = new MenuItem("Porte avant gauche", "Ouvre/ferme la porte avant gauche.");
+            var RF = new MenuItem("Porte avant droite", "Ouvre/ferme la porte avant droite.");
+            var LR = new MenuItem("Porte arrière gauche", "Ouvre/ferme la porte arrière gauche.");
+            var RR = new MenuItem("Porte arrière droite", "Ouvre/ferme la porte arrière droite.");
+            var HD = new MenuItem("Capot", "Ouvre/ferme le capot.");
+            var TR = new MenuItem("Coffre", "Ouvre/ferme le coffre.");
+            var E1 = new MenuItem("Extra 1", "Ouvre/ferme la porte supplémentaire (#1). Notez que cette porte n'est pas présente sur la plupart des véhicules.");
+            var E2 = new MenuItem("Extra 2", "Ouvre/ferme la porte supplémentaire (#2). Notez que cette porte n'est pas présente sur la plupart des véhicules.");
+            var BB = new MenuItem("Soute à bombes", "Ouvre/ferme la soute à bombes. Disponible uniquement sur certains avions.");
+            var doors = new List<string>() { "Avant gauche", "Avant droite", "Arrière gauche", "Arrière droite", "Capot", "Coffre", "Extra 1", "Extra 2", "Soute à bombes" };
+            var removeDoorList = new MenuListItem("Retirer une porte", doors, 0, "Retire complètement une porte spécifique du véhicule.");
+            var deleteDoors = new MenuCheckboxItem("Supprimer les portes retirées", "Si activé, les portes que vous retirez avec la liste ci-dessus seront supprimées du monde. Si désactivé, elles tomberont simplement au sol.", false);
+
 
             VehicleDoorsMenu.AddMenuItem(LF);
             VehicleDoorsMenu.AddMenuItem(RF);
@@ -372,7 +373,7 @@ namespace vMenuClient.menus
                     {
                         if (!NetworkRequestControlOfEntity(CurrentPersonalVehicle.Handle))
                         {
-                            Notify.Error("You currently can't control this vehicle. Is someone else currently driving your car? Please try again after making sure other players are not controlling your vehicle.");
+                            Notify.Error("Vous ne pouvez actuellement pas contrôler ce véhicule. Quelqu'un d'autre conduit-il actuellement votre véhicule ? Veuillez réessayer après vous être assuré que d'autres joueurs ne contrôlent pas votre véhicule.");
                             return;
                         }
                     }
@@ -394,7 +395,7 @@ namespace vMenuClient.menus
                     {
                         if (!NetworkRequestControlOfEntity(CurrentPersonalVehicle.Handle))
                         {
-                            Notify.Error("You currently can't control this vehicle. Is someone else currently driving your car? Please try again after making sure other players are not controlling your vehicle.");
+                            Notify.Error("Vous ne pouvez actuellement pas contrôler ce véhicule. Quelqu'un d'autre conduit-il actuellement votre véhicule ? Veuillez réessayer après vous être assuré que d'autres joueurs ne contrôlent pas votre véhicule.");
                             return;
                         }
                     }
@@ -443,7 +444,7 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        Notify.Error("You have not yet selected a personal vehicle, or your vehicle has been deleted. Set a personal vehicle before you can use these options.");
+                        Notify.Error("Vous n'avez pas encore sélectionné de véhicule personnel ou votre véhicule a été supprimé. Définissez un véhicule personnel avant de pouvoir utiliser ces options.");
                     }
                 }
             };

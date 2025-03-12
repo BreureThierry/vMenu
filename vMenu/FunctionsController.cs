@@ -604,7 +604,7 @@ namespace vMenuClient
                     if (m.Visible)
                     {
                         m.GoBack();
-                        Notify.Error(CommonErrors.NoVehicle, placeholderValue: "to access this menu");
+                        Notify.Error(CommonErrors.NoVehicle, placeholderValue: "pour accéder à ce menu");
                     }
                 }
             }

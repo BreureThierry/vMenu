@@ -34,7 +34,7 @@ namespace vMenuClient.menus
 
         public int PlayerBlood { get; private set; } = 0;
 
-        private readonly Menu CustomDrivingStyleMenu = new("Driving Style", "Custom Driving Style");
+        private readonly Menu CustomDrivingStyleMenu = new("Style de conduite", "Style de conduite personnalisé");
 
         /// <summary>
         /// Creates the menu.
@@ -46,51 +46,51 @@ namespace vMenuClient.menus
             menu = new Menu(Game.Player.Name, "Player Options");
 
             // Create all checkboxes.
-            var playerGodModeCheckbox = new MenuCheckboxItem("Godmode", "Makes you invincible.", PlayerGodMode);
-            var invisibleCheckbox = new MenuCheckboxItem("Invisible", "Makes you invisible to yourself and others.", PlayerInvisible);
-            var unlimitedStaminaCheckbox = new MenuCheckboxItem("Unlimited Stamina", "Allows you to run forever without slowing down or taking damage.", PlayerStamina);
-            var fastRunCheckbox = new MenuCheckboxItem("Fast Run", "Get ~g~Snail~s~ powers and run very fast!", PlayerFastRun);
+            var playerGodModeCheckbox = new MenuCheckboxItem("Mode Dieu", "Vous rend invincible.", PlayerGodMode);
+            var invisibleCheckbox = new MenuCheckboxItem("Invisible", "Vous rend invisible pour vous-même et pour les autres.", PlayerInvisible);
+            var unlimitedStaminaCheckbox = new MenuCheckboxItem("Endurance Illimitée", "Vous permet de courir indéfiniment sans ralentir ni subir de dégâts.", PlayerStamina);
+            var fastRunCheckbox = new MenuCheckboxItem("Course Rapide", "Obtenez les pouvoirs ~g~Escargot~s~ et courez très vite !", PlayerFastRun);
             SetRunSprintMultiplierForPlayer(Game.Player.Handle, PlayerFastRun && IsAllowed(Permission.POFastRun) ? 1.49f : 1f);
-            var fastSwimCheckbox = new MenuCheckboxItem("Fast Swim", "Get ~g~Snail 2.0~s~ powers and swim super fast!", PlayerFastSwim);
+            var fastSwimCheckbox = new MenuCheckboxItem("Nage Rapide", "Obtenez les pouvoirs ~g~Escargot 2.0~s~ et nagez super vite !", PlayerFastSwim);
             SetSwimMultiplierForPlayer(Game.Player.Handle, PlayerFastSwim && IsAllowed(Permission.POFastSwim) ? 1.49f : 1f);
-            var superJumpCheckbox = new MenuCheckboxItem("Super Jump", "Get ~g~Snail 3.0~s~ powers and jump like a champ!", PlayerSuperJump);
-            var noRagdollCheckbox = new MenuCheckboxItem("No Ragdoll", "Disables player ragdoll, makes you not fall off your bike anymore.", PlayerNoRagdoll);
-            var neverWantedCheckbox = new MenuCheckboxItem("Never Wanted", "Disables all wanted levels.", PlayerNeverWanted);
-            var everyoneIgnoresPlayerCheckbox = new MenuCheckboxItem("Everyone Ignore Player", "Everyone will leave you alone.", PlayerIsIgnored);
-            var playerStayInVehicleCheckbox = new MenuCheckboxItem("Stay In Vehicle", "When this is enabled, NPCs will not be able to drag you out of your vehicle if they get angry at you.", PlayerStayInVehicle);
-            var playerFrozenCheckbox = new MenuCheckboxItem("Freeze Player", "Freezes your current location.", PlayerFrozen);
+            var superJumpCheckbox = new MenuCheckboxItem("Super Saut", "Obtenez les pouvoirs ~g~Escargot 3.0~s~ et sautez comme un champion !", PlayerSuperJump);
+            var noRagdollCheckbox = new MenuCheckboxItem("Pas de Ragdoll", "Désactive le ragdoll du joueur, vous ne tomberez plus de votre vélo.", PlayerNoRagdoll);
+            var neverWantedCheckbox = new MenuCheckboxItem("Jamais Recherche", "Désactive tous les niveaux de recherche.", PlayerNeverWanted);
+            var everyoneIgnoresPlayerCheckbox = new MenuCheckboxItem("Tout le monde ignore le joueur", "Tout le monde vous laissera tranquille.", PlayerIsIgnored);
+            var playerStayInVehicleCheckbox = new MenuCheckboxItem("Rester dans le véhicule", "Lorsque cela est activé, les PNJ ne pourront pas vous sortir de votre véhicule s'ils sont en colère contre vous.", PlayerStayInVehicle);
+            var playerFrozenCheckbox = new MenuCheckboxItem("Geler le joueur", "Gèle votre position actuelle.", PlayerFrozen);
 
-            // Wanted level options
-            var wantedLevelList = new List<string> { "No Wanted Level", "1", "2", "3", "4", "5" };
-            var setWantedLevel = new MenuListItem("Set Wanted Level", wantedLevelList, GetPlayerWantedLevel(Game.Player.Handle), "Set your wanted level by selecting a value, and pressing enter.");
-            var setArmorItem = new MenuListItem("Set Armor Type", new List<string> { "No Armor", GetLabelText("WT_BA_0"), GetLabelText("WT_BA_1"), GetLabelText("WT_BA_2"), GetLabelText("WT_BA_3"), GetLabelText("WT_BA_4"), }, 0, "Set the armor level/type for your player.");
+            // Options de niveau de recherche
+            var wantedLevelList = new List<string> { "Aucun niveau de recherche", "1", "2", "3", "4", "5" };
+            var setWantedLevel = new MenuListItem("Définir le niveau de recherche", wantedLevelList, GetPlayerWantedLevel(Game.Player.Handle), "Définissez votre niveau de recherche en sélectionnant une valeur, puis appuyez sur Entrée.");
+            var setArmorItem = new MenuListItem("Définir le type d'armure", new List<string> { "Pas d'armure", GetLabelText("WT_BA_0"), GetLabelText("WT_BA_1"), GetLabelText("WT_BA_2"), GetLabelText("WT_BA_3"), GetLabelText("WT_BA_4"), }, 0, "Définir le niveau/type d'armure pour votre joueur.");
 
-            // Blood level options
-            var clearBloodBtn = new MenuItem("Clear Blood", "Clear the blood off your player.");
+            // Options de niveau de sang
+            var clearBloodBtn = new MenuItem("Effacer le sang", "Effacez le sang de votre joueur.");
             var bloodList = new List<string> { "BigHitByVehicle", "SCR_Torture", "SCR_TrevorTreeBang", "HOSPITAL_0", "HOSPITAL_1", "HOSPITAL_2", "HOSPITAL_3", "HOSPITAL_4", "HOSPITAL_5", "HOSPITAL_6", "HOSPITAL_7", "HOSPITAL_8", "HOSPITAL_9", "Explosion_Med", "Skin_Melee_0", "Explosion_Large", "Car_Crash_Light", "Car_Crash_Heavy", "Fall_Low", "Fall", "HitByVehicle", "BigRunOverByVehicle", "RunOverByVehicle", "TD_KNIFE_FRONT", "TD_KNIFE_FRONT_VA", "TD_KNIFE_FRONT_VB", "TD_KNIFE_REAR", "TD_KNIFE_REAR_VA", "TD_KNIFE_REAR_VB", "TD_KNIFE_STEALTH", "TD_MELEE_FRONT", "TD_MELEE_REAR", "TD_MELEE_STEALTH", "TD_MELEE_BATWAIST", "TD_melee_face_l", "MTD_melee_face_r", "MTD_melee_face_jaw", "TD_PISTOL_FRONT", "TD_PISTOL_FRONT_KILL", "TD_PISTOL_REAR", "TD_PISTOL_REAR_KILL", "TD_RIFLE_FRONT_KILL", "TD_RIFLE_NONLETHAL_FRONT", "TD_RIFLE_NONLETHAL_REAR", "TD_SHOTGUN_FRONT_KILL", "TD_SHOTGUN_REAR_KILL" };
-            var setBloodLevel = new MenuListItem("Set Blood Level", bloodList, PlayerBlood, "Sets your players blood level.");
+            var setBloodLevel = new MenuListItem("Définir le niveau de sang", bloodList, PlayerBlood, "Définit le niveau de sang de votre joueur.");
 
-            var healPlayerBtn = new MenuItem("Heal Player", "Give the player max health.");
-            var cleanPlayerBtn = new MenuItem("Clean Player Clothes", "Clean your player clothes.");
-            var dryPlayerBtn = new MenuItem("Dry Player Clothes", "Make your player clothes dry.");
-            var wetPlayerBtn = new MenuItem("Wet Player Clothes", "Make your player clothes wet.");
-            var suicidePlayerBtn = new MenuItem("~r~Commit Suicide", "Kill yourself by taking the pill. Or by using a pistol if you have one.");
+            var healPlayerBtn = new MenuItem("Guérir le joueur", "Donne au joueur la santé maximale.");
+            var cleanPlayerBtn = new MenuItem("Nettoyer les vêtements du joueur", "Nettoyez les vêtements de votre joueur.");
+            var dryPlayerBtn = new MenuItem("Séchage des vêtements du joueur", "Sèche les vêtements de votre joueur.");
+            var wetPlayerBtn = new MenuItem("Mouiller les vêtements du joueur", "Mouille les vêtements de votre joueur.");
+            var suicidePlayerBtn = new MenuItem("~r~Commettre un suicide", "Tuez-vous en prenant la pilule. Ou en utilisant un pistolet si vous en avez un.");
 
-            var vehicleAutoPilot = new Menu("Auto Pilot", "Vehicle auto pilot options.");
+            var vehicleAutoPilot = new Menu("Pilote Automatique", "Options de pilote automatique du véhicule.");
 
             MenuController.AddSubmenu(menu, vehicleAutoPilot);
 
-            var vehicleAutoPilotBtn = new MenuItem("Vehicle Auto Pilot Menu", "Manage vehicle auto pilot options.")
+            var vehicleAutoPilotBtn = new MenuItem("Menu Pilote Automatique Véhicule", "Gérez les options de pilote automatique du véhicule.")
             {
                 Label = "→→→"
             };
 
-            var drivingStyles = new List<string>() { "Normal", "Rushed", "Avoid highways", "Drive in reverse", "Custom" };
-            var drivingStyle = new MenuListItem("Driving Style", drivingStyles, 0, "Set the driving style that is used for the Drive to Waypoint and Drive Around Randomly functions.");
+            var drivingStyles = new List<string>() { "Normal", "Pressé", "Éviter les autoroutes", "Conduire en marche arrière", "Personnalisé" };
+            var drivingStyle = new MenuListItem("Style de conduite", drivingStyles, 0, "Définir le style de conduite utilisé pour les fonctions 'Conduire vers le point de passage' et 'Conduire aléatoirement'.");
 
-            // Scenarios (list can be found in the PedScenarios class)
-            var playerScenarios = new MenuListItem("Player Scenarios", PedScenarios.Scenarios, 0, "Select a scenario and hit enter to start it. Selecting another scenario will override the current scenario. If you're already playing the selected scenario, selecting it again will stop the scenario.");
-            var stopScenario = new MenuItem("Force Stop Scenario", "This will force a playing scenario to stop immediately, without waiting for it to finish it's 'stopping' animation.");
+            // Scénarios (la liste peut être trouvée dans la classe PedScenarios)
+            var playerScenarios = new MenuListItem("Scénarios du joueur", PedScenarios.Scenarios, 0, "Sélectionnez un scénario et appuyez sur entrer pour le commencer. Sélectionner un autre scénario annulera le scénario en cours. Si vous jouez déjà le scénario sélectionné, le sélectionner à nouveau arrêtera le scénario.");
+            var stopScenario = new MenuItem("Forcer l'arrêt du scénario", "Cela forcera l'arrêt immédiat d'un scénario en cours, sans attendre qu'il termine son animation de 'fin'.");
             #endregion
 
             #region add items to menu based on permissions

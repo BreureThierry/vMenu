@@ -18,8 +18,9 @@ namespace vMenuClient.menus
     {
         // Variables
         private Menu menu = null;
-        private readonly Menu SavedLoadoutsMenu = new("Saved Loadouts", "saved weapon loadouts list");
-        private readonly Menu ManageLoadoutMenu = new("Mange Loadout", "Manage saved weapon loadout");
+        private readonly Menu SavedLoadoutsMenu = new("Chargements enregistrés", "Liste des chargements d'armes enregistrés");
+        private readonly Menu ManageLoadoutMenu = new("Gérer le chargement", "Gérer le chargement d'armes enregistré");
+
         public bool WeaponLoadoutsSetLoadoutOnRespawn { get; private set; } = UserDefaults.WeaponLoadoutsSetLoadoutOnRespawn;
 
         private readonly Dictionary<string, List<ValidWeapon>> SavedWeapons = new();
@@ -87,9 +88,9 @@ namespace vMenuClient.menus
             MenuController.AddSubmenu(menu, SavedLoadoutsMenu);
             MenuController.AddSubmenu(SavedLoadoutsMenu, ManageLoadoutMenu);
 
-            var saveLoadout = new MenuItem("Save Loadout", "Save your current weapons into a new loadout slot.");
-            var savedLoadoutsMenuBtn = new MenuItem("Manage Loadouts", "Manage saved weapon loadouts.") { Label = "→→→" };
-            var enableDefaultLoadouts = new MenuCheckboxItem("Restore Default Loadout On Respawn", "If you've set a loadout as default loadout, then your loadout will be equipped automatically whenever you (re)spawn.", WeaponLoadoutsSetLoadoutOnRespawn);
+            var saveLoadout = new MenuItem("Enregistrer le chargement", "Enregistrez vos armes actuelles dans un nouveau slot de chargement.");
+            var savedLoadoutsMenuBtn = new MenuItem("Gérer les chargements", "Gérer les chargements d'armes enregistrés.") { Label = "→→→" };
+            var enableDefaultLoadouts = new MenuCheckboxItem("Restaurer le chargement par défaut à la réapparition", "Si vous avez défini un chargement comme chargement par défaut, alors votre chargement sera automatiquement équipé chaque fois que vous (re)apparaissez.", WeaponLoadoutsSetLoadoutOnRespawn);
 
             menu.AddMenuItem(saveLoadout);
             menu.AddMenuItem(savedLoadoutsMenuBtn);
@@ -126,12 +127,12 @@ namespace vMenuClient.menus
             }
 
 
-            var spawnLoadout = new MenuItem("Equip Loadout", "Spawn this saved weapons loadout. This will remove all your current weapons and replace them with this saved slot.");
-            var renameLoadout = new MenuItem("Rename Loadout", "Rename this saved loadout.");
-            var cloneLoadout = new MenuItem("Clone Loadout", "Clones this saved loadout to a new slot.");
-            var setDefaultLoadout = new MenuItem("Set As Default Loadout", "Set this loadout to be your default loadout for whenever you (re)spawn. This will override the 'Restore Weapons' option inside the Misc Settings menu. You can toggle this option in the main Weapon Loadouts menu.");
-            var replaceLoadout = new MenuItem("~r~Replace Loadout", "~r~This replaces this saved slot with the weapons that you currently have in your inventory. This action can not be undone!");
-            var deleteLoadout = new MenuItem("~r~Delete Loadout", "~r~This will delete this saved loadout. This action can not be undone!");
+            var spawnLoadout = new MenuItem("Équiper le chargement", "Invoque ce chargement d'armes enregistré. Cela supprimera toutes vos armes actuelles et les remplacera par ce slot enregistré.");
+            var renameLoadout = new MenuItem("Renommer le chargement", "Renomme ce chargement enregistré.");
+            var cloneLoadout = new MenuItem("Cloner le chargement", "Clone ce chargement enregistré dans un nouveau slot.");
+            var setDefaultLoadout = new MenuItem("Définir comme chargement par défaut", "Définissez ce chargement comme étant votre chargement par défaut chaque fois que vous (re)apparaissez. Cela annulera l'option 'Restaurer les armes' dans le menu Paramètres généraux. Vous pouvez activer cette option dans le menu principal des chargements d'armes.");
+            var replaceLoadout = new MenuItem("~r~Remplacer le chargement", "~r~Cela remplace ce slot enregistré avec les armes que vous avez actuellement dans votre inventaire. Cette action ne peut pas être annulée !");
+            var deleteLoadout = new MenuItem("~r~Supprimer le chargement", "~r~Cela supprimera ce chargement enregistré. Cette action ne peut pas être annulée !");
 
             if (IsAllowed(Permission.WLEquip))
             {

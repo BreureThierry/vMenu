@@ -20,10 +20,10 @@ namespace vMenuClient.menus
         public float currentProximity = (GetSettingsFloat(Setting.vmenu_override_voicechat_default_range) != 0.0) ? GetSettingsFloat(Setting.vmenu_override_voicechat_default_range) : UserDefaults.VoiceChatProximity;
         public List<string> channels = new()
         {
-            "Channel 1 (Default)",
-            "Channel 2",
-            "Channel 3",
-            "Channel 4",
+            "Canal 1 (Defaut)",
+            "Canal 2",
+            "Canal 3",
+            "Canal 4",
         };
         public string currentChannel;
         private readonly List<float> proximityRange = new()
@@ -45,15 +45,15 @@ namespace vMenuClient.menus
             currentChannel = channels[0];
             if (IsAllowed(Permission.VCStaffChannel))
             {
-                channels.Add("Staff Channel");
+                channels.Add("Canal Staff");
             }
 
             // Create the menu.
-            menu = new Menu(Game.Player.Name, "Voice Chat Settings");
+            menu = new Menu(Game.Player.Name, "Paramètres du chat vocal");
 
-            var voiceChatEnabled = new MenuCheckboxItem("Enable Voice Chat", "Enable or disable voice chat.", EnableVoicechat);
-            var showCurrentSpeaker = new MenuCheckboxItem("Show Current Speaker", "Shows who is currently talking.", ShowCurrentSpeaker);
-            var showVoiceStatus = new MenuCheckboxItem("Show Microphone Status", "Shows whether your microphone is open or muted.", ShowVoiceStatus);
+            var voiceChatEnabled = new MenuCheckboxItem("Activer le chat vocal", "Activer ou désactiver le chat vocal.", EnableVoicechat);
+            var showCurrentSpeaker = new MenuCheckboxItem("Afficher l'interlocuteur actuel", "Affiche qui est en train de parler.", ShowCurrentSpeaker);
+            var showVoiceStatus = new MenuCheckboxItem("Afficher l'état du microphone", "Affiche si votre microphone est ouvert ou muet.", ShowVoiceStatus);
 
             var proximity = new List<string>()
             {
@@ -67,8 +67,8 @@ namespace vMenuClient.menus
                 "2 km",
                 "Global",
             };
-            var voiceChatProximity = new MenuItem("Voice Chat Proximity (" + ConvertToMetric(currentProximity) + ")", "Set the voice chat receiving proximity in meters. Set to 0 for global.");
-            var voiceChatChannel = new MenuListItem("Voice Chat Channel", channels, channels.IndexOf(currentChannel), "Set the voice chat channel.");
+            var voiceChatProximity = new MenuItem("Chat vocal Proximité (" + ConvertToMetric(currentProximity) + ")", "Définit la proximité de réception du chat vocal en mètres. La valeur 0 est utilisée pour la réception globale.");
+            var voiceChatChannel = new MenuListItem("Canal de discussion vocale", channels, channels.IndexOf(currentChannel), "Définir le canal du chat vocal.");
 
             if (IsAllowed(Permission.VCEnable))
             {
@@ -106,20 +106,20 @@ namespace vMenuClient.menus
                 if (item == voiceChatChannel)
                 {
                     currentChannel = channels[newIndex];
-                    Subtitle.Custom($"New voice chat channel set to: ~b~{channels[newIndex]}~s~.");
+                    Subtitle.Custom($"Nouveau canal de chat vocal réglé sur : ~b~{channels[newIndex]}~s~.");
                 }
             };
             menu.OnItemSelect += async (sender, item, index) =>
             {
                 if (item == voiceChatProximity)
                 {
-                    var result = await GetUserInput(windowTitle: $"Enter Proximity In Meters. Current: ({ConvertToMetric(currentProximity)})", maxInputLength: 6);
+                    var result = await GetUserInput(windowTitle: $"Saisir la proximité en mètres. Actuel : ({ConvertToMetric(currentProximity)})", maxInputLength: 6);
 
                     if (float.TryParse(result, out var resultfloat))
                     {
                         currentProximity = resultfloat;
-                        Subtitle.Custom($"New voice chat proximity set to: ~b~{ConvertToMetric(currentProximity)}~s~.");
-                        voiceChatProximity.Text = ("Voice Chat Proximity (" + ConvertToMetric(currentProximity) + ")");
+                        Subtitle.Custom($"Nouvelle proximité du chat vocal réglée sur : ~b~{ConvertToMetric(currentProximity)}~s~.");
+                        voiceChatProximity.Text = ("Chat vocal Proximité (" + ConvertToMetric(currentProximity) + ")");
                     }
                 }
             };

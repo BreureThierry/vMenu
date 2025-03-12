@@ -18,10 +18,10 @@ namespace vMenuClient.menus
         // Variables
         private Menu classMenu;
         private Menu savedVehicleTypeMenu;
-        private readonly Menu vehicleCategoryMenu = new("Categories", "Manage Saved Vehicles");
-        private readonly Menu savedVehiclesCategoryMenu = new("Category", "I get updated at runtime!");
-        private readonly Menu selectedVehicleMenu = new("Manage Vehicle", "Manage this saved vehicle.");
-        private readonly Menu unavailableVehiclesMenu = new("Missing Vehicles", "Unavailable Saved Vehicles");
+        private readonly Menu vehicleCategoryMenu = new("Catégories", "Gérer les véhicules enregistrés");
+        private readonly Menu savedVehiclesCategoryMenu = new("Catégorie", "Je suis mis à jour en temps réel !");
+        private readonly Menu selectedVehicleMenu = new("Gérer le véhicule", "Gérer ce véhicule enregistré.");
+        private readonly Menu unavailableVehiclesMenu = new("Véhicules manquants", "Véhicules enregistrés non disponibles");
         private Dictionary<string, VehicleInfo> savedVehicles = new();
         private readonly List<Menu> subMenus = new();
         private KeyValuePair<string, VehicleInfo> currentlySelectedVehicle = new();
@@ -658,17 +658,17 @@ namespace vMenuClient.menus
 
         private void CreateTypeMenu()
         {
-            savedVehicleTypeMenu = new("Saved Vehicles", "Select from class or custom category");
+            savedVehicleTypeMenu = new("Véhicules enregistrés", "Sélectionnez par classe ou catégorie personnalisée");
 
-            var saveVehicle = new MenuItem("Save Current Vehicle", "Save the vehicle you are currently sitting in.")
+            var saveVehicle = new MenuItem("Enregistrer le véhicule actuel", "Enregistre le véhicule dans lequel vous êtes actuellement assis.")
             {
                 LeftIcon = MenuItem.Icon.CAR
             };
-            var classButton = new MenuItem("Vehicle Class", "Selected a saved vehicle by its class.")
+            var classButton = new MenuItem("Classe de véhicule", "Sélectionnez un véhicule enregistré par sa classe.")
             {
                 Label = "→→→"
             };
-            var categoryButton = new MenuItem("Vehicle Category", "Selected a saved vehicle by its custom category.")
+            var categoryButton = new MenuItem("Catégorie de véhicule", "Sélectionnez un véhicule enregistré par sa catégorie personnalisée.")
             {
                 Label = "→→→"
             };
@@ -687,7 +687,7 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        Notify.Error("You are currently not in any vehicle. Please enter a vehicle before trying to save it.");
+                        Notify.Error("Vous n'êtes actuellement dans aucun véhicule. Veuillez saisir un véhicule avant d'essayer de le sauvegarder.");
                     }
                 }
                 else if (item == classButton)
@@ -744,14 +744,14 @@ namespace vMenuClient.menus
                     GetClassMenu().GetMenuItems()[i].RightIcon = MenuItem.Icon.NONE;
                     GetClassMenu().GetMenuItems()[i].Label = "→→→";
                     GetClassMenu().GetMenuItems()[i].Enabled = true;
-                    GetClassMenu().GetMenuItems()[i].Description = $"All saved vehicles from the {GetClassMenu().GetMenuItems()[i].Text} category.";
+                    GetClassMenu().GetMenuItems()[i].Description = $"Tous les véhicules sauvés de la  catégorie {GetClassMenu().GetMenuItems()[i].Text}.";
                 }
                 else
                 {
                     GetClassMenu().GetMenuItems()[i].Label = "";
                     GetClassMenu().GetMenuItems()[i].RightIcon = MenuItem.Icon.LOCK;
                     GetClassMenu().GetMenuItems()[i].Enabled = false;
-                    GetClassMenu().GetMenuItems()[i].Description = $"You do not have any saved vehicles that belong to the {GetClassMenu().GetMenuItems()[i].Text} category.";
+                    GetClassMenu().GetMenuItems()[i].Description = $"Vous n'avez pas de véhicules enregistrés appartenant à la catégorie {GetClassMenu().GetMenuItems()[i].Text}.";
                 }
             }
 
@@ -787,7 +787,7 @@ namespace vMenuClient.menus
                     var vclass = GetVehicleClassFromName(sv.Value.model);
                     var menu = subMenus[vclass];
 
-                    var savedVehicleBtn = new MenuItem(sv.Key.Substring(4), $"Manage this saved vehicle.")
+                    var savedVehicleBtn = new MenuItem(sv.Key.Substring(4), $"Gérer ce véhicule sauvegardé.")
                     {
                         Label = $"({sv.Value.name}) →→→",
                         ItemData = sv
@@ -796,7 +796,7 @@ namespace vMenuClient.menus
                 }
                 else
                 {
-                    var missingVehItem = new MenuItem(sv.Key.Substring(4), "This model could not be found in the game files. Most likely because this is an addon vehicle and it's currently not streamed by the server.")
+                    var missingVehItem = new MenuItem(sv.Key.Substring(4), "Ce modèle n'a pas pu être trouvé dans les fichiers du jeu. Probablement parce qu'il s'agit d'un véhicule addon et qu'il n'est actuellement pas diffusé par le serveur.")
                     {
                         Label = "(" + sv.Value.name + ")",
                         Enabled = false,
@@ -827,19 +827,19 @@ namespace vMenuClient.menus
 
             vehicleCategoryMenu.ClearMenuItems();
 
-            var createCategoryBtn = new MenuItem("Create Category", "Create a new vehicle category.")
+            var createCategoryBtn = new MenuItem("Créer une catégorie", "Créer une nouvelle catégorie de véhicules.")
             {
                 Label = "→→→"
             };
             vehicleCategoryMenu.AddMenuItem(createCategoryBtn);
 
-            var spacer = GetSpacerMenuItem("↓ Vehicle Categories ↓");
+            var spacer = GetSpacerMenuItem("↓ Categories de vehicule ↓");
             vehicleCategoryMenu.AddMenuItem(spacer);
 
             var uncategorized = new SavedVehicleCategory
             {
                 Name = "Uncategorized",
-                Description = "All saved vehicles that have not been assigned to a category."
+                Description = "Tous les véhicules enregistrés qui n'ont pas été affectés à une catégorie."
             };
             var uncategorizedBtn = new MenuItem(uncategorized.Name, uncategorized.Description)
             {
@@ -891,8 +891,8 @@ namespace vMenuClient.menus
             }
             EndFindKvp(handle);
 
-            categories.Insert(0, "Create New");
-            categories.Insert(1, "Uncategorized");
+            categories.Insert(0, "Créer un nouveau");
+            categories.Insert(1, "Non classé");
 
             return categories;
         }

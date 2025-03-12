@@ -86,99 +86,99 @@ namespace vMenuClient.menus
                 UserDefaults.MiscRightAlignMenu = false;
             }
 
-            // Create the menu.
-            menu = new Menu(Game.Player.Name, "Misc Settings");
-            teleportOptionsMenu = new Menu(Game.Player.Name, "Teleport Options");
-            developerToolsMenu = new Menu(Game.Player.Name, "Development Tools");
-            entitySpawnerMenu = new Menu(Game.Player.Name, "Entity Spawner");
+            // Créer le menu.
+            menu = new Menu(Game.Player.Name, "Paramètres divers");
+            teleportOptionsMenu = new Menu(Game.Player.Name, "Options de téléportation");
+            developerToolsMenu = new Menu(Game.Player.Name, "Outils de développement");
+            entitySpawnerMenu = new Menu(Game.Player.Name, "Générateur d'entités");
 
-            // teleport menu
-            var teleportMenu = new Menu(Game.Player.Name, "Teleport Locations");
-            var teleportMenuBtn = new MenuItem("Teleport Locations", "Teleport to pre-configured locations, added by the server owner.");
+            // Menu de téléportation
+            var teleportMenu = new Menu(Game.Player.Name, "Lieux de téléportation");
+            var teleportMenuBtn = new MenuItem("Lieux de téléportation", "Téléportez-vous vers des lieux préconfigurés, ajoutés par le propriétaire du serveur.");
             MenuController.AddSubmenu(menu, teleportMenu);
             MenuController.BindMenuItem(menu, teleportMenu, teleportMenuBtn);
 
-            // keybind settings menu
-            var keybindMenu = new Menu(Game.Player.Name, "Keybind Settings");
-            var keybindMenuBtn = new MenuItem("Keybind Settings", "Enable or disable keybinds for some options.");
+            // Menu des paramètres des raccourcis clavier
+            var keybindMenu = new Menu(Game.Player.Name, "Paramètres des raccourcis");
+            var keybindMenuBtn = new MenuItem("Paramètres des raccourcis", "Active ou désactive les raccourcis pour certaines options.");
             MenuController.AddSubmenu(menu, keybindMenu);
             MenuController.BindMenuItem(menu, keybindMenu, keybindMenuBtn);
 
-            // keybind settings menu items
-            var kbTpToWaypoint = new MenuCheckboxItem("Teleport To Waypoint", "Teleport to your waypoint when pressing the keybind. By default, this keybind is set to ~r~F7~s~, server owners are able to change this however so ask them if you don't know what it is.", KbTpToWaypoint);
-            var kbDriftMode = new MenuCheckboxItem("Drift Mode", "Makes your vehicle have almost no traction while holding left shift on keyboard, or X on controller.", KbDriftMode);
-            var kbRecordKeys = new MenuCheckboxItem("Recording Controls", "Enables or disables the recording (gameplay recording for the Rockstar editor) hotkeys on both keyboard and controller.", KbRecordKeys);
-            var kbRadarKeys = new MenuCheckboxItem("Minimap Controls", "Press the Multiplayer Info (z on keyboard, down arrow on controller) key to switch between expanded radar and normal radar.", KbRadarKeys);
-            var kbPointKeysCheckbox = new MenuCheckboxItem("Finger Point Controls", "Enables the finger point toggle key. The default QWERTY keyboard mapping for this is 'B', or for controller quickly double tap the right analog stick.", KbPointKeys);
-            var backBtn = new MenuItem("Back");
+            // Éléments du menu des paramètres des raccourcis
+            var kbTpToWaypoint = new MenuCheckboxItem("Téléportation vers le point de passage", "Téléportez-vous vers votre point de passage en appuyant sur le raccourci. Par défaut, ce raccourci est défini sur ~r~F7~s~, mais les propriétaires de serveurs peuvent le modifier, demandez-leur si vous ne le connaissez pas.", KbTpToWaypoint);
+            var kbDriftMode = new MenuCheckboxItem("Mode drift", "Donne à votre véhicule presque aucune traction en maintenant la touche Maj gauche sur le clavier, ou X sur la manette.", KbDriftMode);
+            var kbRecordKeys = new MenuCheckboxItem("Contrôles d'enregistrement", "Active ou désactive les raccourcis d'enregistrement (enregistrement de gameplay pour l'éditeur Rockstar) sur le clavier et la manette.", KbRecordKeys);
+            var kbRadarKeys = new MenuCheckboxItem("Contrôles du radar", "Appuyez sur la touche Info Multijoueur (Z sur le clavier, flèche bas sur la manette) pour basculer entre le radar étendu et le radar normal.", KbRadarKeys);
+            var kbPointKeysCheckbox = new MenuCheckboxItem("Contrôles du pointage du doigt", "Active la touche de pointage du doigt. Le mapping par défaut pour les claviers QWERTY est 'B', ou pour la manette, double-cliquez rapidement sur le stick analogique droit.", KbPointKeys);
+            var backBtn = new MenuItem("Retour");
 
-            // Create the menu items.
-            var rightAlignMenu = new MenuCheckboxItem("Right Align Menu", "If you want vMenu to appear on the left side of your screen, disable this option. This option will be saved immediately. You don't need to click save preferences.", MiscRightAlignMenu);
-            var disablePms = new MenuCheckboxItem("Disable Private Messages", "Prevent others from sending you a private message via the Online Players menu. This also prevents you from sending messages to other players.", MiscDisablePrivateMessages);
-            var disableControllerKey = new MenuCheckboxItem("Disable Controller Support", "This disables the controller menu toggle key. This does NOT disable the navigation buttons.", MiscDisableControllerSupport);
-            var speedKmh = new MenuCheckboxItem("Show Speed KM/H", "Show a speedometer on your screen indicating your speed in KM/h.", ShowSpeedoKmh);
-            var speedMph = new MenuCheckboxItem("Show Speed MPH", "Show a speedometer on your screen indicating your speed in MPH.", ShowSpeedoMph);
-            var coords = new MenuCheckboxItem("Show Coordinates", "Show your current coordinates at the top of your screen.", ShowCoordinates);
-            var hideRadar = new MenuCheckboxItem("Hide Radar", "Hide the radar/minimap.", HideRadar);
-            var hideHud = new MenuCheckboxItem("Hide Hud", "Hide all hud elements.", HideHud);
-            var showLocation = new MenuCheckboxItem("Location Display", "Shows your current location and heading, as well as the nearest cross road. Similar like PLD. ~r~Warning: This feature (can) take(s) up to -4.6 FPS when running at 60 Hz.", ShowLocation) { LeftIcon = MenuItem.Icon.WARNING };
-            var drawTime = new MenuCheckboxItem("Show Time On Screen", "Shows you the current time on screen.", DrawTimeOnScreen);
-            var saveSettings = new MenuItem("Save Personal Settings", "Save your current settings. All saving is done on the client side, if you re-install windows you will lose your settings. Settings are shared across all servers using vMenu.")
+            // Créer les éléments du menu.
+            var rightAlignMenu = new MenuCheckboxItem("Aligner le menu à droite", "Si vous souhaitez que vMenu apparaisse à gauche de votre écran, désactivez cette option. Cette option est enregistrée immédiatement. Vous n'avez pas besoin de cliquer sur sauvegarder les préférences.", MiscRightAlignMenu);
+            var disablePms = new MenuCheckboxItem("Désactiver les messages privés", "Empêche les autres joueurs de vous envoyer un message privé via le menu des joueurs en ligne. Cela vous empêche également d'envoyer des messages à d'autres joueurs.", MiscDisablePrivateMessages);
+            var disableControllerKey = new MenuCheckboxItem("Désactiver le support de la manette", "Désactive la touche de bascule du menu pour la manette. Cela ne désactive PAS les boutons de navigation.", MiscDisableControllerSupport);
+            var speedKmh = new MenuCheckboxItem("Afficher la vitesse en KM/H", "Affiche un compteur de vitesse à l'écran indiquant votre vitesse en KM/h.", ShowSpeedoKmh);
+            var speedMph = new MenuCheckboxItem("Afficher la vitesse en MPH", "Affiche un compteur de vitesse à l'écran indiquant votre vitesse en MPH.", ShowSpeedoMph);
+            var coords = new MenuCheckboxItem("Afficher les coordonnées", "Affiche vos coordonnées actuelles en haut de votre écran.", ShowCoordinates);
+            var hideRadar = new MenuCheckboxItem("Masquer le radar", "Masque le radar/minimap.", HideRadar);
+            var hideHud = new MenuCheckboxItem("Masquer l'interface", "Masque tous les éléments de l'interface.", HideHud);
+            var showLocation = new MenuCheckboxItem("Affichage de l'emplacement", "Affiche votre emplacement actuel et votre cap, ainsi que le carrefour le plus proche. Similaire à PLD. ~r~Attention : Cette fonctionnalité peut réduire jusqu'à -4,6 FPS à 60 Hz.", ShowLocation) { LeftIcon = MenuItem.Icon.WARNING };
+            var drawTime = new MenuCheckboxItem("Afficher l'heure à l'écran", "Affiche l'heure actuelle à l'écran.", DrawTimeOnScreen);
+            var saveSettings = new MenuItem("Sauvegarder les paramètres personnels", "Sauvegarde vos paramètres actuels. Tout est enregistré côté client, si vous réinstallez Windows, vous perdrez vos paramètres. Les paramètres sont partagés entre tous les serveurs utilisant vMenu.")
             {
                 RightIcon = MenuItem.Icon.TICK
             };
-            var exportData = new MenuItem("Export/Import Data", "Coming soon (TM): the ability to import and export your saved data.");
-            var joinQuitNotifs = new MenuCheckboxItem("Join / Quit Notifications", "Receive notifications when someone joins or leaves the server.", JoinQuitNotifications);
-            var deathNotifs = new MenuCheckboxItem("Death Notifications", "Receive notifications when someone dies or gets killed.", DeathNotifications);
-            var nightVision = new MenuCheckboxItem("Toggle Night Vision", "Enable or disable night vision.", false);
-            var thermalVision = new MenuCheckboxItem("Toggle Thermal Vision", "Enable or disable thermal vision.", false);
-            var vehModelDimensions = new MenuCheckboxItem("Show Vehicle Dimensions", "Draws the model outlines for every vehicle that's currently close to you.", ShowVehicleModelDimensions);
-            var propModelDimensions = new MenuCheckboxItem("Show Prop Dimensions", "Draws the model outlines for every prop that's currently close to you.", ShowPropModelDimensions);
-            var pedModelDimensions = new MenuCheckboxItem("Show Ped Dimensions", "Draws the model outlines for every ped that's currently close to you.", ShowPedModelDimensions);
-            var showEntityHandles = new MenuCheckboxItem("Show Entity Handles", "Draws the the entity handles for all close entities (you must enable the outline functions above for this to work).", ShowEntityHandles);
-            var showEntityModels = new MenuCheckboxItem("Show Entity Models", "Draws the the entity models for all close entities (you must enable the outline functions above for this to work).", ShowEntityModels);
-            var showEntityNetOwners = new MenuCheckboxItem("Show Network Owners", "Draws the the entity net owner for all close entities (you must enable the outline functions above for this to work).", ShowEntityNetOwners);
-            var dimensionsDistanceSlider = new MenuSliderItem("Show Dimensions Radius", "Show entity model/handle/dimension draw range.", 0, 20, 20, false);
+            var exportData = new MenuItem("Exporter/Importer des données", "Bientôt disponible (TM) : la possibilité d'importer et d'exporter vos données sauvegardées.");
+            var joinQuitNotifs = new MenuCheckboxItem("Notifications de connexion/déconnexion", "Recevez des notifications lorsqu'un joueur rejoint ou quitte le serveur.", JoinQuitNotifications);
+            var deathNotifs = new MenuCheckboxItem("Notifications de décès", "Recevez des notifications lorsqu'un joueur meurt ou est tué.", DeathNotifications);
+            var nightVision = new MenuCheckboxItem("Activer la vision nocturne", "Active ou désactive la vision nocturne.", false);
+            var thermalVision = new MenuCheckboxItem("Activer la vision thermique", "Active ou désactive la vision thermique.", false);
+            var vehModelDimensions = new MenuCheckboxItem("Afficher les dimensions des véhicules", "Dessine les contours des modèles pour chaque véhicule proche de vous.", ShowVehicleModelDimensions);
+            var propModelDimensions = new MenuCheckboxItem("Afficher les dimensions des objets", "Dessine les contours des modèles pour chaque objet proche de vous.", ShowPropModelDimensions);
+            var pedModelDimensions = new MenuCheckboxItem("Afficher les dimensions des peds", "Dessine les contours des modèles pour chaque ped proche de vous.", ShowPedModelDimensions);
+            var showEntityHandles = new MenuCheckboxItem("Afficher les handles des entités", "Affiche les handles des entités pour toutes les entités proches (vous devez activer les fonctions de contour ci-dessus pour que cela fonctionne).", ShowEntityHandles);
+            var showEntityModels = new MenuCheckboxItem("Afficher les modèles des entités", "Affiche les modèles des entités pour toutes les entités proches (vous devez activer les fonctions de contour ci-dessus pour que cela fonctionne).", ShowEntityModels);
+            var showEntityNetOwners = new MenuCheckboxItem("Afficher les propriétaires réseau", "Affiche le propriétaire réseau des entités pour toutes les entités proches (vous devez activer les fonctions de contour ci-dessus pour que cela fonctionne).", ShowEntityNetOwners);
+            var dimensionsDistanceSlider = new MenuSliderItem("Rayon d'affichage des dimensions", "Définit la portée d'affichage des modèles/handles/dimensions des entités.", 0, 20, 20, false);
 
-            var clearArea = new MenuItem("Clear Area", "Clears the area around your player (100 meters). Damage, dirt, peds, props, vehicles, etc. Everything gets cleaned up, fixed and reset to the default world state.");
-            var lockCamX = new MenuCheckboxItem("Lock Camera Horizontal Rotation", "Locks your camera horizontal rotation. Could be useful in helicopters I guess.", false);
-            var lockCamY = new MenuCheckboxItem("Lock Camera Vertical Rotation", "Locks your camera vertical rotation. Could be useful in helicopters I guess.", false);
+            var clearArea = new MenuItem("Nettoyer la zone", "Nettoie la zone autour de votre joueur (100 mètres). Dégâts, saleté, peds, objets, véhicules, etc. Tout est nettoyé, réparé et réinitialisé à l'état par défaut du monde.");
+            var lockCamX = new MenuCheckboxItem("Verrouiller la rotation horizontale de la caméra", "Verrouille la rotation horizontale de votre caméra. Peut être utile dans les hélicoptères, je suppose.", false);
+            var lockCamY = new MenuCheckboxItem("Verrouiller la rotation verticale de la caméra", "Verrouille la rotation verticale de votre caméra. Peut être utile dans les hélicoptères, je suppose.", false);
 
-            var mpPedPreview = new MenuCheckboxItem("3D MP Ped Preview", "Shows a 3D Ped preview when viewing saved MP Peds.", MPPedPreviews);
+            var mpPedPreview = new MenuCheckboxItem("Aperçu 3D des peds multijoueur", "Affiche un aperçu 3D des peds multijoueur lors de la visualisation des peds sauvegardés.", MPPedPreviews);
 
-            // Entity spawner
-            var spawnNewEntity = new MenuItem("Spawn New Entity", "Spawns entity into the world and lets you set its position and rotation");
-            var confirmEntityPosition = new MenuItem("Confirm Entity Position", "Stops placing entity and sets it at it current location.");
-            var cancelEntity = new MenuItem("Cancel", "Deletes current entity and cancels its placement");
-            var confirmAndDuplicate = new MenuItem("Confirm Entity Position And Duplicate", "Stops placing entity and sets it at it current location and creates new one to place.");
+            // Générateur d'entités
+            var spawnNewEntity = new MenuItem("Générer une nouvelle entité", "Génère une entité dans le monde et vous permet de définir sa position et sa rotation");
+            var confirmEntityPosition = new MenuItem("Confirmer la position de l'entité", "Arrête de placer l'entité et la fixe à son emplacement actuel.");
+            var cancelEntity = new MenuItem("Annuler", "Supprime l'entité actuelle et annule son placement");
+            var confirmAndDuplicate = new MenuItem("Confirmer la position et dupliquer", "Arrête de placer l'entité, la fixe à son emplacement actuel et en crée une nouvelle à placer.");
 
-            var connectionSubmenu = new Menu(Game.Player.Name, "Connection Options");
-            var connectionSubmenuBtn = new MenuItem("Connection Options", "Server connection/game quit options.");
+            var connectionSubmenu = new Menu(Game.Player.Name, "Options de connexion");
+            var connectionSubmenuBtn = new MenuItem("Options de connexion", "Options de connexion au serveur/quitter le jeu.");
 
-            var quitSession = new MenuItem("Quit Session", "Leaves you connected to the server, but quits the network session. ~r~Can not be used when you are the host.");
-            var rejoinSession = new MenuItem("Re-join Session", "This may not work in all cases, but you can try to use this if you want to re-join the previous session after clicking 'Quit Session'.");
-            var quitGame = new MenuItem("Quit Game", "Exits the game after 5 seconds.");
-            var disconnectFromServer = new MenuItem("Disconnect From Server", "Disconnects you from the server and returns you to the serverlist. ~r~This feature is not recommended, quit the game completely instead and restart it for a better experience.");
+            var quitSession = new MenuItem("Quitter la session", "Vous reste connecté au serveur, mais quitte la session réseau. ~r~Ne peut pas être utilisé si vous êtes l'hôte.");
+            var rejoinSession = new MenuItem("Rejoindre la session", "Cela peut ne pas fonctionner dans tous les cas, mais vous pouvez essayer de l'utiliser si vous souhaitez rejoindre la session précédente après avoir cliqué sur 'Quitter la session'.");
+            var quitGame = new MenuItem("Quitter le jeu", "Quitte le jeu après 5 secondes.");
+            var disconnectFromServer = new MenuItem("Se déconnecter du serveur", "Vous déconnecte du serveur et vous renvoie à la liste des serveurs. ~r~Cette fonctionnalité n'est pas recommandée, quittez complètement le jeu et redémarrez-le pour une meilleure expérience.");
             connectionSubmenu.AddMenuItem(quitSession);
             connectionSubmenu.AddMenuItem(rejoinSession);
             connectionSubmenu.AddMenuItem(quitGame);
             connectionSubmenu.AddMenuItem(disconnectFromServer);
 
-            var enableTimeCycle = new MenuCheckboxItem("Enable Timecycle Modifier", "Enable or disable the timecycle modifier from the list below.", TimecycleEnabled);
+            var enableTimeCycle = new MenuCheckboxItem("Activer le modificateur de cycle temporel", "Active ou désactive le modificateur de cycle temporel dans la liste ci-dessous.", TimecycleEnabled);
             var timeCycleModifiersListData = TimeCycles.Timecycles.ToList();
             for (var i = 0; i < timeCycleModifiersListData.Count; i++)
             {
                 timeCycleModifiersListData[i] += $" ({i + 1}/{timeCycleModifiersListData.Count})";
             }
-            var timeCycles = new MenuListItem("TM", timeCycleModifiersListData, MathUtil.Clamp(LastTimeCycleModifierIndex, 0, Math.Max(0, timeCycleModifiersListData.Count - 1)), "Select a timecycle modifier and enable the checkbox above.");
-            var timeCycleIntensity = new MenuSliderItem("Timecycle Modifier Intensity", "Set the timecycle modifier intensity.", 0, 20, LastTimeCycleModifierStrength, true);
+            var timeCycles = new MenuListItem("TM", timeCycleModifiersListData, MathUtil.Clamp(LastTimeCycleModifierIndex, 0, Math.Max(0, timeCycleModifiersListData.Count - 1)), "Sélectionnez un modificateur de cycle temporel et activez la case à cocher ci-dessus.");
+            var timeCycleIntensity = new MenuSliderItem("Intensité du modificateur de cycle temporel", "Définit l'intensité du modificateur de cycle temporel.", 0, 20, LastTimeCycleModifierStrength, true);
 
-            var locationBlips = new MenuCheckboxItem("Location Blips", "Shows blips on the map for some common locations.", ShowLocationBlips);
-            var playerBlips = new MenuCheckboxItem("Show Player Blips", "Shows blips on the map for all players. ~y~Note for when the server is using OneSync Infinity: this won't work for players that are too far away.", ShowPlayerBlips);
-            var playerNames = new MenuCheckboxItem("Show Player Names", "Enables or disables player overhead names.", MiscShowOverheadNames);
-            var respawnDefaultCharacter = new MenuCheckboxItem("Respawn As Default MP Character", "If you enable this, then you will (re)spawn as your default saved MP character. Note the server owner can globally disable this option. To set your default character, go to one of your saved MP Characters and click the 'Set As Default Character' button.", MiscRespawnDefaultCharacter);
-            var restorePlayerAppearance = new MenuCheckboxItem("Restore Player Appearance", "Restore your player's skin whenever you respawn after being dead. Re-joining a server will not restore your previous skin.", RestorePlayerAppearance);
-            var restorePlayerWeapons = new MenuCheckboxItem("Restore Player Weapons", "Restore your weapons whenever you respawn after being dead. Re-joining a server will not restore your previous weapons.", RestorePlayerWeapons);
+            var locationBlips = new MenuCheckboxItem("Points de repère", "Affiche des points de repère sur la carte pour certains lieux communs.", ShowLocationBlips);
+            var playerBlips = new MenuCheckboxItem("Afficher les points des joueurs", "Affiche des points de repère sur la carte pour tous les joueurs. ~y~Note pour les serveurs utilisant OneSync Infinity : cela ne fonctionnera pas pour les joueurs trop éloignés.", ShowPlayerBlips);
+            var playerNames = new MenuCheckboxItem("Afficher les noms des joueurs", "Active ou désactive l'affichage des noms des joueurs au-dessus de leur tête.", MiscShowOverheadNames);
+            var respawnDefaultCharacter = new MenuCheckboxItem("Réapparaître en tant que personnage MP par défaut", "Si vous activez cette option, vous réapparaîtrez en tant que votre personnage MP sauvegardé par défaut. Notez que le propriétaire du serveur peut désactiver globalement cette option. Pour définir votre personnage par défaut, allez dans l'un de vos personnages MP sauvegardés et cliquez sur le bouton 'Définir comme personnage par défaut'.", MiscRespawnDefaultCharacter);
+            var restorePlayerAppearance = new MenuCheckboxItem("Restaurer l'apparence du joueur", "Restore l'apparence de votre joueur chaque fois que vous réapparaissez après être mort. Rejoindre un serveur ne restaurera pas votre apparence précédente.", RestorePlayerAppearance);
+            var restorePlayerWeapons = new MenuCheckboxItem("Restaurer les armes du joueur", "Restore vos armes chaque fois que vous réapparaissez après être mort. Rejoindre un serveur ne restaurera pas vos armes précédentes.", RestorePlayerWeapons);
 
             MenuController.AddSubmenu(menu, connectionSubmenu);
             MenuController.BindMenuItem(menu, connectionSubmenu, connectionSubmenuBtn);
@@ -226,7 +226,7 @@ namespace vMenuClient.menus
                     {
                         if (NetworkIsHost())
                         {
-                            Notify.Error("Sorry, you cannot leave the session when you are the host. This would prevent other players from joining/staying on the server.");
+                            Notify.Error("Désolé, vous ne pouvez pas quitter la session lorsque vous êtes l'hôte. Cela empêcherait d'autres joueurs de rejoindre le serveur ou d'y rester.");
                         }
                         else
                         {
@@ -235,18 +235,18 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        Notify.Error("You are currently not in any session.");
+                        Notify.Error("Vous n'êtes actuellement dans aucune session.");
                     }
                 }
                 else if (item == rejoinSession)
                 {
                     if (NetworkIsSessionActive())
                     {
-                        Notify.Error("You are already connected to a session.");
+                        Notify.Error("Vous êtes déjà connecté à une session.");
                     }
                     else
                     {
-                        Notify.Info("Attempting to re-join the session.");
+                        Notify.Info("Tentative de réinscription à la session.");
                         NetworkSessionHost(-1, 32, false);
                     }
                 }
@@ -261,13 +261,13 @@ namespace vMenuClient.menus
             // Teleportation options
             if (IsAllowed(Permission.MSTeleportToWp) || IsAllowed(Permission.MSTeleportLocations) || IsAllowed(Permission.MSTeleportToCoord))
             {
-                var teleportOptionsMenuBtn = new MenuItem("Teleport Options", "Various teleport options.") { Label = "→→→" };
+                var teleportOptionsMenuBtn = new MenuItem("Options de téléportation", "Diverses options de téléportation.") { Label = "→→→" };
                 menu.AddMenuItem(teleportOptionsMenuBtn);
                 MenuController.BindMenuItem(menu, teleportOptionsMenu, teleportOptionsMenuBtn);
 
-                var tptowp = new MenuItem("Teleport To Waypoint", "Teleport to the waypoint on your map.");
-                var tpToCoord = new MenuItem("Teleport To Coords", "Enter x, y, z coordinates and you will be teleported to that location.");
-                var saveLocationBtn = new MenuItem("Save Teleport Location", "Adds your current location to the teleport locations menu and saves it on the server.");
+                var tptowp = new MenuItem("Téléportation vers le point de passage", "Téléportez-vous vers le point de passage sur votre carte.");
+                var tpToCoord = new MenuItem("Téléportation vers les coordonnées", "Entrez les coordonnées x, y, z et vous serez téléporté à cet emplacement.");
+                var saveLocationBtn = new MenuItem("Enregistrer un lieu de téléportation", "Ajoute votre position actuelle au menu des lieux de téléportation et l'enregistre sur le serveur.");
                 teleportOptionsMenu.OnItemSelect += async (sender, item, index) =>
                 {
                     // Teleport to waypoint.
@@ -277,19 +277,19 @@ namespace vMenuClient.menus
                     }
                     else if (item == tpToCoord)
                     {
-                        var x = await GetUserInput("Enter X coordinate.");
+                        var x = await GetUserInput("Coordonné X.");
                         if (string.IsNullOrEmpty(x))
                         {
                             Notify.Error(CommonErrors.InvalidInput);
                             return;
                         }
-                        var y = await GetUserInput("Enter Y coordinate.");
+                        var y = await GetUserInput("Coordonné  Y");
                         if (string.IsNullOrEmpty(y))
                         {
                             Notify.Error(CommonErrors.InvalidInput);
                             return;
                         }
-                        var z = await GetUserInput("Enter Z coordinate.");
+                        var z = await GetUserInput("Coordonné  Z");
                         if (string.IsNullOrEmpty(z))
                         {
                             Notify.Error(CommonErrors.InvalidInput);
@@ -305,7 +305,7 @@ namespace vMenuClient.menus
                             }
                             else
                             {
-                                Notify.Error("You did not enter a valid X coordinate.");
+                                Notify.Error("Vous n'avez pas saisi de coordonnées X valides.");
                                 return;
                             }
                         }
@@ -317,7 +317,7 @@ namespace vMenuClient.menus
                             }
                             else
                             {
-                                Notify.Error("You did not enter a valid Y coordinate.");
+                                Notify.Error("Vous n'avez pas saisi de coordonnées Y valides.");
                                 return;
                             }
                         }
@@ -329,7 +329,7 @@ namespace vMenuClient.menus
                             }
                             else
                             {
-                                Notify.Error("You did not enter a valid Z coordinate.");
+                                Notify.Error("Vous n'avez pas saisi de coordonnées Z valides.");
                                 return;
                             }
                         }
@@ -370,7 +370,7 @@ namespace vMenuClient.menus
                                 var y = Math.Round(location.coordinates.Y, 2);
                                 var z = Math.Round(location.coordinates.Z, 2);
                                 var heading = Math.Round(location.heading, 2);
-                                var tpBtn = new MenuItem(location.name, $"Teleport to ~y~{location.name}~n~~s~x: ~y~{x}~n~~s~y: ~y~{y}~n~~s~z: ~y~{z}~n~~s~heading: ~y~{heading}") { ItemData = location };
+                                var tpBtn = new MenuItem(location.name, $"Teleporté vers ~y~{location.name}~n~~s~x: ~y~{x}~n~~s~y: ~y~{y}~n~~s~z: ~y~{z}~n~~s~heading: ~y~{heading}") { ItemData = location };
                                 teleportMenu.AddMenuItem(tpBtn);
                             }
                         }
@@ -396,7 +396,7 @@ namespace vMenuClient.menus
 
             #region dev tools menu
 
-            var devToolsBtn = new MenuItem("Developer Tools", "Various development/debug tools.") { Label = "→→→" };
+            var devToolsBtn = new MenuItem("Outils du développeur", "Divers outils de développement/débogage.") { Label = "→→→" };
             menu.AddMenuItem(devToolsBtn);
             MenuController.AddSubmenu(menu, developerToolsMenu);
             MenuController.BindMenuItem(menu, developerToolsMenu, devToolsBtn);
@@ -519,7 +519,7 @@ namespace vMenuClient.menus
 
             if (IsAllowed(Permission.MSEntitySpawner))
             {
-                var entSpawnerMenuBtn = new MenuItem("Entity Spawner", "Spawn and move entities") { Label = "→→→" };
+                var entSpawnerMenuBtn = new MenuItem("Entité Spawner", "Création et déplacement d'entités") { Label = "→→→" };
                 developerToolsMenu.AddMenuItem(entSpawnerMenuBtn);
                 MenuController.BindMenuItem(developerToolsMenu, entitySpawnerMenu, entSpawnerMenuBtn);
 
@@ -534,11 +534,11 @@ namespace vMenuClient.menus
                     {
                         if (EntitySpawner.CurrentEntity != null || EntitySpawner.Active)
                         {
-                            Notify.Error("You are already placing one entity, set its location or cancel and try again!");
+                            Notify.Error("Vous êtes déjà en train de placer une entité, définissez son emplacement ou annulez et réessayez !");
                             return;
                         }
 
-                        var result = await GetUserInput(windowTitle: "Enter model name");
+                        var result = await GetUserInput(windowTitle: "Saisir le nom du modèle");
 
                         if (string.IsNullOrEmpty(result))
                         {
@@ -555,7 +555,7 @@ namespace vMenuClient.menus
                         }
                         else
                         {
-                            Notify.Error("No entity to confirm position for!");
+                            Notify.Error("Pas d'entité pour laquelle confirmer la position !");
                         }
                     }
                     else if (item == cancelEntity)
@@ -566,7 +566,7 @@ namespace vMenuClient.menus
                         }
                         else
                         {
-                            Notify.Error("No entity to cancel!");
+                            Notify.Error("Aucune entité à supprimer !");
                         }
                     }
                 };

@@ -20,14 +20,14 @@ namespace vMenuClient
 
         private readonly List<string> speeds = new()
         {
-            "Very Slow",
-            "Slow",
+            "Très lent ",
+            "Lent",
             "Normal",
-            "Fast",
-            "Very Fast",
-            "Extremely Fast",
-            "Extremely Fast v2.0",
-            "Max Speed"
+            "Rapide",
+            "Très rapide",
+            "Super rapide",
+            "Extrêmement rapide",
+            "Vitesse maximale"
         };
 
         public NoClip()
@@ -102,31 +102,31 @@ namespace vMenuClient
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(0);
                     PushScaleformMovieMethodParameterString("~INPUT_SPRINT~");
-                    PushScaleformMovieMethodParameterString($"Change Speed ({speeds[MovingSpeed]})");
+                    PushScaleformMovieMethodParameterString($"Modifier la vitesse ({speeds[MovingSpeed]})");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(1);
                     PushScaleformMovieMethodParameterString("~INPUT_MOVE_LR~");
-                    PushScaleformMovieMethodParameterString($"Turn Left/Right");
+                    PushScaleformMovieMethodParameterString($"Tourner gauche/droite");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(2);
                     PushScaleformMovieMethodParameterString("~INPUT_MOVE_UD~");
-                    PushScaleformMovieMethodParameterString($"Move");
+                    PushScaleformMovieMethodParameterString($"Déplacement");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(3);
                     PushScaleformMovieMethodParameterString("~INPUT_MULTIPLAYER_INFO~");
-                    PushScaleformMovieMethodParameterString($"Down");
+                    PushScaleformMovieMethodParameterString($"Descendre");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
                     ScaleformMovieMethodAddParamInt(4);
                     PushScaleformMovieMethodParameterString("~INPUT_COVER~");
-                    PushScaleformMovieMethodParameterString($"Up");
+                    PushScaleformMovieMethodParameterString($"Monter");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
@@ -139,7 +139,7 @@ namespace vMenuClient
                     ScaleformMovieMethodAddParamInt(6);
                     string KeyMappingID = String.IsNullOrWhiteSpace(GetSettingsString(Setting.vmenu_keymapping_id)) ? "Default" : GetSettingsString(Setting.vmenu_keymapping_id);
                     PushScaleformMovieMethodParameterString($"~INPUT_{JOAAT($"vMenu:{KeyMappingID}:NoClip")}~");
-                    PushScaleformMovieMethodParameterString($"Toggle NoClip");
+                    PushScaleformMovieMethodParameterString($"ON/OFF NoClip");
                     EndScaleformMovieMethod();
 
                     BeginScaleformMovieMethod(Scale, "DRAW_INSTRUCTIONAL_BUTTONS");

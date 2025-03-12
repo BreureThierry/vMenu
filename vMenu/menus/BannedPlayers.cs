@@ -34,47 +34,47 @@ namespace vMenuClient.menus
 
         public List<BanRecord> banlist = new();
 
-        readonly Menu bannedPlayer = new("Banned Player", "Ban Record: ");
+        readonly Menu bannedPlayer = new("Joueur Banni", "Historique de Bannissement : ");
 
         /// <summary>
         /// Creates the menu.
         /// </summary>
         private void CreateMenu()
         {
-            menu = new Menu(Game.Player.Name, "Banned Players Management");
+            menu = new Menu(Game.Player.Name, "Gestion des Joueurs Bannis");
 
-            menu.InstructionalButtons.Add(Control.Jump, "Filter Options");
+            menu.InstructionalButtons.Add(Control.Jump, "Options de Filtrage");
             menu.ButtonPressHandlers.Add(new Menu.ButtonPressHandler(Control.Jump, Menu.ControlPressCheckType.JUST_RELEASED, new Action<Menu, Control>(async (a, b) =>
             {
                 if (banlist.Count > 1)
                 {
-                    var filterText = await GetUserInput("Filter username or ban id (leave this empty to reset the filter)");
+                    var filterText = await GetUserInput("Filtrer par nom d'utilisateur ou ID de bannissement (laissez vide pour réinitialiser le filtre)");
                     if (string.IsNullOrEmpty(filterText))
                     {
-                        Subtitle.Custom("Filters have been cleared.");
+                        Subtitle.Custom("Les filtres ont été supprimés.");
                         menu.ResetFilter();
                         UpdateBans();
                     }
                     else
                     {
                         menu.FilterMenuItems(item => item.ItemData is BanRecord br && (br.playerName.ToLower().Contains(filterText.ToLower()) || br.uuid.ToLower().Contains(filterText.ToLower())));
-                        Subtitle.Custom("Filter has been applied.");
+                        Subtitle.Custom("Le filtre a été appliqué.");
                     }
                 }
                 else
                 {
-                    Notify.Error("At least 2 players need to be banned in order to use the filter function.");
+                    Notify.Error("Au moins 2 joueurs doivent être bannis pour utiliser la fonction de filtrage.");
                 }
 
-                Log($"Button pressed: {a} {b}");
+                Log($"Bouton pressé : {a} {b}");
             }), true));
 
-            bannedPlayer.AddMenuItem(new MenuItem("Player Name"));
-            bannedPlayer.AddMenuItem(new MenuItem("Banned By"));
-            bannedPlayer.AddMenuItem(new MenuItem("Banned Until"));
-            bannedPlayer.AddMenuItem(new MenuItem("Player Identifiers"));
-            bannedPlayer.AddMenuItem(new MenuItem("Banned For"));
-            bannedPlayer.AddMenuItem(new MenuItem("~r~Unban", "~r~Warning, unbanning the player can NOT be undone. You will NOT be able to ban them again until they re-join the server. Are you absolutely sure you want to unban this player? ~s~Tip: Tempbanned players will automatically get unbanned if they log on to the server after their ban date has expired."));
+            bannedPlayer.AddMenuItem(new MenuItem("Nom du Joueur"));
+            bannedPlayer.AddMenuItem(new MenuItem("Banni Par"));
+            bannedPlayer.AddMenuItem(new MenuItem("Banni Jusqu'à"));
+            bannedPlayer.AddMenuItem(new MenuItem("Identifiants du Joueur"));
+            bannedPlayer.AddMenuItem(new MenuItem("Raison du Bannissement"));
+            bannedPlayer.AddMenuItem(new MenuItem("~r~Débannir", "~r~Attention, le débannissement du joueur est IRRÉVERSIBLE. Vous ne pourrez PAS le bannir à nouveau tant qu'il ne se reconnectera pas au serveur. Êtes-vous absolument sûr de vouloir débannir ce joueur ? ~s~Astuce : Les joueurs temporairement bannis seront automatiquement débannis s'ils se connectent au serveur après l'expiration de leur bannissement."));
 
             // should be enough for now to cover all possible identifiers.
             var colors = new List<string>() { "~r~", "~g~", "~b~", "~o~", "~y~", "~p~", "~s~", "~t~", };
@@ -95,7 +95,7 @@ namespace vMenuClient.menus
             {
                 if (index == 5 && IsAllowed(Permission.OPUnban))
                 {
-                    if (item.Label == "Are you sure?")
+                    if (item.Label == "Sur ?")
                     {
                         if (banlist.Contains(currentRecord))
                         {
@@ -110,7 +110,7 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        item.Label = "Are you sure?";
+                        item.Label = "Sur ?";
                     }
                 }
                 else

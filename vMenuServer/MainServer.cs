@@ -38,7 +38,7 @@ namespace vMenuServer
                 var prefix = "[vMenu] ";
                 if (level == LogLevel.error)
                 {
-                    prefix = "^1[vMenu] [ERROR]^7 ";
+                    prefix = "^1[vMenu] [ERREUR]^7 ";
                 }
                 else if (level == LogLevel.info)
                 {
@@ -46,7 +46,7 @@ namespace vMenuServer
                 }
                 else if (level == LogLevel.success)
                 {
-                    prefix = "^2[vMenu] [SUCCESS]^7 ";
+                    prefix = "^2[vMenu] [OK]^7 ";
                 }
                 else if (level == LogLevel.warning)
                 {
@@ -191,8 +191,8 @@ namespace vMenuServer
             // name check
             if (GetCurrentResourceName() != "vMenu")
             {
-                var InvalidNameException = new Exception("\r\n\r\n^1[vMenu] INSTALLATION ERROR!\r\nThe name of the resource is not valid. " +
-                    "Please change the folder name from '^3" + GetCurrentResourceName() + "^1' to '^2vMenu^1' (case sensitive) instead!\r\n\r\n\r\n^7");
+                var InvalidNameException = new Exception("\r\n\r\n^1[vMenu] INSTALLATION ERROR!\r\nLe nom de la ressource n'est pas valide. " +
+                    "Veuillez changer le nom du dossier de '^3" + GetCurrentResourceName() + "^1' vers '^2vMenu^1' (sensible à la casse) à la place !\r\n\r\n\r\n^7");
                 try
                 {
                     throw InvalidNameException;
@@ -229,7 +229,7 @@ namespace vMenuServer
                 }
                 catch (JsonReaderException ex)
                 {
-                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your addons.json file contains a problem! Error details: {ex.Message}\n\n");
+                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Votre fichier addons.json contient un problème ! Détails de l'erreur : {ex.Message}\n\n");
                 }
 
                 // check extras file for errors
@@ -241,13 +241,13 @@ namespace vMenuServer
                 }
                 catch (JsonReaderException ex)
                 {
-                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Your extras.json file contains a problem! Error details: {ex.Message}\n\n");
+                    Debug.WriteLine($"\n\n^1[vMenu] [ERROR] ^7Votre fichier extras.json contient un problème ! Détails de l'erreur : {ex.Message}\n\n");
                 }
 
                 // check if permissions are setup (correctly)
                 if (!GetSettingsBool(Setting.vmenu_use_permissions))
                 {
-                    Debug.WriteLine("^3[vMenu] [WARNING] vMenu is set up to ignore permissions!\nIf you did this on purpose then you can ignore this warning.\nIf you did not set this on purpose, then you must have made a mistake while setting up vMenu.\nPlease read the vMenu documentation (^5https://docs.vespura.com/vmenu^3).\nMost likely you are not executing the permissions.cfg (correctly).^7");
+                    Debug.WriteLine("^3[vMenu] [WARNING] vMenu est configuré pour ignorer les autorisations !\nSi vous l'avez fait exprès, vous pouvez ignorer cet avertissement.\nSi vous ne l'avez pas fait exprès, c'est que vous avez commis une erreur lors de la configuration de vMenu.\nVeuillez lire la documentation de vMenu (^5https://docs.vespura.com/vmenu^3).\nIl est très probable que vous n'exécutiez pas (correctement) le fichier permissions.cfg.^7");
                 }
 
                 Tick += PlayersFirstTick;
@@ -279,11 +279,11 @@ namespace vMenuServer
                         DebugMode = !DebugMode;
                         if (source < 1)
                         {
-                            Debug.WriteLine($"Debug mode is now set to: {DebugMode}.");
+                            Debug.WriteLine($"Debug mode est maintenant réglé sur : {DebugMode}.");
                         }
                         else
                         {
-                            Players[source].TriggerEvent("chatMessage", $"vMenu Debug mode is now set to: {DebugMode}.");
+                            Players[source].TriggerEvent("chatMessage", $"vMenu Le mode debug est maintenant réglé sur : {DebugMode}.");
                         }
                         return;
                     }
@@ -297,16 +297,16 @@ namespace vMenuServer
                             if (banRecord != null)
                             {
                                 BanManager.RemoveBan(banRecord);
-                                Debug.WriteLine("Player has been successfully unbanned.");
+                                Debug.WriteLine("Le joueur a été déban avec succès.");
                             }
                             else
                             {
-                                Debug.WriteLine($"Could not find a banned player with the provided uuid '{uuid}'.");
+                                Debug.WriteLine($"Impossible de trouver un joueur banni avec l'uuid fourni. '{uuid}'.");
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("You did not specify a player to unban, you must enter the FULL playername. Usage: vmenuserver unban \"playername\"");
+                            Debug.WriteLine("Vous n'avez pas spécifié de joueur à déban, vous devez entrer le nom de joueur COMPLET. Utilisation : vmenuserver unban \"playername\"");
                         }
                         return;
                     }
@@ -314,7 +314,7 @@ namespace vMenuServer
                     {
                         if (args.Count < 2 || string.IsNullOrEmpty(args[1].ToString()))
                         {
-                            Debug.WriteLine("[vMenu] Invalid command syntax. Use 'vmenuserver weather <weatherType>' instead.");
+                            Debug.WriteLine("[vMenu] Syntaxe de commande invalide. Utiliser 'vmenuserver weather <weatherType>' instead.");
                         }
                         else
                         {
@@ -322,7 +322,7 @@ namespace vMenuServer
                             if (WeatherTypes.Contains(wtype))
                             {
                                 TriggerEvent("vMenu:UpdateServerWeather", wtype, BlackoutEnabled, DynamicWeatherEnabled, ManualSnowEnabled);
-                                Debug.WriteLine($"[vMenu] Weather is now set to: {wtype}");
+                                Debug.WriteLine($"[vMenu] La météo est maintenant réglée sur : {wtype}");
                             }
                             else if (wtype.ToLower() == "dynamic")
                             {
@@ -331,27 +331,27 @@ namespace vMenuServer
                                     if ((args[2].ToString().ToLower() ?? $"{DynamicWeatherEnabled}") == "true")
                                     {
                                         TriggerEvent("vMenu:UpdateServerWeather", CurrentWeather, BlackoutEnabled, true, ManualSnowEnabled);
-                                        Debug.WriteLine("[vMenu] Dynamic weather is now turned on.");
+                                        Debug.WriteLine("[vMenu] La météo dynamique est maintenant activée.");
                                     }
                                     else if ((args[2].ToString().ToLower() ?? $"{DynamicWeatherEnabled}") == "false")
                                     {
                                         TriggerEvent("vMenu:UpdateServerWeather", CurrentWeather, BlackoutEnabled, false, ManualSnowEnabled);
-                                        Debug.WriteLine("[vMenu] Dynamic weather is now turned off.");
+                                        Debug.WriteLine("[vMenu] La météo dynamique est désormais désactivée.");
                                     }
                                     else
                                     {
-                                        Debug.WriteLine("[vMenu] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
+                                        Debug.WriteLine("[vMenu] Utilisation incorrecte de la commande. Syntaxe correcte : vmenuserver weather dynamic <true|false>");
                                     }
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Invalid command usage. Correct syntax: vmenuserver weather dynamic <true|false>");
+                                    Debug.WriteLine("[vMenu] Utilisation incorrecte de la commande. Syntaxe correcte : vmenuserver weather dynamic <true|false>");
                                 }
 
                             }
                             else
                             {
-                                Debug.WriteLine("[vMenu] This weather type is not valid!");
+                                Debug.WriteLine("[vMenu] Ce type de temps n'est pas valide !");
                             }
                         }
                     }
@@ -366,7 +366,7 @@ namespace vMenuServer
                             }
                             else
                             {
-                                Debug.WriteLine("Invalid syntax. Use: ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
+                                Debug.WriteLine("Syntaxe non valide. Utiliser : ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
                             }
                         }
                         else if (args.Count > 2)
@@ -394,17 +394,17 @@ namespace vMenuServer
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("Invalid syntax. Use: ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
+                                    Debug.WriteLine("Syntaxe non valide. Utiliser : ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
                                 }
                             }
                             else
                             {
-                                Debug.WriteLine("Invalid syntax. Use: ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
+                                Debug.WriteLine("Syntaxe non valide. Utiliser : ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("Invalid syntax. Use: ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
+                            Debug.WriteLine("Syntaxe non valide. Utiliser : ^5vmenuserver time <freeze|<hour> <minute>>^7 instead.");
                         }
                     }
                     else if (args[0].ToString().ToLower() == "ban" && source < 1)  // only do this via server console (server id < 1)
@@ -424,7 +424,7 @@ namespace vMenuServer
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Could not find this player, make sure they are online.");
+                                    Debug.WriteLine("[vMenu] Ce joueur n'a pas été trouvé, assurez-vous qu'il est en ligne.");
                                     return;
                                 }
                             }
@@ -436,12 +436,12 @@ namespace vMenuServer
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("[vMenu] Could not find this player, make sure they are online.");
+                                    Debug.WriteLine("[vMenu] Ce joueur n'a pas été trouvé, assurez-vous qu'il est en ligne.");
                                     return;
                                 }
                             }
 
-                            var reason = "Banned by staff for:";
+                            var reason = "Ban par le staff pour :";
                             args.GetRange(3, args.Count - 3).ForEach(arg => reason += " " + arg);
 
                             if (p != null)
@@ -451,65 +451,65 @@ namespace vMenuServer
                                     p.Identifiers.ToList(),
                                     new DateTime(3000, 1, 1),
                                     reason,
-                                    "Server Console",
+                                    "Console du serveur",
                                     new Guid()
                                 );
 
                                 BanManager.AddBan(ban);
-                                BanManager.BanLog($"[vMenu] Player {p.Name}^7 has been banned by Server Console for [{reason}].");
+                                BanManager.BanLog($"[vMenu] Player {p.Name}^7 a été ban par la Console du serveur pour [{reason}].");
                                 TriggerEvent("vMenu:BanSuccessful", JsonConvert.SerializeObject(ban).ToString());
                                 var timeRemaining = BanManager.GetRemainingTimeMessage(ban.bannedUntil.Subtract(DateTime.Now));
-                                p.Drop($"You are banned from this server. Ban time remaining: {timeRemaining}. Banned by: {ban.bannedBy}. Ban reason: {ban.banReason}. Additional information: {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
+                                p.Drop($"Vous êtes ban de ce serveur. Temps de ban restant : {timeRemaining}. Ban par: {ban.bannedBy}. Ban raison : {ban.banReason}. Information complémentaire : {vMenuShared.ConfigManager.GetSettingsString(vMenuShared.ConfigManager.Setting.vmenu_default_ban_message_information)}.");
                             }
                             else
                             {
-                                Debug.WriteLine("[vMenu] Player not found, could not ban player.");
+                                Debug.WriteLine("[vMenu] Le joueur n'a pas été trouvé, il n'a pas été possible de le bannir.");
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("[vMenu] Not enough arguments, syntax: ^5vmenuserver ban <id|name> <server id|username> <reason>^7.");
+                            Debug.WriteLine("[vMenu] Manque d'arguments, syntaxe: ^5vmenuserver ban <id|name> <server id|username> <reason>^7.");
                         }
                     }
                     else if (args[0].ToString().ToLower() == "help")
                     {
                         Debug.WriteLine("Available commands:");
-                        Debug.WriteLine("(server console only): vmenuserver ban <id|name> <server id|username> <reason> (player must be online!)");
+                        Debug.WriteLine("(server console only): vmenuserver ban <id|name> <server id|username> <reason> (le joueur doit être en ligne !)");
                         Debug.WriteLine("(server console only): vmenuserver unban <uuid>");
                         Debug.WriteLine("vmenuserver weather <new weather type | dynamic <true | false>>");
                         Debug.WriteLine("vmenuserver time <freeze|<hour> <minute>>");
-                        Debug.WriteLine("vmenuserver migrate (This copies all banned players in the bans.json file to the new ban system in vMenu v3.3.0, you only need to do this once)");
+                        Debug.WriteLine("vmenuserver migrate (Ceci copie tous les joueurs bannis dans le fichier bans.json vers le nouveau système de bannissement dans vMenu v3.3.0, vous ne devez le faire qu'une seule fois)");
                     }
                     else if (args[0].ToString().ToLower() == "migrate" && source < 1)
                     {
                         var file = LoadResourceFile(GetCurrentResourceName(), "bans.json");
                         if (string.IsNullOrEmpty(file) || file == "[]")
                         {
-                            Debug.WriteLine("&1[vMenu] [ERROR]^7 No bans.json file found or it's empty.");
+                            Debug.WriteLine("&1[vMenu] [ERREUR]^7 Aucun fichier bans.json n'a été trouvé ou il est vide.");
                             return;
                         }
-                        Debug.WriteLine("^5[vMenu] [INFO]^7 Importing all ban records from the bans.json file into the new storage system. ^3This may take some time...^7");
+                        Debug.WriteLine("^5[vMenu] [INFO]^7 Importation de tous les enregistrements de bannissement du fichier bans.json dans le nouveau système de stockage. ^3Cela peut prendre un certain temps...^7");
                         var bans = JsonConvert.DeserializeObject<List<BanManager.BanRecord>>(file);
                         bans.ForEach((br) =>
                         {
                             var record = new BanManager.BanRecord(br.playerName, br.identifiers, br.bannedUntil, br.banReason, br.bannedBy, Guid.NewGuid());
                             BanManager.AddBan(record);
                         });
-                        Debug.WriteLine("^2[vMenu] [SUCCESS]^7 All ban records have been imported. You now no longer need the bans.json file.");
+                        Debug.WriteLine("^2[vMenu] [OK]^7 Tous les enregistrements d'interdiction ont été importés. Vous n'avez plus besoin du fichier bans.json.");
                     }
                     else
                     {
-                        Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                        Debug.WriteLine($"vMenu - version actuelle : {Version}. Essayez ^5vmenuserver help^7 pour plus d'informations.");
                     }
                 }
                 else
                 {
-                    Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                    Debug.WriteLine($"vMenu - version actuelle : {Version}. Essayez ^5vmenuserver help^7 pour plus d'informations.");
                 }
             }
             else
             {
-                Debug.WriteLine($"vMenu is currently running version: {Version}. Try ^5vmenuserver help^7 for info.");
+                Debug.WriteLine($"vMenu - version actuelle : {Version}. Essayez ^5vmenuserver help^7 pour plus d'informations.");
             }
         }
         #endregion
@@ -529,7 +529,7 @@ namespace vMenuServer
                 if (vMenuShared.PermissionsManager.GetPermissionAndParentPermissions(vMenuShared.PermissionsManager.Permission.PVKickPassengers).Any(perm => vMenuShared.PermissionsManager.IsAllowed(perm, source)))
                 {
                     TriggerClientEvent("vMenu:GetOutOfCar", vehicleNetId, playerOwner);
-                    source.TriggerEvent("vMenu:Notify", "All passengers will be kicked out as soon as the vehicle stops moving, or after 10 seconds if they refuse to stop the vehicle.");
+                    source.TriggerEvent("vMenu:Notify", "Tous les passagers seront expulsés dès que le véhicule s'arrêtera de rouler, ou après 10 secondes s'ils refusent d'arrêter le véhicule.");
                 }
             }
         }
@@ -733,7 +733,7 @@ namespace vMenuServer
         /// <param name="target"></param>
         /// <param name="kickReason"></param>
         [EventHandler("vMenu:KickPlayer")]
-        internal void KickPlayer([FromSource] Player source, int target, string kickReason = "You have been kicked from the server.")
+        internal void KickPlayer([FromSource] Player source, int target, string kickReason = "Vous avez été kick du serveur.")
         {
             if (IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.Kick") || IsPlayerAceAllowed(source.Handle, "vMenu.Everything") ||
                 IsPlayerAceAllowed(source.Handle, "vMenu.OnlinePlayers.All"))
@@ -747,17 +747,17 @@ namespace vMenuServer
                         TriggerEvent("vMenu:KickSuccessful", source.Name, kickReason, targetPlayer.Name);
 
                         KickLog($"Player: {source.Name} has kicked: {targetPlayer.Name} for: {kickReason}.");
-                        TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: $"The target player (<C>{targetPlayer.Name}</C>) has been kicked.");
+                        TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: $"Le joueur ciblé (<C>{targetPlayer.Name}</C>) a été mis à kick.");
 
                         // Kick the player from the server using the specified reason.
                         DropPlayer(targetPlayer.Handle, kickReason);
                         return;
                     }
                     // Trigger the client event on the source player to let them know that kicking this player is not allowed.
-                    TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Sorry, this player can ~r~not ~w~be kicked.");
+                    TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Désolé, ce joueur ~r~ne peut pas~s~ être kické.");
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Une erreur inconnue s'est produite. Signalez-la ici : vespura.com/vmenu");
             }
             else
             {
@@ -783,7 +783,7 @@ namespace vMenuServer
                     TriggerClientEvent(player: targetPlayer, eventName: "vMenu:KillMe", args: source.Name);
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Une erreur inconnue s'est produite. Signalez-la ici : vespura.com/vmenu");
             }
             else
             {
@@ -809,7 +809,7 @@ namespace vMenuServer
                     TriggerClientEvent(player: targetPlayer, eventName: "vMenu:GoToPlayer", args: source.Handle);
                     return;
                 }
-                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "An unknown error occurred. Report it here: vespura.com/vmenu");
+                TriggerClientEvent(player: source, eventName: "vMenu:Notify", args: "Une erreur inconnue s'est produite. Signalez-la ici : vespura.com/vmenu");
             }
             else
             {
@@ -842,7 +842,7 @@ namespace vMenuServer
         internal void NotifySenderThatDmsAreDisabled([FromSource] Player source, string senderServerId)
         {
             var p = Players[int.Parse(senderServerId)];
-            p?.TriggerEvent("vMenu:Notify", $"Sorry, your private message to <C>{source.Name}</C>~s~ could not be delivered because they disabled private messages.");
+            p?.TriggerEvent("vMenu:Notify", $"Désolé, votre message privé à <C>{source.Name}</C>~s~ n'a pas pu être délivré parce qu'ils ont désactivé les messages privés.");
         }
         #endregion
 
@@ -879,14 +879,14 @@ namespace vMenuServer
             var location = JsonConvert.DeserializeObject<TeleportLocation>(locationJson);
             if (GetTeleportLocationsData().Any(loc => loc.name == location.name))
             {
-                Log("A teleport location with this name already exists, location was not saved.", LogLevel.error);
+                Log("Un lieu de téléportation portant ce nom existe déjà, le lieu n'a pas été enregistré.", LogLevel.error);
                 return;
             }
             var locs = GetLocations();
             locs.teleports.Add(location);
             if (!SaveResourceFile(GetCurrentResourceName(), "config/locations.json", JsonConvert.SerializeObject(locs, Formatting.Indented), -1))
             {
-                Log("Could not save locations.json file, reason unknown.", LogLevel.error);
+                Log("Impossible d'enregistrer le fichier locations.json, raison inconnue.", LogLevel.error);
             }
             TriggerClientEvent("vMenu:UpdateTeleportLocations", JsonConvert.SerializeObject(locs.teleports));
         }

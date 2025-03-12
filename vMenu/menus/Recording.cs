@@ -1,7 +1,5 @@
 using CitizenFX.Core;
-
 using MenuAPI;
-
 using static CitizenFX.Core.Native.API;
 using static vMenuClient.CommonFunctions;
 using static vMenuShared.ConfigManager;
@@ -15,17 +13,17 @@ namespace vMenuClient.menus
 
         private void CreateMenu()
         {
-            AddTextEntryByHash(0x86F10CE6, "Upload To Cfx.re Forum"); // Replace the "Upload To Social Club" button in gallery
-            AddTextEntry("ERROR_UPLOAD", "Are you sure you want to upload this photo to Cfx.re forum?"); // Replace the warning message text for uploading
+            AddTextEntryByHash(0x86F10CE6, "Uploader sur le forum Cfx.re"); // Remplacer le bouton "Uploader sur Social Club" dans la galerie
+            AddTextEntry("ERROR_UPLOAD", "Êtes-vous sûr de vouloir uploader cette photo sur le forum Cfx.re ?"); // Remplacer le texte d'avertissement pour l'upload
 
-            // Create the menu.
-            menu = new Menu("Recording", "Recording Options");
+            // Créer le menu.
+            menu = new Menu("Enregistrement", "Options d'enregistrement");
 
-            var takePic = new MenuItem("Take Photo", "Takes a photo and saves it to the Pause Menu gallery.");
-            var openPmGallery = new MenuItem("Open Gallery", "Opens the Pause Menu gallery.");
-            var startRec = new MenuItem("Start Recording", "Start a new game recording using GTA V's built in recording.");
-            var stopRec = new MenuItem("Stop Recording", "Stop and save your current recording.");
-            var openEditor = new MenuItem("Rockstar Editor", "Open the rockstar editor, note you might want to quit the session first before doing this to prevent some issues.");
+            var takePic = new MenuItem("Prendre une photo", "Prend une photo et l'enregistre dans la galerie du menu pause.");
+            var openPmGallery = new MenuItem("Ouvrir la galerie", "Ouvre la galerie du menu pause.");
+            var startRec = new MenuItem("Commencer l'enregistrement", "Commence un nouvel enregistrement de jeu en utilisant l'enregistrement intégré de GTA V.");
+            var stopRec = new MenuItem("Arrêter l'enregistrement", "Arrête et sauvegarde votre enregistrement en cours.");
+            var openEditor = new MenuItem("Éditeur Rockstar", "Ouvre l'éditeur Rockstar, notez qu'il est recommandé de quitter la session avant de le faire pour éviter certains problèmes.");
 
             menu.AddMenuItem(takePic);
             menu.AddMenuItem(openPmGallery);
@@ -39,7 +37,7 @@ namespace vMenuClient.menus
                 {
                     if (IsRecording())
                     {
-                        Notify.Alert("You are already recording a clip, you need to stop recording first before you can start recording again!");
+                        Notify.Alert("Vous êtes déjà en train d'enregistrer un clip, vous devez d'abord arrêter l'enregistrement avant de pouvoir en recommencer un nouveau !");
                     }
                     else
                     {
@@ -60,7 +58,7 @@ namespace vMenuClient.menus
                 {
                     if (!IsRecording())
                     {
-                        Notify.Alert("You are currently NOT recording a clip, you need to start recording first before you can stop and save a clip.");
+                        Notify.Alert("Vous n'êtes actuellement PAS en train d'enregistrer un clip, vous devez d'abord commencer un enregistrement avant de pouvoir l'arrêter et le sauvegarder.");
                     }
                     else
                     {
@@ -74,23 +72,22 @@ namespace vMenuClient.menus
                         QuitSession();
                     }
                     ActivateRockstarEditor();
-                    // wait for the editor to be closed again.
+                    // Attendre que l'éditeur soit fermé.
                     while (IsPauseMenuActive())
                     {
                         await BaseScript.Delay(0);
                     }
-                    // then fade in the screen.
+                    // Puis effectuer un fondu entrant à l'écran.
                     DoScreenFadeIn(1);
-                    Notify.Alert("You left your previous session before entering the Rockstar Editor. Restart the game to be able to rejoin the server's main session.", true, true);
+                    Notify.Alert("Vous avez quitté votre session précédente avant d'entrer dans l'éditeur Rockstar. Redémarrez le jeu pour pouvoir rejoindre la session principale du serveur.", true, true);
                 }
             };
-
         }
 
         /// <summary>
-        /// Create the menu if it doesn't exist, and then returns it.
+        /// Crée le menu s'il n'existe pas, puis le retourne.
         /// </summary>
-        /// <returns>The Menu</returns>
+        /// <returns>Le Menu</returns>
         public Menu GetMenu()
         {
             if (menu == null)

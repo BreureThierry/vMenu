@@ -21,39 +21,39 @@ namespace vMenuClient.menus
         private void CreateMenu()
         {
             // Create the menu.
-            menu = new Menu(Game.Player.Name, "Time Options");
+            menu = new Menu(Game.Player.Name, "Options temporelles");
 
-            // Create all menu items.
-            freezeTimeToggle = new MenuItem("Freeze/Unfreeze Time", "Enable or disable time freezing.");
-            var earlymorning = new MenuItem("Early Morning", "Set the time to 06:00.")
+            // Créer tous les éléments du menu.
+            freezeTimeToggle = new MenuItem("Geler/Dégeler l'heure", "Activer ou désactiver le gel du temps.");
+            var earlymorning = new MenuItem("Tôt le matin", "Régler l'heure à 06:00.")
             {
                 Label = "06:00"
             };
-            var morning = new MenuItem("Morning", "Set the time to 09:00.")
+            var morning = new MenuItem("Matin", "Régler l'heure à 09:00.")
             {
                 Label = "09:00"
             };
-            var noon = new MenuItem("Noon", "Set the time to 12:00.")
+            var noon = new MenuItem("Midi", "Régler l'heure à 12:00.")
             {
                 Label = "12:00"
             };
-            var earlyafternoon = new MenuItem("Early Afternoon", "Set the time to 15:00.")
+            var earlyafternoon = new MenuItem("Début d'après-midi", "Régler l'heure à 15:00.")
             {
                 Label = "15:00"
             };
-            var afternoon = new MenuItem("Afternoon", "Set the time to 18:00.")
+            var afternoon = new MenuItem("Après-midi", "Régler l'heure à 18:00.")
             {
                 Label = "18:00"
             };
-            var evening = new MenuItem("Evening", "Set the time to 21:00.")
+            var evening = new MenuItem("Soir", "Régler l'heure à 21:00.")
             {
                 Label = "21:00"
             };
-            var midnight = new MenuItem("Midnight", "Set the time to 00:00.")
+            var midnight = new MenuItem("Minuit", "Régler l'heure à 00:00.")
             {
                 Label = "00:00"
             };
-            var night = new MenuItem("Night", "Set the time to 03:00.")
+            var night = new MenuItem("Nuit", "Régler l'heure à 03:00.")
             {
                 Label = "03:00"
             };
@@ -68,8 +68,8 @@ namespace vMenuClient.menus
                 }
                 minutes.Add(i.ToString());
             }
-            var manualHour = new MenuListItem("Set Custom Hour", hours, 0);
-            var manualMinute = new MenuListItem("Set Custom Minute", minutes, 0);
+            var manualHour = new MenuListItem("Custom Heure", hours, 0);
+            var manualMinute = new MenuListItem("Custom Minute", minutes, 0);
 
             // Add all menu items to the menu.
             if (IsAllowed(Permission.TOFreezeTime))
@@ -96,7 +96,7 @@ namespace vMenuClient.menus
                 // If it's the freeze time button.
                 if (item == freezeTimeToggle)
                 {
-                    Subtitle.Info($"Time will now {(EventManager.IsServerTimeFrozen ? "~y~continue" : "~o~freeze")}~s~.", prefix: "Info:");
+                    Subtitle.Info($"L'heure est maintenant {(EventManager.IsServerTimeFrozen ? "~y~continuer" : "~o~geler")}~s~.", prefix: "Info :");
                     UpdateServerTime(EventManager.GetServerHours, EventManager.GetServerMinutes, !EventManager.IsServerTimeFrozen);
                 }
                 else
@@ -115,7 +115,7 @@ namespace vMenuClient.menus
                     }
 
                     var newMinute = 0;
-                    Subtitle.Info($"Time set to ~y~{(newHour < 10 ? $"0{newHour}" : newHour.ToString())}~s~:~y~" +
+                    Subtitle.Info($"Heure réglée sur ~y~{(newHour < 10 ? $"0{newHour}" : newHour.ToString())}~s~:~y~" +
                         $"{(newMinute < 10 ? $"0{newMinute}" : newMinute.ToString())}~s~.", prefix: "Info:");
                     UpdateServerTime(newHour, newMinute, EventManager.IsServerTimeFrozen);
                 }
@@ -135,7 +135,7 @@ namespace vMenuClient.menus
                     newMinute = item.ListIndex;
                 }
 
-                Subtitle.Info($"Time set to ~y~{(newHour < 10 ? $"0{newHour}" : newHour.ToString())}~s~:~y~" +
+                Subtitle.Info($"Heure réglée sur ~y~{(newHour < 10 ? $"0{newHour}" : newHour.ToString())}~s~:~y~" +
                         $"{(newMinute < 10 ? $"0{newMinute}" : newMinute.ToString())}~s~.", prefix: "Info:");
                 UpdateServerTime(newHour, newMinute, EventManager.IsServerTimeFrozen);
             };

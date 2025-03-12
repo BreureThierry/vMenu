@@ -24,8 +24,8 @@ namespace vMenuClient
         public static bool PermissionsSetupComplete => ArePermissionsSetup;
         public static bool ConfigOptionsSetupComplete = false;
 
-        public static string MenuToggleKey { get; private set; } = "M"; // M by default
-        public static string NoClipKey { get; private set; } = "F2"; // F2 by default 
+        public static string MenuToggleKey { get; private set; } = "M"; // Par défaut : M
+        public static string NoClipKey { get; private set; } = "F2"; // Par défaut : F2
         public static Menu Menu { get; private set; }
         public static Menu PlayerSubmenu { get; private set; }
         public static Menu VehicleSubmenu { get; private set; }
@@ -64,13 +64,13 @@ namespace vMenuClient
         #endregion
 
         /// <summary>
-        /// Constructor.
+        /// Constructeur.
         /// </summary>
         public MainMenu()
         {
             PlayersList = new NativePlayerList(Players);
 
-            #region cleanup unused kvps
+            #region Nettoyage des KVP inutilisés
             var tmp_kvp_handle = StartFindKvp("");
             var cleanupVersionChecked = false;
             var tmp_kvp_names = new List<string>();
@@ -97,29 +97,30 @@ namespace vMenuClient
                 SetResourceKvpInt("vmenu_cleanup_version", currentCleanupVersion);
                 foreach (var kvp in tmp_kvp_names)
                 {
-#pragma warning disable CS8793 // The given expression always matches the provided pattern.
+#pragma warning disable CS8793 // L'expression donnée correspond toujours au modèle fourni.
                     if (currentCleanupVersion is 1 or 2)
                     {
                         if (!kvp.StartsWith("settings_") && !kvp.StartsWith("vmenu") && !kvp.StartsWith("veh_") && !kvp.StartsWith("ped_") && !kvp.StartsWith("mp_ped_"))
                         {
                             DeleteResourceKvp(kvp);
-                            Debug.WriteLine($"[vMenu] [cleanup id: 1] Removed unused (old) KVP: {kvp}.");
+                            Debug.WriteLine($"[vMenu] [nettoyage id: 1] KVP inutilisé supprimé : {kvp}.");
                         }
                     }
-#pragma warning restore CS8793 // The given expression always matches the provided pattern.
+#pragma warning restore CS8793 // L'expression donnée correspond toujours au modèle fourni.
                     if (currentCleanupVersion == 2)
                     {
                         if (kvp.StartsWith("mp_char"))
                         {
                             DeleteResourceKvp(kvp);
-                            Debug.WriteLine($"[vMenu] [cleanup id: 2] Removed unused (old) KVP: {kvp}.");
+                            Debug.WriteLine($"[vMenu] [nettoyage id: 2] KVP inutilisé supprimé : {kvp}.");
                         }
                     }
                 }
-                Debug.WriteLine("[vMenu] Cleanup of old unused KVP items completed.");
+                Debug.WriteLine("[vMenu] Nettoyage des KVP inutilisés terminé.");
             }
             #endregion
-            #region keymapping
+
+            #region Mapping des touches
             string KeyMappingID = String.IsNullOrWhiteSpace(GetSettingsString(Setting.vmenu_keymapping_id)) ? "Default" : GetSettingsString(Setting.vmenu_keymapping_id);
             RegisterCommand($"vMenu:{KeyMappingID}:NoClip", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
             {
@@ -135,7 +136,7 @@ namespace vMenuClient
                         else
                         {
                             NoClipEnabled = false;
-                            Notify.Error("This vehicle does not exist (somehow) or you need to be the driver of this vehicle to enable noclip!");
+                            Notify.Error("Ce véhicule n'existe pas (d'une manière ou d'une autre) ou vous devez être le conducteur pour activer le noclip !");
                         }
                     }
                     else
@@ -176,11 +177,12 @@ namespace vMenuClient
             {
                 MenuToggleKey = "M";
             }
-            MenuController.MenuToggleKey = (Control)(-1); // disables the menu toggle key
-            RegisterKeyMapping($"vMenu:{KeyMappingID}:NoClip", "vMenu NoClip Toggle Button", "keyboard", NoClipKey);
-            RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "vMenu Toggle Button", "keyboard", MenuToggleKey);
-            RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "vMenu Toggle Button Controller", "pad_digitalbuttonany", "start_index");
+            MenuController.MenuToggleKey = (Control)(-1); // Désactive la touche de bascule du menu
+            RegisterKeyMapping($"vMenu:{KeyMappingID}:NoClip", "Bouton de bascule NoClip de vMenu", "keyboard", NoClipKey);
+            RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "Bouton de bascule de vMenu", "keyboard", MenuToggleKey);
+            RegisterKeyMapping($"vMenu:{KeyMappingID}:MenuToggle", "Bouton de bascule de vMenu (manette)", "pad_digitalbuttonany", "start_index");
             #endregion
+
             if (EnableExperimentalFeatures)
             {
                 RegisterCommand("testped", new Action<dynamic, List<dynamic>, string>((dynamic source, List<dynamic> args, string rawCommand) =>
@@ -215,28 +217,28 @@ namespace vMenuClient
                         if (args[0].ToString().ToLower() == "debug")
                         {
                             DebugMode = !DebugMode;
-                            Notify.Custom($"Debug mode is now set to: {DebugMode}.");
-                            // Set discord rich precense once, allowing it to be overruled by other resources once those load.
+                            Notify.Custom($"Le mode debug est maintenant : {DebugMode}.");
+                            // Définir la présence Discord riche une fois, permettant à d'autres ressources de la remplacer une fois chargées.
                             if (DebugMode)
                             {
-                                SetRichPresence($"Debugging vMenu {Version}!");
+                                SetRichPresence($"Débogage de vMenu {Version} !");
                             }
                             else
                             {
-                                SetRichPresence($"Enjoying FiveM!");
+                                SetRichPresence($"Profitez de FiveM !");
                             }
                         }
                         else if (args[0].ToString().ToLower() == "gc")
                         {
                             GC.Collect();
-                            Debug.Write("Cleared memory.\n");
+                            Debug.Write("Mémoire libérée.\n");
                         }
                         else if (args[0].ToString().ToLower() == "dump")
                         {
-                            Notify.Info("A full config dump will be made to the console. Check the log file. This can cause lag!");
+                            Notify.Info("Un dump complet de la configuration sera effectué dans la console. Vérifiez le fichier de log. Cela peut causer du lag !");
                             Debug.WriteLine("\n\n\n########################### vMenu ###########################");
-                            Debug.WriteLine($"Running vMenu Version: {Version}, Experimental features: {EnableExperimentalFeatures}, Debug mode: {DebugMode}.");
-                            Debug.WriteLine("\nDumping a list of all KVPs:");
+                            Debug.WriteLine($"Exécution de vMenu Version : {Version}, Fonctionnalités expérimentales : {EnableExperimentalFeatures}, Mode debug : {DebugMode}.");
+                            Debug.WriteLine("\nDump de la liste de tous les KVP :");
                             var handle = StartFindKvp("");
                             var names = new List<string>();
                             while (true)
@@ -246,10 +248,6 @@ namespace vMenuClient
                                 {
                                     break;
                                 }
-                                //if (!k.StartsWith("settings_") && !k.StartsWith("vmenu") && !k.StartsWith("veh_") && !k.StartsWith("ped_") && !k.StartsWith("mp_ped_"))
-                                //{
-                                //    DeleteResourceKvp(k);
-                                //}
                                 names.Add(k);
                             }
                             EndFindKvp(handle);
@@ -304,23 +302,23 @@ namespace vMenuClient
                             }
                             Debug.WriteLine(@JsonConvert.SerializeObject(kvps, Formatting.None) + "\n");
 
-                            Debug.WriteLine("\n\nDumping a list of allowed permissions:");
+                            Debug.WriteLine("\n\nDump de la liste des permissions autorisées :");
                             Debug.WriteLine(@JsonConvert.SerializeObject(Permissions, Formatting.None));
 
-                            Debug.WriteLine("\n\nDumping vmenu server configuration settings:");
+                            Debug.WriteLine("\n\nDump des paramètres de configuration du serveur vmenu :");
                             var settings = new Dictionary<string, string>();
                             foreach (var a in Enum.GetValues(typeof(Setting)))
                             {
                                 settings.Add(a.ToString(), GetSettingsString((Setting)a));
                             }
                             Debug.WriteLine(@JsonConvert.SerializeObject(settings, Formatting.None));
-                            Debug.WriteLine("\nEnd of vMenu dump!");
+                            Debug.WriteLine("\nFin du dump de vMenu !");
                             Debug.WriteLine("\n########################### vMenu ###########################");
                         }
                     }
                     else
                     {
-                        Notify.Custom($"vMenu is currently running version: {Version}.");
+                        Notify.Custom($"vMenu est actuellement en version : {Version}.");
                     }
                 }
             }), false);
@@ -330,24 +328,24 @@ namespace vMenuClient
                 MenuController.MainMenu = null;
                 MenuController.DontOpenAnyMenu = true;
                 MenuController.DisableMenuButtons = true;
-                throw new Exception("\n[vMenu] INSTALLATION ERROR!\nThe name of the resource is not valid. Please change the folder name from '" + GetCurrentResourceName() + "' to 'vMenu' (case sensitive)!\n");
+                throw new Exception("\n[vMenu] ERREUR D'INSTALLATION !\nLe nom de la ressource n'est pas valide. Veuillez changer le nom du dossier de '" + GetCurrentResourceName() + "' en 'vMenu' (sensible à la casse) !\n");
             }
             else
             {
                 Tick += OnTick;
             }
 
-            // Clear all previous pause menu info/brief messages on resource start.
+            // Effacer toutes les informations précédentes du menu pause au démarrage de la ressource.
             ClearBrief();
 
-            // Request the permissions data from the server.
+            // Demander les données de permissions au serveur.
             TriggerServerEvent("vMenu:RequestPermissions");
 
-            // Request server state from the server.
+            // Demander l'état du serveur au serveur.
             TriggerServerEvent("vMenu:RequestServerState");
         }
 
-        #region Infinity bits
+        #region Bits Infinity
         [EventHandler("vMenu:SetServerState")]
         public void SetServerState(IDictionary<string, object> data)
         {
@@ -374,7 +372,7 @@ namespace vMenuClient
             var coords = Vector3.Zero;
             var completed = false;
 
-            // TODO: replace with client<->server RPC once implemented in CitizenFX!
+            // TODO: remplacer par RPC client<->serveur une fois implémenté dans CitizenFX !
             Func<Vector3, bool> CallbackFunction = (data) =>
             {
                 coords = data;
@@ -393,9 +391,9 @@ namespace vMenuClient
         }
         #endregion
 
-        #region Set Permissions function
+        #region Fonction de définition des permissions
         /// <summary>
-        /// Set the permissions for this client.
+        /// Définit les permissions pour ce client.
         /// </summary>
         /// <param name="dict"></param>
         public static async void SetPermissions(string permissionsList)
@@ -438,9 +436,9 @@ namespace vMenuClient
         #endregion
 
         /// <summary>
-        /// This setups things as soon as the permissions are loaded.
-        /// It triggers the menu creations, setting of initial flags like PVP, player stats,
-        /// and triggers the creation of Tick functions from the FunctionsController class.
+        /// Configure les éléments dès que les permissions sont chargées.
+        /// Déclenche la création des menus, la définition des drapeaux initiaux comme le PVP, les statistiques du joueur,
+        /// et déclenche la création des fonctions Tick de la classe FunctionsController.
         /// </summary>
         private static void PostPermissionsSetup()
         {
@@ -481,13 +479,13 @@ namespace vMenuClient
                 MenuEnabled = false;
                 return;
             }
-            // Create the main menu.
-            Menu = new Menu(Game.Player.Name, "Main Menu");
-            PlayerSubmenu = new Menu(Game.Player.Name, "Player Related Options");
-            VehicleSubmenu = new Menu(Game.Player.Name, "Vehicle Related Options");
-            WorldSubmenu = new Menu(Game.Player.Name, "World Options");
+            // Créer le menu principal.
+            Menu = new Menu(Game.Player.Name, "Menu Principal");
+            PlayerSubmenu = new Menu(Game.Player.Name, "Options relatives au joueur");
+            VehicleSubmenu = new Menu(Game.Player.Name, "Options relatives aux véhicules");
+            WorldSubmenu = new Menu(Game.Player.Name, "Options du monde");
 
-            // Add the main menu to the menu pool.
+            // Ajouter le menu principal au pool de menus.
             MenuController.AddMenu(Menu);
             MenuController.MainMenu = Menu;
 
@@ -495,12 +493,12 @@ namespace vMenuClient
             MenuController.AddSubmenu(Menu, VehicleSubmenu);
             MenuController.AddSubmenu(Menu, WorldSubmenu);
 
-            // Create all (sub)menus.
+            // Créer tous les (sous-)menus.
             CreateSubmenus();
 
             if (!GetSettingsBool(Setting.vmenu_disable_player_stats_setup))
             {
-                // Manage Stamina
+                // Gérer l'endurance
                 if (PlayerOptionsMenu != null && PlayerOptionsMenu.PlayerStamina && IsAllowed(Permission.POUnlimitedStamina))
                 {
                     StatSetInt((uint)GetHashKey("MP0_STAMINA"), 100, true);
@@ -510,29 +508,29 @@ namespace vMenuClient
                     StatSetInt((uint)GetHashKey("MP0_STAMINA"), 0, true);
                 }
 
-                // Manage other stats, in order of appearance in the pause menu (stats) page.
-                StatSetInt((uint)GetHashKey("MP0_SHOOTING_ABILITY"), 100, true);        // Shooting
-                StatSetInt((uint)GetHashKey("MP0_STRENGTH"), 100, true);                // Strength
-                StatSetInt((uint)GetHashKey("MP0_STEALTH_ABILITY"), 100, true);         // Stealth
-                StatSetInt((uint)GetHashKey("MP0_FLYING_ABILITY"), 100, true);          // Flying
-                StatSetInt((uint)GetHashKey("MP0_WHEELIE_ABILITY"), 100, true);         // Driving
-                StatSetInt((uint)GetHashKey("MP0_LUNG_CAPACITY"), 100, true);           // Lung Capacity
-                StatSetFloat((uint)GetHashKey("MP0_PLAYER_MENTAL_STATE"), 0f, true);    // Mental State
+                // Gérer d'autres statistiques, dans l'ordre d'apparition dans la page des statistiques du menu pause.
+                StatSetInt((uint)GetHashKey("MP0_SHOOTING_ABILITY"), 100, true);        // Tir
+                StatSetInt((uint)GetHashKey("MP0_STRENGTH"), 100, true);                // Force
+                StatSetInt((uint)GetHashKey("MP0_STEALTH_ABILITY"), 100, true);         // Discrétion
+                StatSetInt((uint)GetHashKey("MP0_FLYING_ABILITY"), 100, true);          // Pilotage
+                StatSetInt((uint)GetHashKey("MP0_WHEELIE_ABILITY"), 100, true);         // Conduite
+                StatSetInt((uint)GetHashKey("MP0_LUNG_CAPACITY"), 100, true);           // Capacité pulmonaire
+                StatSetFloat((uint)GetHashKey("MP0_PLAYER_MENTAL_STATE"), 0f, true);    // État mental
             }
 
             TriggerEvent("vMenu:SetupTickFunctions");
         }
 
         /// <summary>
-        /// Main OnTick task runs every game tick and handles all the menu stuff.
+        /// La tâche principale OnTick s'exécute à chaque tick du jeu et gère tout ce qui concerne le menu.
         /// </summary>
         /// <returns></returns>
         private async Task OnTick()
         {
-            // If the setup (permissions) is done, and it's not the first tick, then do this:
+            // Si la configuration (permissions) est terminée et que ce n'est pas le premier tick, alors faire ceci :
             if (ConfigOptionsSetupComplete)
             {
-                #region Handle Opening/Closing of the menu.
+                #region Gestion de l'ouverture/fermeture du menu.
                 var tmpMenu = GetOpenMenu();
                 if (MpPedCustomizationMenu != null)
                 {
@@ -570,44 +568,20 @@ namespace vMenuClient
                 if (Game.IsDisabledControlJustReleased(0, Control.PhoneCancel) && MpPedCustomization.DisableBackButton)
                 {
                     await Delay(0);
-                    Notify.Alert("You must save your ped first before exiting, or click the ~r~Exit Without Saving~s~ button.");
+                    Notify.Alert("Vous devez d'abord sauvegarder votre ped avant de quitter, ou cliquer sur le bouton ~r~Quitter sans sauvegarder~s~.");
                 }
-
-                //if (Game.CurrentInputMode == InputMode.MouseAndKeyboard)
-                //{
-                //    if (Game.IsControlJustPressed(0, (Control)NoClipKey) && IsAllowed(Permission.NoClip) && UpdateOnscreenKeyboard() != 0)
-                //    {
-                //        if (Game.PlayerPed.IsInVehicle())
-                //        {
-                //            var veh = GetVehicle();
-                //            if (veh != null && veh.Exists() && veh.Driver == Game.PlayerPed)
-                //            {
-                //                NoClipEnabled = !NoClipEnabled;
-                //            }
-                //            else
-                //            {
-                //                NoClipEnabled = false;
-                //                Notify.Error("This vehicle does not exist (somehow) or you need to be the driver of this vehicle to enable noclip!");
-                //            }
-                //        }
-                //        else
-                //        {
-                //            NoClipEnabled = !NoClipEnabled;
-                //        }
-                //    }
-                //}
 
                 #endregion
 
-                // Menu toggle button.
+                // Bouton de bascule du menu.
                 //Game.DisableControlThisFrame(0, MenuToggleKey);
             }
         }
 
-        #region Add Menu Function
+        #region Fonction d'ajout de menu
         /// <summary>
-        /// Add the menu to the menu pool and set it up correctly.
-        /// Also add and bind the menu buttons.
+        /// Ajoute le menu au pool de menus et le configure correctement.
+        /// Ajoute et lie également les boutons du menu.
         /// </summary>
         /// <param name="submenu"></param>
         /// <param name="menuButton"></param>
@@ -620,18 +594,18 @@ namespace vMenuClient
         }
         #endregion
 
-        #region Create Submenus
+        #region Création des sous-menus
         /// <summary>
-        /// Creates all the submenus depending on the permissions of the user.
+        /// Crée tous les sous-menus en fonction des permissions de l'utilisateur.
         /// </summary>
         private static void CreateSubmenus()
         {
-            // Add the online players menu.
+            // Ajouter le menu des joueurs en ligne.
             if (IsAllowed(Permission.OPMenu))
             {
                 OnlinePlayersMenu = new OnlinePlayers();
                 var menu = OnlinePlayersMenu.GetMenu();
-                var button = new MenuItem("Online Players", "All currently connected players.")
+                var button = new MenuItem("Joueurs en ligne", "Tous les joueurs actuellement connectés.")
                 {
                     Label = "→→→"
                 };
@@ -651,7 +625,7 @@ namespace vMenuClient
             {
                 BannedPlayersMenu = new BannedPlayers();
                 var menu = BannedPlayersMenu.GetMenu();
-                var button = new MenuItem("Banned Players", "View and manage all banned players in this menu.")
+                var button = new MenuItem("Joueurs bannis", "Voir et gérer tous les joueurs bannis dans ce menu.")
                 {
                     Label = "→→→"
                 };
@@ -666,77 +640,77 @@ namespace vMenuClient
                 };
             }
 
-            var playerSubmenuBtn = new MenuItem("Player Related Options", "Open this submenu for player related subcategories.") { Label = "→→→" };
+            var playerSubmenuBtn = new MenuItem("Options relatives au joueur", "Ouvrir ce sous-menu pour les sous-catégories relatives au joueur.") { Label = "→→→" };
             Menu.AddMenuItem(playerSubmenuBtn);
 
-            // Add the player options menu.
+            // Ajouter le menu des options du joueur.
             if (IsAllowed(Permission.POMenu))
             {
                 PlayerOptionsMenu = new PlayerOptions();
                 var menu = PlayerOptionsMenu.GetMenu();
-                var button = new MenuItem("Player Options", "Common player options can be accessed here.")
+                var button = new MenuItem("Options du joueur", "Les options courantes du joueur peuvent être configurées ici.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(PlayerSubmenu, menu, button);
             }
 
-            var vehicleSubmenuBtn = new MenuItem("Vehicle Related Options", "Open this submenu for vehicle related subcategories.") { Label = "→→→" };
+            var vehicleSubmenuBtn = new MenuItem("Options relatives aux véhicules", "Ouvrir ce sous-menu pour les sous-catégories relatives aux véhicules.") { Label = "→→→" };
             Menu.AddMenuItem(vehicleSubmenuBtn);
-            // Add the vehicle options Menu.
+            // Ajouter le menu des options du véhicule.
             if (IsAllowed(Permission.VOMenu))
             {
                 VehicleOptionsMenu = new VehicleOptions();
                 var menu = VehicleOptionsMenu.GetMenu();
-                var button = new MenuItem("Vehicle Options", "Here you can change common vehicle options, as well as tune & style your vehicle.")
+                var button = new MenuItem("Options du véhicule", "Ici, vous pouvez modifier les options courantes du véhicule, ainsi que tuner et styliser votre véhicule.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(VehicleSubmenu, menu, button);
             }
 
-            // Add the vehicle spawner menu.
+            // Ajouter le menu de spawn des véhicules.
             if (IsAllowed(Permission.VSMenu))
             {
                 VehicleSpawnerMenu = new VehicleSpawner();
                 var menu = VehicleSpawnerMenu.GetMenu();
-                var button = new MenuItem("Vehicle Spawner", "Spawn a vehicle by name or choose one from a specific category.")
+                var button = new MenuItem("Spawn de véhicules", "Faites apparaître un véhicule par nom ou choisissez-en un dans une catégorie spécifique.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(VehicleSubmenu, menu, button);
             }
 
-            // Add Saved Vehicles menu.
+            // Ajouter le menu des véhicules sauvegardés.
             if (IsAllowed(Permission.SVMenu))
             {
                 SavedVehiclesMenu = new SavedVehicles();
                 var menu = SavedVehiclesMenu.GetTypeMenu();
-                var button = new MenuItem("Saved Vehicles", "Save new vehicles, or spawn or delete already saved vehicles.")
+                var button = new MenuItem("Véhicules sauvegardés", "Sauvegardez de nouveaux véhicules, ou faites apparaître ou supprimez des véhicules déjà sauvegardés.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(VehicleSubmenu, menu, button);
             }
 
-            // Add the Personal Vehicle menu.
+            // Ajouter le menu du véhicule personnel.
             if (IsAllowed(Permission.PVMenu))
             {
                 PersonalVehicleMenu = new PersonalVehicle();
                 var menu = PersonalVehicleMenu.GetMenu();
-                var button = new MenuItem("Personal Vehicle", "Set a vehicle as your personal vehicle, and control some things about that vehicle when you're not inside.")
+                var button = new MenuItem("Véhicule personnel", "Définissez un véhicule comme votre véhicule personnel et contrôlez certaines choses à propos de ce véhicule lorsque vous n'êtes pas à l'intérieur.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(VehicleSubmenu, menu, button);
             }
 
-            // Add the player appearance menu.
+            // Ajouter le menu de l'apparence du joueur.
             if (IsAllowed(Permission.PAMenu))
             {
                 PlayerAppearanceMenu = new PlayerAppearance();
                 var menu = PlayerAppearanceMenu.GetMenu();
-                var button = new MenuItem("Player Appearance", "Choose a ped model, customize it and save & load your customized characters.")
+                var button = new MenuItem("Apparence du joueur", "Choisissez un modèle de ped, personnalisez-le et sauvegardez et chargez vos personnages personnalisés.")
                 {
                     Label = "→→→"
                 };
@@ -744,60 +718,60 @@ namespace vMenuClient
 
                 MpPedCustomizationMenu = new MpPedCustomization();
                 var menu2 = MpPedCustomizationMenu.GetMenu();
-                var button2 = new MenuItem("MP Ped Customization", "Create, edit, save and load multiplayer peds. ~r~Note, you can only save peds created in this submenu. vMenu can NOT detect peds created outside of this submenu. Simply due to GTA limitations.")
+                var button2 = new MenuItem("Personnalisation MP Ped", "Créez, modifiez, sauvegardez et chargez des peds multijoueurs. ~r~Note, vous ne pouvez sauvegarder que les peds créés dans ce sous-menu. vMenu ne peut PAS détecter les peds créés en dehors de ce sous-menu. Simplement à cause des limitations de GTA.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(PlayerSubmenu, menu2, button2);
             }
 
-            var worldSubmenuBtn = new MenuItem("World Related Options", "Open this submenu for world related subcategories.") { Label = "→→→" };
+            var worldSubmenuBtn = new MenuItem("Options relatives au monde", "Ouvrir ce sous-menu pour les sous-catégories relatives au monde.") { Label = "→→→" };
             Menu.AddMenuItem(worldSubmenuBtn);
 
-            // Add the time options menu.
-            // check for 'not true' to make sure that it _ONLY_ gets disabled if the owner _REALLY_ wants it disabled, not if they accidentally spelled "false" wrong or whatever.
+            // Ajouter le menu des options de temps.
+            // Vérifier 'not true' pour s'assurer qu'il est _UNIQUEMENT_ désactivé si le propriétaire le _VEUT VRAIMENT_, pas s'il a accidentellement mal orthographié "false" ou autre.
             if (IsAllowed(Permission.TOMenu) && GetSettingsBool(Setting.vmenu_enable_time_sync))
             {
                 TimeOptionsMenu = new TimeOptions();
                 var menu = TimeOptionsMenu.GetMenu();
-                var button = new MenuItem("Time Options", "Change the time, and edit other time related options.")
+                var button = new MenuItem("Options de temps", "Changez l'heure et modifiez d'autres options relatives au temps.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(WorldSubmenu, menu, button);
             }
 
-            // Add the weather options menu.
-            // check for 'not true' to make sure that it _ONLY_ gets disabled if the owner _REALLY_ wants it disabled, not if they accidentally spelled "false" wrong or whatever.
+            // Ajouter le menu des options météo.
+            // Vérifier 'not true' pour s'assurer qu'il est _UNIQUEMENT_ désactivé si le propriétaire le _VEUT VRAIMENT_, pas s'il a accidentellement mal orthographié "false" ou autre.
             if (IsAllowed(Permission.WOMenu) && GetSettingsBool(Setting.vmenu_enable_weather_sync))
             {
                 WeatherOptionsMenu = new WeatherOptions();
                 var menu = WeatherOptionsMenu.GetMenu();
-                var button = new MenuItem("Weather Options", "Change all weather related options here.")
+                var button = new MenuItem("Options météo", "Changez toutes les options relatives à la météo ici.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(WorldSubmenu, menu, button);
             }
 
-            // Add the weapons menu.
+            // Ajouter le menu des armes.
             if (IsAllowed(Permission.WPMenu))
             {
                 WeaponOptionsMenu = new WeaponOptions();
                 var menu = WeaponOptionsMenu.GetMenu();
-                var button = new MenuItem("Weapon Options", "Add/remove weapons, modify weapons and set ammo options.")
+                var button = new MenuItem("Options des armes", "Ajoutez/supprimez des armes, modifiez les armes et définissez les options de munitions.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(PlayerSubmenu, menu, button);
             }
 
-            // Add Weapon Loadouts menu.
+            // Ajouter le menu des loadouts d'armes.
             if (IsAllowed(Permission.WLMenu))
             {
                 WeaponLoadoutsMenu = new WeaponLoadouts();
                 var menu = WeaponLoadoutsMenu.GetMenu();
-                var button = new MenuItem("Weapon Loadouts", "Mange, and spawn saved weapon loadouts.")
+                var button = new MenuItem("Loadouts d'armes", "Gérez et faites apparaître des loadouts d'armes sauvegardés.")
                 {
                     Label = "→→→"
                 };
@@ -806,7 +780,7 @@ namespace vMenuClient
 
             if (IsAllowed(Permission.NoClip))
             {
-                var toggleNoclip = new MenuItem("Toggle NoClip", "Toggle NoClip on or off.");
+                var toggleNoclip = new MenuItem("Activer/Désactiver NoClip", "Active ou désactive le NoClip.");
                 PlayerSubmenu.AddMenuItem(toggleNoclip);
                 PlayerSubmenu.OnItemSelect += (sender, item, index) =>
                 {
@@ -817,12 +791,12 @@ namespace vMenuClient
                 };
             }
 
-            // Add Voice Chat Menu.
+            // Ajouter le menu des paramètres de chat vocal.
             if (IsAllowed(Permission.VCMenu))
             {
                 VoiceChatSettingsMenu = new VoiceChat();
                 var menu = VoiceChatSettingsMenu.GetMenu();
-                var button = new MenuItem("Voice Chat Settings", "Change Voice Chat options here.")
+                var button = new MenuItem("Paramètres du chat vocal", "Changez les options du chat vocal ici.")
                 {
                     Label = "→→→"
                 };
@@ -832,39 +806,39 @@ namespace vMenuClient
             {
                 RecordingMenu = new Recording();
                 var menu = RecordingMenu.GetMenu();
-                var button = new MenuItem("Recording Options", "In-game recording options.")
+                var button = new MenuItem("Options d'enregistrement", "Options d'enregistrement en jeu.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(Menu, menu, button);
             }
 
-            // Add misc settings menu.
+            // Ajouter le menu des paramètres divers.
             {
                 MiscSettingsMenu = new MiscSettings();
                 var menu = MiscSettingsMenu.GetMenu();
-                var button = new MenuItem("Misc Settings", "Miscellaneous vMenu options/settings can be configured here. You can also save your settings in this menu.")
+                var button = new MenuItem("Paramètres divers", "Les options/paramètres divers de vMenu peuvent être configurés ici. Vous pouvez également sauvegarder vos paramètres dans ce menu.")
                 {
                     Label = "→→→"
                 };
                 AddMenu(Menu, menu, button);
             }
 
-            // Add About Menu.
+            // Ajouter le menu À propos.
             AboutMenu = new About();
             var sub = AboutMenu.GetMenu();
-            var btn = new MenuItem("About vMenu", "Information about vMenu.")
+            var btn = new MenuItem("À propos de vMenu", "Informations sur vMenu.")
             {
                 Label = "→→→"
             };
             AddMenu(Menu, sub, btn);
 
-            // Refresh everything.
+            // Tout rafraîchir.
             MenuController.Menus.ForEach((m) => m.RefreshIndex());
 
             if (!GetSettingsBool(Setting.vmenu_use_permissions))
             {
-                Notify.Alert("vMenu is set up to ignore permissions, default permissions will be used.");
+                Notify.Alert("vMenu est configuré pour ignorer les permissions, les permissions par défaut seront utilisées.");
             }
 
             if (PlayerSubmenu.Size > 0)

@@ -22,25 +22,25 @@ namespace vMenuClient.menus
     {
         // Variables
         private Menu menu;
-        public Menu createCharacterMenu = new("Create Character", "Create A New Character");
-        public Menu savedCharactersMenu = new("vMenu", "Manage Saved Characters");
-        public Menu savedCharactersCategoryMenu = new("Category", "I get updated at runtime!");
-        public Menu inheritanceMenu = new("vMenu", "Character Inheritance Options");
-        public Menu appearanceMenu = new("vMenu", "Character Appearance Options");
-        public Menu faceShapeMenu = new("vMenu", "Character Face Shape Options");
-        public Menu tattoosMenu = new("vMenu", "Character Tattoo Options");
-        public Menu clothesMenu = new("vMenu", "Character Clothing Options");
-        public Menu propsMenu = new("vMenu", "Character Props Options");
-        private readonly Menu manageSavedCharacterMenu = new("vMenu", "Manage MP Character");
+        public Menu createCharacterMenu = new("Créer un personnage", "Créer un nouveau personnage");
+        public Menu savedCharactersMenu = new("vMenu", "Gérer les personnages sauvegardés");
+        public Menu savedCharactersCategoryMenu = new("Catégorie", "Je suis mis à jour en temps réel !");
+        public Menu inheritanceMenu = new("vMenu", "Options d'héritage du personnage");
+        public Menu appearanceMenu = new("vMenu", "Options d'apparence du personnage");
+        public Menu faceShapeMenu = new("vMenu", "Options de forme du visage du personnage");
+        public Menu tattoosMenu = new("vMenu", "Options de tatouages du personnage");
+        public Menu clothesMenu = new("vMenu", "Options de vêtements du personnage");
+        public Menu propsMenu = new("vMenu", "Options d'accessoires du personnage");
+        private readonly Menu manageSavedCharacterMenu = new("vMenu", "Gérer le personnage MP");
 
-        // Need to be able to disable/enable these buttons from another class.
-        internal MenuItem createMaleBtn = new("Create Male Character", "Create a new male character.") { Label = "→→→" };
-        internal MenuItem createFemaleBtn = new("Create Female Character", "Create a new female character.") { Label = "→→→" };
-        internal MenuItem editPedBtn = new("Edit Saved Character", "This allows you to edit everything about your saved character. The changes will be saved to this character's save file entry once you hit the save button.");
+        // Nécessite de pouvoir désactiver/activer ces boutons depuis une autre classe.
+        internal MenuItem createMaleBtn = new("Créer un personnage masculin", "Créer un nouveau personnage masculin.") { Label = "→→→" };
+        internal MenuItem createFemaleBtn = new("Créer un personnage féminin", "Créer un nouveau personnage féminin.") { Label = "→→→" };
+        internal MenuItem editPedBtn = new("Modifier un personnage sauvegardé", "Cela vous permet de modifier tout sur votre personnage sauvegardé. Les modifications seront enregistrées dans le fichier de sauvegarde de ce personnage une fois que vous appuyez sur le bouton de sauvegarde.");
 
-        // Need to be editable from other functions
-        private readonly MenuListItem setCategoryBtn = new("Set Character Category", new List<string> { }, 0, "Sets this character's category. Select to save.");
-        private readonly MenuListItem categoryBtn = new("Character Category", new List<string> { }, 0, "Sets this character's category.");
+        // Nécessite d'être modifiable depuis d'autres fonctions
+        private readonly MenuListItem setCategoryBtn = new("Définir la catégorie du personnage", new List<string> { }, 0, "Définit la catégorie de ce personnage. Sélectionnez pour enregistrer.");
+        private readonly MenuListItem categoryBtn = new("Catégorie du personnage", new List<string> { }, 0, "Définit la catégorie de ce personnage.");
 
         public static bool DontCloseMenus { get { return MenuController.PreventExitingMenu; } set { MenuController.PreventExitingMenu = value; } }
         public static bool DisableBackButton { get { return MenuController.DisableBackButton; } set { MenuController.DisableBackButton = value; } }
@@ -196,7 +196,7 @@ namespace vMenuClient.menus
             var eyeColorList = new List<string>();
             for (var i = 0; i < 32; i++)
             {
-                eyeColorList.Add($"Eye Color #{i + 1}");
+                eyeColorList.Add($"Couleur des yeux #{i + 1}");
             }
 
             /*
@@ -298,68 +298,53 @@ namespace vMenuClient.menus
             var currentEyeColor = editPed ? currentCharacter.PedAppearance.eyeColor : 0;
             SetPedEyeColor(Game.PlayerPed.Handle, currentEyeColor);
 
-            var hairStyles = new MenuListItem("Hair Style", hairStylesList, currentHairStyle, "Select a hair style.");
-            //MenuListItem hairColors = new MenuListItem("Hair Color", overlayColorsList, currentHairColor, "Select a hair color.");
-            var hairColors = new MenuListItem("Hair Color", overlayColorsList, currentHairColor, "Select a hair color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
-            //MenuListItem hairHighlightColors = new MenuListItem("Hair Highlight Color", overlayColorsList, currentHairHighlightColor, "Select a hair highlight color.");
-            var hairHighlightColors = new MenuListItem("Hair Highlight Color", overlayColorsList, currentHairHighlightColor, "Select a hair highlight color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
+            var hairStyles = new MenuListItem("Style de cheveux", hairStylesList, currentHairStyle, "Sélectionnez un style de cheveux.");
+            var hairColors = new MenuListItem("Couleur des cheveux", overlayColorsList, currentHairColor, "Sélectionnez une couleur de cheveux.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
+            var hairHighlightColors = new MenuListItem("Couleur des reflets des cheveux", overlayColorsList, currentHairHighlightColor, "Sélectionnez une couleur de reflets pour les cheveux.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
 
-            var blemishesStyle = new MenuListItem("Blemishes Style", blemishesStyleList, currentBlemishesStyle, "Select a blemishes style.");
-            //MenuSliderItem blemishesOpacity = new MenuSliderItem("Blemishes Opacity", "Select a blemishes opacity.", 0, 10, (int)(currentBlemishesOpacity * 10f), false);
-            var blemishesOpacity = new MenuListItem("Blemishes Opacity", opacity, (int)(currentBlemishesOpacity * 10f), "Select a blemishes opacity.") { ShowOpacityPanel = true };
+            var blemishesStyle = new MenuListItem("Style des imperfections", blemishesStyleList, currentBlemishesStyle, "Sélectionnez un style d'imperfections.");
+            var blemishesOpacity = new MenuListItem("Opacité des imperfections", opacity, (int)(currentBlemishesOpacity * 10f), "Sélectionnez l'opacité des imperfections.") { ShowOpacityPanel = true };
 
-            var beardStyles = new MenuListItem("Beard Style", beardStylesList, currentBeardStyle, "Select a beard/facial hair style.");
-            var beardOpacity = new MenuListItem("Beard Opacity", opacity, (int)(currentBeardOpacity * 10f), "Select the opacity for your beard/facial hair.") { ShowOpacityPanel = true };
-            var beardColor = new MenuListItem("Beard Color", overlayColorsList, currentBeardColor, "Select a beard color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
-            //MenuSliderItem beardOpacity = new MenuSliderItem("Beard Opacity", "Select the opacity for your beard/facial hair.", 0, 10, (int)(currentBeardOpacity * 10f), false);
-            //MenuListItem beardColor = new MenuListItem("Beard Color", overlayColorsList, currentBeardColor, "Select a beard color");
+            var beardStyles = new MenuListItem("Style de barbe", beardStylesList, currentBeardStyle, "Sélectionnez un style de barbe/pilosité faciale.");
+            var beardOpacity = new MenuListItem("Opacité de la barbe", opacity, (int)(currentBeardOpacity * 10f), "Sélectionnez l'opacité de votre barbe/pilosité faciale.") { ShowOpacityPanel = true };
+            var beardColor = new MenuListItem("Couleur de la barbe", overlayColorsList, currentBeardColor, "Sélectionnez une couleur de barbe.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
 
-            var eyebrowStyle = new MenuListItem("Eyebrows Style", eyebrowsStyleList, currentEyebrowStyle, "Select an eyebrows style.");
-            var eyebrowOpacity = new MenuListItem("Eyebrows Opacity", opacity, (int)(currentEyebrowOpacity * 10f), "Select the opacity for your eyebrows.") { ShowOpacityPanel = true };
-            var eyebrowColor = new MenuListItem("Eyebrows Color", overlayColorsList, currentEyebrowColor, "Select an eyebrows color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
-            //MenuSliderItem eyebrowOpacity = new MenuSliderItem("Eyebrows Opacity", "Select the opacity for your eyebrows.", 0, 10, (int)(currentEyebrowOpacity * 10f), false);
+            var eyebrowStyle = new MenuListItem("Style des sourcils", eyebrowsStyleList, currentEyebrowStyle, "Sélectionnez un style de sourcils.");
+            var eyebrowOpacity = new MenuListItem("Opacité des sourcils", opacity, (int)(currentEyebrowOpacity * 10f), "Sélectionnez l'opacité de vos sourcils.") { ShowOpacityPanel = true };
+            var eyebrowColor = new MenuListItem("Couleur des sourcils", overlayColorsList, currentEyebrowColor, "Sélectionnez une couleur de sourcils.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
 
-            var ageingStyle = new MenuListItem("Ageing Style", ageingStyleList, currentAgeingStyle, "Select an ageing style.");
-            var ageingOpacity = new MenuListItem("Ageing Opacity", opacity, (int)(currentAgeingOpacity * 10f), "Select an ageing opacity.") { ShowOpacityPanel = true };
-            //MenuSliderItem ageingOpacity = new MenuSliderItem("Ageing Opacity", "Select an ageing opacity.", 0, 10, (int)(currentAgeingOpacity * 10f), false);
+            var ageingStyle = new MenuListItem("Style de vieillissement", ageingStyleList, currentAgeingStyle, "Sélectionnez un style de vieillissement.");
+            var ageingOpacity = new MenuListItem("Opacité du vieillissement", opacity, (int)(currentAgeingOpacity * 10f), "Sélectionnez l'opacité du vieillissement.") { ShowOpacityPanel = true };
 
-            var makeupStyle = new MenuListItem("Makeup Style", makeupStyleList, currentMakeupStyle, "Select a makeup style.");
-            var makeupOpacity = new MenuListItem("Makeup Opacity", opacity, (int)(currentMakeupOpacity * 10f), "Select a makeup opacity") { ShowOpacityPanel = true };
-            //MenuSliderItem makeupOpacity = new MenuSliderItem("Makeup Opacity", 0, 10, (int)(currentMakeupOpacity * 10f), "Select a makeup opacity.");
-            var makeupColor = new MenuListItem("Makeup Color", overlayColorsList, currentMakeupColor, "Select a makeup color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
+            var makeupStyle = new MenuListItem("Style de maquillage", makeupStyleList, currentMakeupStyle, "Sélectionnez un style de maquillage.");
+            var makeupOpacity = new MenuListItem("Opacité du maquillage", opacity, (int)(currentMakeupOpacity * 10f), "Sélectionnez l'opacité du maquillage.") { ShowOpacityPanel = true };
+            var makeupColor = new MenuListItem("Couleur du maquillage", overlayColorsList, currentMakeupColor, "Sélectionnez une couleur de maquillage.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
 
-            var blushStyle = new MenuListItem("Blush Style", blushStyleList, currentBlushStyle, "Select a blush style.");
-            var blushOpacity = new MenuListItem("Blush Opacity", opacity, (int)(currentBlushOpacity * 10f), "Select a blush opacity.") { ShowOpacityPanel = true };
-            //MenuSliderItem blushOpacity = new MenuSliderItem("Blush Opacity", 0, 10, (int)(currentBlushOpacity * 10f), "Select a blush opacity.");
-            var blushColor = new MenuListItem("Blush Color", overlayColorsList, currentBlushColor, "Select a blush color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
+            var blushStyle = new MenuListItem("Style de fard à joues", blushStyleList, currentBlushStyle, "Sélectionnez un style de fard à joues.");
+            var blushOpacity = new MenuListItem("Opacité du fard à joues", opacity, (int)(currentBlushOpacity * 10f), "Sélectionnez l'opacité du fard à joues.") { ShowOpacityPanel = true };
+            var blushColor = new MenuListItem("Couleur du fard à joues", overlayColorsList, currentBlushColor, "Sélectionnez une couleur de fard à joues.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
 
-            var complexionStyle = new MenuListItem("Complexion Style", complexionStyleList, currentComplexionStyle, "Select a complexion style.");
-            //MenuSliderItem complexionOpacity = new MenuSliderItem("Complexion Opacity", 0, 10, (int)(currentComplexionOpacity * 10f), "Select a complexion opacity.");
-            var complexionOpacity = new MenuListItem("Complexion Opacity", opacity, (int)(currentComplexionOpacity * 10f), "Select a complexion opacity.") { ShowOpacityPanel = true };
+            var complexionStyle = new MenuListItem("Style de teint", complexionStyleList, currentComplexionStyle, "Sélectionnez un style de teint.");
+            var complexionOpacity = new MenuListItem("Opacité du teint", opacity, (int)(currentComplexionOpacity * 10f), "Sélectionnez l'opacité du teint.") { ShowOpacityPanel = true };
 
-            var sunDamageStyle = new MenuListItem("Sun Damage Style", sunDamageStyleList, currentSunDamageStyle, "Select a sun damage style.");
-            //MenuSliderItem sunDamageOpacity = new MenuSliderItem("Sun Damage Opacity", 0, 10, (int)(currentSunDamageOpacity * 10f), "Select a sun damage opacity.");
-            var sunDamageOpacity = new MenuListItem("Sun Damage Opacity", opacity, (int)(currentSunDamageOpacity * 10f), "Select a sun damage opacity.") { ShowOpacityPanel = true };
+            var sunDamageStyle = new MenuListItem("Style des dommages du soleil", sunDamageStyleList, currentSunDamageStyle, "Sélectionnez un style de dommages causés par le soleil.");
+            var sunDamageOpacity = new MenuListItem("Opacité des dommages du soleil", opacity, (int)(currentSunDamageOpacity * 10f), "Sélectionnez l'opacité des dommages causés par le soleil.") { ShowOpacityPanel = true };
 
-            var lipstickStyle = new MenuListItem("Lipstick Style", lipstickStyleList, currentLipstickStyle, "Select a lipstick style.");
-            //MenuSliderItem lipstickOpacity = new MenuSliderItem("Lipstick Opacity", 0, 10, (int)(currentLipstickOpacity * 10f), "Select a lipstick opacity.");
-            var lipstickOpacity = new MenuListItem("Lipstick Opacity", opacity, (int)(currentLipstickOpacity * 10f), "Select a lipstick opacity.") { ShowOpacityPanel = true };
-            var lipstickColor = new MenuListItem("Lipstick Color", overlayColorsList, currentLipstickColor, "Select a lipstick color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
+            var lipstickStyle = new MenuListItem("Style de rouge à lèvres", lipstickStyleList, currentLipstickStyle, "Sélectionnez un style de rouge à lèvres.");
+            var lipstickOpacity = new MenuListItem("Opacité du rouge à lèvres", opacity, (int)(currentLipstickOpacity * 10f), "Sélectionnez l'opacité du rouge à lèvres.") { ShowOpacityPanel = true };
+            var lipstickColor = new MenuListItem("Couleur du rouge à lèvres", overlayColorsList, currentLipstickColor, "Sélectionnez une couleur de rouge à lèvres.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Makeup };
 
-            var molesFrecklesStyle = new MenuListItem("Moles and Freckles Style", molesFrecklesStyleList, currentMolesFrecklesStyle, "Select a moles and freckles style.");
-            //MenuSliderItem molesFrecklesOpacity = new MenuSliderItem("Moles and Freckles Opacity", 0, 10, (int)(currentMolesFrecklesOpacity * 10f), "Select a moles and freckles opacity.");
-            var molesFrecklesOpacity = new MenuListItem("Moles and Freckles Opacity", opacity, (int)(currentMolesFrecklesOpacity * 10f), "Select a moles and freckles opacity.") { ShowOpacityPanel = true };
+            var molesFrecklesStyle = new MenuListItem("Style des grains de beauté et taches de rousseur", molesFrecklesStyleList, currentMolesFrecklesStyle, "Sélectionnez un style de grains de beauté et taches de rousseur.");
+            var molesFrecklesOpacity = new MenuListItem("Opacité des grains de beauté et taches de rousseur", opacity, (int)(currentMolesFrecklesOpacity * 10f), "Sélectionnez l'opacité des grains de beauté et taches de rousseur.") { ShowOpacityPanel = true };
 
-            var chestHairStyle = new MenuListItem("Chest Hair Style", chestHairStyleList, currentChesthairStyle, "Select a chest hair style.");
-            //MenuSliderItem chestHairOpacity = new MenuSliderItem("Chest Hair Opacity", 0, 10, (int)(currentChesthairOpacity * 10f), "Select a chest hair opacity.");
-            var chestHairOpacity = new MenuListItem("Chest Hair Opacity", opacity, (int)(currentChesthairOpacity * 10f), "Select a chest hair opacity.") { ShowOpacityPanel = true };
-            var chestHairColor = new MenuListItem("Chest Hair Color", overlayColorsList, currentChesthairColor, "Select a chest hair color.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
+            var chestHairStyle = new MenuListItem("Style des poils de torse", chestHairStyleList, currentChesthairStyle, "Sélectionnez un style de poils de torse.");
+            var chestHairOpacity = new MenuListItem("Opacité des poils de torse", opacity, (int)(currentChesthairOpacity * 10f), "Sélectionnez l'opacité des poils de torse.") { ShowOpacityPanel = true };
+            var chestHairColor = new MenuListItem("Couleur des poils de torse", overlayColorsList, currentChesthairColor, "Sélectionnez une couleur de poils de torse.") { ShowColorPanel = true, ColorPanelColorType = MenuListItem.ColorPanelType.Hair };
 
-            // Body blemishes
-            var bodyBlemishesStyle = new MenuListItem("Body Blemishes Style", bodyBlemishesList, currentBodyBlemishesStyle, "Select body blemishes style.");
-            var bodyBlemishesOpacity = new MenuListItem("Body Blemishes Opacity", opacity, (int)(currentBodyBlemishesOpacity * 10f), "Select body blemishes opacity.") { ShowOpacityPanel = true };
+            var bodyBlemishesStyle = new MenuListItem("Style des imperfections corporelles", bodyBlemishesList, currentBodyBlemishesStyle, "Sélectionnez un style d'imperfections corporelles.");
+            var bodyBlemishesOpacity = new MenuListItem("Opacité des imperfections corporelles", opacity, (int)(currentBodyBlemishesOpacity * 10f), "Sélectionnez l'opacité des imperfections corporelles.") { ShowOpacityPanel = true };
 
-            var eyeColor = new MenuListItem("Eye Colors", eyeColorList, currentEyeColor, "Select an eye/contact lens color.");
+            var eyeColor = new MenuListItem("Couleur des yeux", eyeColorList, currentEyeColor, "Sélectionnez une couleur d'yeux/verres de contact.");
 
             appearanceMenu.AddMenuItem(hairStyles);
             appearanceMenu.AddMenuItem(hairColors);
@@ -458,34 +443,34 @@ namespace vMenuClient.menus
             {
                 beardStyles.Enabled = false;
                 beardStyles.LeftIcon = MenuItem.Icon.LOCK;
-                beardStyles.Description = "This is not available for female characters.";
+                beardStyles.Description = "Cette option n'est pas disponible pour les personnages féminins.";
 
                 beardOpacity.Enabled = false;
                 beardOpacity.LeftIcon = MenuItem.Icon.LOCK;
-                beardOpacity.Description = "This is not available for female characters.";
+                beardOpacity.Description = "Cette option n'est pas disponible pour les personnages féminins.";
 
                 beardColor.Enabled = false;
                 beardColor.LeftIcon = MenuItem.Icon.LOCK;
-                beardColor.Description = "This is not available for female characters.";
+                beardColor.Description = "Cette option n'est pas disponible pour les personnages féminins.";
 
 
                 chestHairStyle.Enabled = false;
                 chestHairStyle.LeftIcon = MenuItem.Icon.LOCK;
-                chestHairStyle.Description = "This is not available for female characters.";
+                chestHairStyle.Description = "Cette option n'est pas disponible pour les personnages féminins.";
 
                 chestHairOpacity.Enabled = false;
                 chestHairOpacity.LeftIcon = MenuItem.Icon.LOCK;
-                chestHairOpacity.Description = "This is not available for female characters.";
+                chestHairOpacity.Description = "Cette option n'est pas disponible pour les personnages féminins.";
 
                 chestHairColor.Enabled = false;
                 chestHairColor.LeftIcon = MenuItem.Icon.LOCK;
-                chestHairColor.Description = "This is not available for female characters.";
+                chestHairColor.Description = "Cette option n'est pas disponible pour les personnages féminins.";
             }
 
             #endregion
 
             #region clothing options menu
-            var clothingCategoryNames = new string[12] { "Unused (head)", "Masks", "Unused (hair)", "Upper Body", "Lower Body", "Bags & Parachutes", "Shoes", "Scarfs & Chains", "Shirt & Accessory", "Body Armor & Accessory 2", "Badges & Logos", "Shirt Overlay & Jackets" };
+            var clothingCategoryNames = new string[12] { "Inutilisé (tête)", "Masques", "Inutilisé (cheveux)", "Haut du corps", "Bas du corps", "Sacs et parachutes", "Chaussures", "Écharpes et chaînes", "Chemises et accessoires", "Armures corporelles et accessoires 2", "Badges et logos", "Chemises superposées et vestes" };
             for (var i = 0; i < 12; i++)
             {
                 if (i is not 0 and not 2)
@@ -498,19 +483,19 @@ namespace vMenuClient.menus
                     var items = new List<string>();
                     for (var x = 0; x < maxDrawables; x++)
                     {
-                        items.Add($"Drawable #{x} (of {maxDrawables})");
+                        items.Add($"Texture #{x} (sur {maxDrawables})");
                     }
 
                     var maxTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, i, currentVariationIndex);
 
-                    var listItem = new MenuListItem(clothingCategoryNames[i], items, currentVariationIndex, $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{currentVariationTextureIndex + 1} (of {maxTextures}).");
+                    var listItem = new MenuListItem(clothingCategoryNames[i], items, currentVariationIndex, $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Texture actuellement sélectionnée : #{currentVariationTextureIndex + 1} (of {maxTextures}).");
                     clothesMenu.AddMenuItem(listItem);
                 }
             }
             #endregion
 
             #region props options menu
-            var propNames = new string[5] { "Hats & Helmets", "Glasses", "Misc Props", "Watches", "Bracelets" };
+            var propNames = new string[5] { "Chapeaux & Casques", "Lunettes", "Accessoires divers", "Montres", "Bracelets" };
             for (var x = 0; x < 5; x++)
             {
                 var propId = x;
@@ -525,20 +510,20 @@ namespace vMenuClient.menus
                 var propsList = new List<string>();
                 for (var i = 0; i < GetNumberOfPedPropDrawableVariations(Game.PlayerPed.Handle, propId); i++)
                 {
-                    propsList.Add($"Prop #{i} (of {GetNumberOfPedPropDrawableVariations(Game.PlayerPed.Handle, propId)})");
+                    propsList.Add($"Accessoire #{i} (sur {GetNumberOfPedPropDrawableVariations(Game.PlayerPed.Handle, propId)})");
                 }
-                propsList.Add("No Prop");
+                propsList.Add("Pas d'accessoire");
 
 
                 if (GetPedPropIndex(Game.PlayerPed.Handle, propId) != -1)
                 {
                     var maxPropTextures = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, propId, currentProp);
-                    var propListItem = new MenuListItem($"{propNames[x]}", propsList, currentProp, $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{currentPropTexture + 1} (of {maxPropTextures}).");
+                    var propListItem = new MenuListItem($"{propNames[x]}", propsList, currentProp, $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~Entrée~s~ pour parcourir toutes les textures disponibles. Texture actuellement sélectionnée : #{currentPropTexture + 1} (sur {maxPropTextures}).");
                     propsMenu.AddMenuItem(propListItem);
                 }
                 else
                 {
-                    var propListItem = new MenuListItem($"{propNames[x]}", propsList, currentProp, "Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.");
+                    var propListItem = new MenuListItem($"{propNames[x]}", propsList, currentProp, "Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~Entrée~s~ pour parcourir toutes les textures disponibles.");
                     propsMenu.AddMenuItem(propListItem);
                 }
 
@@ -592,43 +577,43 @@ namespace vMenuClient.menus
                 var counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.HEAD)
                 {
-                    headTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.HEAD.Count})");
+                    headTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.HEAD.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.TORSO)
                 {
-                    torsoTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.TORSO.Count})");
+                    torsoTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.TORSO.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.LEFT_ARM)
                 {
-                    leftArmTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.LEFT_ARM.Count})");
+                    leftArmTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.LEFT_ARM.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.RIGHT_ARM)
                 {
-                    rightArmTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.RIGHT_ARM.Count})");
+                    rightArmTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.RIGHT_ARM.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.LEFT_LEG)
                 {
-                    leftLegTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.LEFT_LEG.Count})");
+                    leftLegTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.LEFT_LEG.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.RIGHT_LEG)
                 {
-                    rightLegTattoosList.Add($"Tattoo #{counter} (of {MaleTattoosCollection.RIGHT_LEG.Count})");
+                    rightLegTattoosList.Add($"Tatouage #{counter} (sur {MaleTattoosCollection.RIGHT_LEG.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in MaleTattoosCollection.BADGES)
                 {
-                    badgeTattoosList.Add($"Badge #{counter} (of {MaleTattoosCollection.BADGES.Count})");
+                    badgeTattoosList.Add($"Badge #{counter} (sur {MaleTattoosCollection.BADGES.Count})");
                     counter++;
                 }
             }
@@ -637,55 +622,55 @@ namespace vMenuClient.menus
                 var counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.HEAD)
                 {
-                    headTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.HEAD.Count})");
+                    headTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.HEAD.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.TORSO)
                 {
-                    torsoTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.TORSO.Count})");
+                    torsoTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.TORSO.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.LEFT_ARM)
                 {
-                    leftArmTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.LEFT_ARM.Count})");
+                    leftArmTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.LEFT_ARM.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.RIGHT_ARM)
                 {
-                    rightArmTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.RIGHT_ARM.Count})");
+                    rightArmTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.RIGHT_ARM.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.LEFT_LEG)
                 {
-                    leftLegTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.LEFT_LEG.Count})");
+                    leftLegTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.LEFT_LEG.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.RIGHT_LEG)
                 {
-                    rightLegTattoosList.Add($"Tattoo #{counter} (of {FemaleTattoosCollection.RIGHT_LEG.Count})");
+                    rightLegTattoosList.Add($"Tatouage #{counter} (sur {FemaleTattoosCollection.RIGHT_LEG.Count})");
                     counter++;
                 }
                 counter = 1;
                 foreach (var tattoo in FemaleTattoosCollection.BADGES)
                 {
-                    badgeTattoosList.Add($"Badge #{counter} (of {FemaleTattoosCollection.BADGES.Count})");
+                    badgeTattoosList.Add($"Badge #{counter} (sur {FemaleTattoosCollection.BADGES.Count})");
                     counter++;
                 }
             }
 
-            const string tatDesc = "Cycle through the list to preview tattoos. If you like one, press enter to select it, selecting it will add the tattoo if you don't already have it. If you already have that tattoo then the tattoo will be removed.";
-            var headTatts = new MenuListItem("Head Tattoos", headTattoosList, 0, tatDesc);
-            var torsoTatts = new MenuListItem("Torso Tattoos", torsoTattoosList, 0, tatDesc);
-            var leftArmTatts = new MenuListItem("Left Arm Tattoos", leftArmTattoosList, 0, tatDesc);
-            var rightArmTatts = new MenuListItem("Right Arm Tattoos", rightArmTattoosList, 0, tatDesc);
-            var leftLegTatts = new MenuListItem("Left Leg Tattoos", leftLegTattoosList, 0, tatDesc);
-            var rightLegTatts = new MenuListItem("Right Leg Tattoos", rightLegTattoosList, 0, tatDesc);
-            var badgeTatts = new MenuListItem("Badge Overlays", badgeTattoosList, 0, tatDesc);
+            const string tatDesc = "Parcourez la liste pour prévisualiser les tatouages. Si vous en aimez un, appuyez sur Entrée pour le sélectionner. La sélection ajoutera le tatouage si vous ne l'avez pas déjà. Si vous avez déjà ce tatouage, il sera supprimé.";
+            var headTatts = new MenuListItem("Tatouages de la tête", headTattoosList, 0, tatDesc);
+            var torsoTatts = new MenuListItem("Tatouages du torse", torsoTattoosList, 0, tatDesc);
+            var leftArmTatts = new MenuListItem("Tatouages du bras gauche", leftArmTattoosList, 0, tatDesc);
+            var rightArmTatts = new MenuListItem("Tatouages du bras droit", rightArmTattoosList, 0, tatDesc);
+            var leftLegTatts = new MenuListItem("Tatouages de la jambe gauche", leftLegTattoosList, 0, tatDesc);
+            var rightLegTatts = new MenuListItem("Tatouages de la jambe droite", rightLegTattoosList, 0, tatDesc);
+            var badgeTatts = new MenuListItem("Superpositions de badges", badgeTattoosList, 0, tatDesc);
 
             tattoosMenu.AddMenuItem(headTatts);
             tattoosMenu.AddMenuItem(torsoTatts);
@@ -694,7 +679,7 @@ namespace vMenuClient.menus
             tattoosMenu.AddMenuItem(leftLegTatts);
             tattoosMenu.AddMenuItem(rightLegTatts);
             tattoosMenu.AddMenuItem(badgeTatts);
-            tattoosMenu.AddMenuItem(new MenuItem("Remove All Tattoos", "Click this if you want to remove all tattoos and start over."));
+            tattoosMenu.AddMenuItem(new MenuItem("Enlever tous les tatouages", "Cliquez sur ce bouton si vous souhaitez supprimer tous les tatouages et recommencer à zéro."));
             #endregion
 
             List<string> categoryNames = GetAllCategoryNames();
@@ -726,18 +711,18 @@ namespace vMenuClient.menus
                 var json = JsonConvert.SerializeObject(currentCharacter);
                 if (StorageManager.SaveJsonData(currentCharacter.SaveName, json, true))
                 {
-                    Notify.Success("Your character was saved successfully.");
+                    Notify.Success("Votre personnage a été sauvegardé avec succès.");
                     return true;
                 }
                 else
                 {
-                    Notify.Error("Your character could not be saved. Reason unknown. :(");
+                    Notify.Error("Votre personnage n'a pas pu être sauvegardé. Raison inconnue. :(");
                     return false;
                 }
             }
             else
             {
-                var name = await GetUserInput(windowTitle: "Enter a save name.", maxInputLength: 30);
+                var name = await GetUserInput(windowTitle: "Saisissez un nom de sauvegarde.", maxInputLength: 30);
                 if (string.IsNullOrEmpty(name))
                 {
                     Notify.Error(CommonErrors.InvalidInput);
@@ -750,13 +735,13 @@ namespace vMenuClient.menus
 
                     if (StorageManager.SaveJsonData("mp_ped_" + name, json, false))
                     {
-                        Notify.Success($"Your character (~g~<C>{name}</C>~s~) has been saved.");
-                        Log($"Saved Character {name}. Data: {json}");
+                        Notify.Success($"Votre personnage (~g~<C>{name}</C>~s~) a été sauvegardé.");
+                        Log($"Personnage sauvegardé {name}. Data: {json}");
                         return true;
                     }
                     else
                     {
-                        Notify.Error($"Saving failed, most likely because this name (~y~<C>{name}</C>~s~) is already in use.");
+                        Notify.Error($"La sauvegarde a échoué, très probablement parce que ce nom (~y~<C>{name}</C>~s~) est déjà utilisé.");
                         return false;
                     }
                 }
@@ -776,7 +761,7 @@ namespace vMenuClient.menus
 
             for (int i = 0; i < GetNumHairColors(); i++)
             {
-                overlayColorsList.Add($"Color #{i + 1}");
+                overlayColorsList.Add($"Couleur #{i + 1}");
             }
 
             for (int i = 0; i < GetNumHeadOverlayValues(0); i++)
@@ -840,9 +825,9 @@ namespace vMenuClient.menus
             }
 
             // Create the menu.
-            menu = new Menu(Game.Player.Name, "MP Ped Customization");
+            menu = new Menu(Game.Player.Name, "Personnalisation Ped MP");
 
-            var savedCharacters = new MenuItem("Saved Characters", "Spawn, edit or delete your existing saved multiplayer characters.")
+            var savedCharacters = new MenuItem("Personnages sauvegardés", "Créez, modifiez ou supprimez vos personnages multijoueurs sauvegardés.")
             {
                 Label = "→→→"
             };
@@ -868,49 +853,48 @@ namespace vMenuClient.menus
 
             menu.RefreshIndex();
 
-            createCharacterMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            inheritanceMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            appearanceMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            faceShapeMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            tattoosMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            clothesMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
-            propsMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Turn Head");
+            createCharacterMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            inheritanceMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            appearanceMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            faceShapeMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            tattoosMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            clothesMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
+            propsMenu.InstructionalButtons.Add(Control.MoveLeftRight, "Tourner la tête");
 
-            createCharacterMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            inheritanceMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            appearanceMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            faceShapeMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            tattoosMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            clothesMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
-            propsMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Turn Character");
+            createCharacterMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            inheritanceMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            appearanceMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            faceShapeMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            tattoosMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            clothesMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
+            propsMenu.InstructionalButtons.Add(Control.PhoneExtraOption, "Tourner le personnage");
 
-            createCharacterMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            inheritanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            appearanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            faceShapeMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            tattoosMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            clothesMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
-            propsMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Turn Camera Right");
+            createCharacterMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            inheritanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            appearanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            faceShapeMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            tattoosMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            clothesMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
+            propsMenu.InstructionalButtons.Add(Control.ParachuteBrakeRight, "Tourner la caméra à droite");
 
-            createCharacterMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            inheritanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            appearanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            faceShapeMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            tattoosMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            clothesMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
-            propsMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Turn Camera Left");
+            createCharacterMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            inheritanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            appearanceMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            faceShapeMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            tattoosMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            clothesMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
+            propsMenu.InstructionalButtons.Add(Control.ParachuteBrakeLeft, "Tourner la caméra à gauche");
 
-
-            var randomizeButton = new MenuItem("Randomize Character", "Randomize character appearance.");
-            var inheritanceButton = new MenuItem("Character Inheritance", "Character inheritance options.");
-            var appearanceButton = new MenuItem("Character Appearance", "Character appearance options.");
-            var faceButton = new MenuItem("Character Face Shape Options", "Character face shape options.");
-            var tattoosButton = new MenuItem("Character Tattoo Options", "Character tattoo options.");
-            var clothesButton = new MenuItem("Character Clothes", "Character clothes.");
-            var propsButton = new MenuItem("Character Props", "Character props.");
-            var saveButton = new MenuItem("Save Character", "Save your character.");
-            var exitNoSave = new MenuItem("Exit Without Saving", "Are you sure? All unsaved work will be lost.");
-            var faceExpressionList = new MenuListItem("Facial Expression", new List<string> { "Normal", "Happy", "Angry", "Aiming", "Injured", "Stressed", "Smug", "Sulk" }, 0, "Set a facial expression that will be used whenever your ped is idling.");
+            var randomizeButton = new MenuItem("Personnalisation aléatoire", "Personnalise aléatoirement l'apparence du personnage.");
+            var inheritanceButton = new MenuItem("Héritage du personnage", "Options d'héritage du personnage.");
+            var appearanceButton = new MenuItem("Apparence du personnage", "Options d'apparence du personnage.");
+            var faceButton = new MenuItem("Options de la forme du visage", "Options de la forme du visage du personnage.");
+            var tattoosButton = new MenuItem("Options des tatouages", "Options des tatouages du personnage.");
+            var clothesButton = new MenuItem("Vêtements du personnage", "Vêtements du personnage.");
+            var propsButton = new MenuItem("Accessoires du personnage", "Accessoires du personnage.");
+            var saveButton = new MenuItem("Sauvegarder le personnage", "Sauvegarde votre personnage.");
+            var exitNoSave = new MenuItem("Quitter sans sauvegarder", "Êtes-vous sûr ? Tout travail non sauvegardé sera perdu.");
+            var faceExpressionList = new MenuListItem("Expression faciale", new List<string> { "Normal", "Heureux", "En colère", "En visée", "Blessé", "Stressé", "Suffisant", "Boudeur" }, 0, "Définissez une expression faciale qui sera utilisée lorsque votre personnage est inactif.");
 
             inheritanceButton.Label = "→→→";
             appearanceButton.Label = "→→→";
@@ -1007,10 +991,10 @@ namespace vMenuClient.menus
                 listIdx++;
             }
 
-            var inheritanceDads = new MenuListItem("Father", dads.Keys.ToList(), 0, "Select a father.");
-            var inheritanceMoms = new MenuListItem("Mother", moms.Keys.ToList(), 0, "Select a mother.");
-            var inheritanceShapeMix = new MenuSliderItem("Head Shape Mix", "Select how much of your head shape should be inherited from your father or mother. All the way on the left is your dad, all the way on the right is your mom.", 0, 10, 5, true) { SliderLeftIcon = MenuItem.Icon.MALE, SliderRightIcon = MenuItem.Icon.FEMALE };
-            var inheritanceSkinMix = new MenuSliderItem("Body Skin Mix", "Select how much of your body skin tone should be inherited from your father or mother. All the way on the left is your dad, all the way on the right is your mom.", 0, 10, 5, true) { SliderLeftIcon = MenuItem.Icon.MALE, SliderRightIcon = MenuItem.Icon.FEMALE };
+            var inheritanceDads = new MenuListItem("Père", dads.Keys.ToList(), 0, "Sélectionnez un père.");
+            var inheritanceMoms = new MenuListItem("Mère", moms.Keys.ToList(), 0, "Sélectionnez une mère.");
+            var inheritanceShapeMix = new MenuSliderItem("Mélange de tête", "Choisissez la part de la forme de votre tête qui doit être héritée de votre père ou de votre mère. Tout à gauche, c'est votre père, tout à droite, c'est votre mère.", 0, 10, 5, true) { SliderLeftIcon = MenuItem.Icon.MALE, SliderRightIcon = MenuItem.Icon.FEMALE };
+            var inheritanceSkinMix = new MenuSliderItem("Mélange de peaux", "Choisissez la proportion de votre teint qui doit être héritée de votre père ou de votre mère. Tout à gauche, c'est votre père, tout à droite, c'est votre mère.", 0, 10, 5, true) { SliderLeftIcon = MenuItem.Icon.MALE, SliderRightIcon = MenuItem.Icon.FEMALE };
 
             inheritanceMenu.AddMenuItem(inheritanceDads);
             inheritanceMenu.AddMenuItem(inheritanceMoms);
@@ -1309,7 +1293,7 @@ namespace vMenuClient.menus
                 var maxTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, componentIndex, newSelectionIndex);
 
                 currentCharacter.DrawableVariations.clothes[componentIndex] = new KeyValuePair<int, int>(newSelectionIndex, newTextureIndex);
-                listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxTextures}).";
+                listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Texture actuellement sélectionnée : #{newTextureIndex + 1} (of {maxTextures}).";
             };
 
             clothesMenu.OnListItemSelect += (sender, listItem, listIndex, realIndex) =>
@@ -1328,7 +1312,7 @@ namespace vMenuClient.menus
                 var maxTextures = GetNumberOfPedTextureVariations(Game.PlayerPed.Handle, componentIndex, listIndex);
 
                 currentCharacter.DrawableVariations.clothes[componentIndex] = new KeyValuePair<int, int>(listIndex, newTextureIndex);
-                listItem.Description = $"Select a drawable using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxTextures}).";
+                listItem.Description = $"Sélectionnez une texture à l'aide des touches fléchées et appuyez sur ~o~entrer~s~. Texture actuellement sélectionnée : #{newTextureIndex + 1} (sur {maxTextures}).";
             };
             #endregion
 
@@ -1352,7 +1336,7 @@ namespace vMenuClient.menus
                     ClearPedProp(Game.PlayerPed.Handle, propIndex);
                     currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
                     currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(-1, -1);
-                    listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                    listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~";
                 }
                 else
                 {
@@ -1361,12 +1345,12 @@ namespace vMenuClient.menus
                     currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(newSelectionIndex, textureIndex);
                     if (GetPedPropIndex(Game.PlayerPed.Handle, propIndex) == -1)
                     {
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                        listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~";
                     }
                     else
                     {
                         var maxPropTextures = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, propIndex, newSelectionIndex);
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{textureIndex + 1} (of {maxPropTextures}).";
+                        listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~. Texture actuellement sélectionnée : #{textureIndex + 1} (sur {maxPropTextures}).";
                     }
                 }
             };
@@ -1391,7 +1375,7 @@ namespace vMenuClient.menus
                     ClearPedProp(Game.PlayerPed.Handle, propIndex);
                     currentCharacter.PropVariations.props ??= new Dictionary<int, KeyValuePair<int, int>>();
                     currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(-1, -1);
-                    listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                    listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~";
                 }
                 else
                 {
@@ -1400,12 +1384,12 @@ namespace vMenuClient.menus
                     currentCharacter.PropVariations.props[propIndex] = new KeyValuePair<int, int>(listIndex, newTextureIndex);
                     if (GetPedPropIndex(Game.PlayerPed.Handle, propIndex) == -1)
                     {
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures.";
+                        listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~";
                     }
                     else
                     {
                         var maxPropTextures = GetNumberOfPedPropTextureVariations(Game.PlayerPed.Handle, propIndex, listIndex);
-                        listItem.Description = $"Select a prop using the arrow keys and press ~o~enter~s~ to cycle through all available textures. Currently selected texture: #{newTextureIndex + 1} (of {maxPropTextures}).";
+                        listItem.Description = $"Sélectionnez un accessoire à l'aide des touches fléchées et appuyez sur ~o~enter~s~. Texture actuellement sélectionnée : #{newTextureIndex + 1} (of {maxPropTextures}).";
                     }
                 }
                 //propsMenu.UpdateScaleform();
@@ -1438,31 +1422,31 @@ namespace vMenuClient.menus
 
             var faceFeaturesNamesList = new string[20]
             {
-                "Nose Width",               // 0
-                "Noes Peak Height",         // 1
-                "Nose Peak Length",         // 2
-                "Nose Bone Height",         // 3
-                "Nose Peak Lowering",       // 4
-                "Nose Bone Twist",          // 5
-                "Eyebrows Height",          // 6
-                "Eyebrows Depth",           // 7
-                "Cheekbones Height",        // 8
-                "Cheekbones Width",         // 9
-                "Cheeks Width",             // 10
-                "Eyes Opening",             // 11
-                "Lips Thickness",           // 12
-                "Jaw Bone Width",           // 13
-                "Jaw Bone Depth/Length",    // 14
-                "Chin Height",              // 15
-                "Chin Depth/Length",        // 16
-                "Chin Width",               // 17
-                "Chin Hole Size",           // 18
-                "Neck Thickness"            // 19
+                "Largeur du nez",           
+                "Hauteur de la pointe du nez",          
+                "Longueur de la pointe du nez",         
+                "Hauteur de l'os du nez",           
+                "Abaissement de la pointe du nez",          
+                "Torsion de l'os du nez",           
+                "Hauteur des sourcils",         
+                "Profondeur des sourcils",          
+                "Hauteur des pommettes",            
+                "Largeur des pommettes",            
+                "Largeur des joues",           
+                "Ouverture des yeux",          
+                "Épaisseur des lèvres",            
+                "Largeur de l'os de la mâchoire",          
+                "Profondeur/longueur de l'os de la mâchoire",          
+                "Hauteur du menton",           
+                "Profondeur/longueur du menton",           
+                "Largeur du menton",           
+                "Taille du trou du menton",            
+                "Épaisseur du coup"
             };
 
             for (var i = 0; i < 20; i++)
             {
-                var faceFeature = new MenuSliderItem(faceFeaturesNamesList[i], $"Set the {faceFeaturesNamesList[i]} face feature value.", 0, 20, 10, true);
+                var faceFeature = new MenuSliderItem(faceFeaturesNamesList[i], $"Définir le/la {faceFeaturesNamesList[i]}.", 0, 20, 10, true);
                 faceShapeMenu.AddMenuItem(faceFeature);
             }
 
@@ -1615,12 +1599,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.HeadTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.HeadTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.HeadTattoos.Add(tat);
                     }
                 }
@@ -1630,12 +1614,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.TorsoTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.TorsoTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.TorsoTattoos.Add(tat);
                     }
                 }
@@ -1645,12 +1629,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.LeftArmTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.LeftArmTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.LeftArmTattoos.Add(tat);
                     }
                 }
@@ -1660,12 +1644,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.RightArmTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.RightArmTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.RightArmTattoos.Add(tat);
                     }
                 }
@@ -1675,12 +1659,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.LeftLegTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.LeftLegTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.LeftLegTattoos.Add(tat);
                     }
                 }
@@ -1690,12 +1674,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.RightLegTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.RightLegTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Tattoo #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.RightLegTattoos.Add(tat);
                     }
                 }
@@ -1705,12 +1689,12 @@ namespace vMenuClient.menus
                     var tat = new KeyValuePair<string, string>(Tattoo.collectionName, Tattoo.name);
                     if (currentCharacter.PedTatttoos.BadgeTattoos.Contains(tat))
                     {
-                        Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~r~removed~s~.");
+                        Subtitle.Custom($"Badge #{tattooIndex + 1} a été ~r~retiré~s~.");
                         currentCharacter.PedTatttoos.BadgeTattoos.Remove(tat);
                     }
                     else
                     {
-                        Subtitle.Custom($"Badge #{tattooIndex + 1} has been ~g~added~s~.");
+                        Subtitle.Custom($"Badge #{tattooIndex + 1} a été ~g~ajouté~s~.");
                         currentCharacter.PedTatttoos.BadgeTattoos.Add(tat);
                     }
                 }
@@ -1722,7 +1706,7 @@ namespace vMenuClient.menus
             // eventhandler for when a tattoo is selected.
             tattoosMenu.OnItemSelect += (sender, item, index) =>
             {
-                Notify.Success("All tattoos have been removed.");
+                Notify.Success("Tous les tatouages ont été enlevés.");
                 currentCharacter.PedTatttoos.HeadTattoos.Clear();
                 currentCharacter.PedTatttoos.TorsoTattoos.Clear();
                 currentCharacter.PedTatttoos.LeftArmTattoos.Clear();
@@ -1924,8 +1908,8 @@ namespace vMenuClient.menus
                 else if (item == exitNoSave) // exit without saving
                 {
                     var confirm = false;
-                    AddTextEntry("vmenu_warning_message_first_line", "Are you sure you want to exit the character creator?");
-                    AddTextEntry("vmenu_warning_message_second_line", "You will lose all (unsaved) customization!");
+                    AddTextEntry("vmenu_warning_message_first_line", "Êtes-vous sûr de vouloir quitter le créateur de personnage ?");
+                    AddTextEntry("vmenu_warning_message_second_line", "Vous perdrez toutes les personnalisations (non sauvegardées) !");
                     createCharacterMenu.CloseMenu();
 
                     // wait for confirmation or cancel input.
@@ -2189,12 +2173,12 @@ namespace vMenuClient.menus
 
             MenuController.AddMenu(manageSavedCharacterMenu);
 
-            var spawnPed = new MenuItem("Spawn Saved Character", "Spawns the selected saved character.");
-            editPedBtn = new MenuItem("Edit Saved Character", "This allows you to edit everything about your saved character. The changes will be saved to this character's save file entry once you hit the save button.");
-            var clonePed = new MenuItem("Clone Saved Character", "This will make a clone of your saved character. It will ask you to provide a name for that character. If that name is already taken the action will be canceled.");
-            var setAsDefaultPed = new MenuItem("Set As Default Character", "If you set this character as your default character, and you enable the 'Respawn As Default MP Character' option in the Misc Settings menu, then you will be set as this character whenever you (re)spawn.");
-            var renameCharacter = new MenuItem("Rename Saved Character", "You can rename this saved character. If the name is already taken then the action will be canceled.");
-            var delPed = new MenuItem("Delete Saved Character", "Deletes the selected saved character. This can not be undone!")
+            var spawnPed = new MenuItem("Faire apparaître le personnage sauvegardé", "Fait apparaître le personnage sauvegardé sélectionné.");
+            editPedBtn = new MenuItem("Modifier le personnage sauvegardé", "Cela vous permet de modifier tout ce qui concerne votre personnage sauvegardé. Les modifications seront enregistrées dans le fichier de sauvegarde de ce personnage une fois que vous aurez cliqué sur le bouton de sauvegarde.");
+            var clonePed = new MenuItem("Cloner le personnage sauvegardé", "Cela créera un clone de votre personnage sauvegardé. Il vous sera demandé de fournir un nom pour ce personnage. Si ce nom est déjà pris, l'action sera annulée.");
+            var setAsDefaultPed = new MenuItem("Définir comme personnage par défaut", "Si vous définissez ce personnage comme votre personnage par défaut et que vous activez l'option 'Réapparaître en tant que personnage MP par défaut' dans le menu des paramètres divers, vous serez défini comme ce personnage chaque fois que vous (re)apparaîtrez.");
+            var renameCharacter = new MenuItem("Renommer le personnage sauvegardé", "Vous pouvez renommer ce personnage sauvegardé. Si le nom est déjà pris, l'action sera annulée.");
+            var delPed = new MenuItem("Supprimer le personnage sauvegardé", "Supprime le personnage sauvegardé sélectionné. Cela ne peut pas être annulé !")
             {
                 LeftIcon = MenuItem.Icon.WARNING
             };
@@ -2227,7 +2211,7 @@ namespace vMenuClient.menus
                 else if (item == clonePed)
                 {
                     var tmpCharacter = StorageManager.GetSavedMpCharacterData("mp_ped_" + selectedSavedCharacterManageName);
-                    var name = await GetUserInput(windowTitle: "Enter a name for the cloned character", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
+                    var name = await GetUserInput(windowTitle: "Saisir un nom pour le personnage cloné", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
                     if (string.IsNullOrEmpty(name))
                     {
                         Notify.Error(CommonErrors.InvalidSaveName);
@@ -2243,14 +2227,14 @@ namespace vMenuClient.menus
                             tmpCharacter.SaveName = "mp_ped_" + name;
                             if (StorageManager.SaveJsonData("mp_ped_" + name, JsonConvert.SerializeObject(tmpCharacter), false))
                             {
-                                Notify.Success($"Your character has been cloned. The name of the cloned character is: ~g~<C>{name}</C>~s~.");
+                                Notify.Success($"Votre personnage a été cloné. Le nom du personnage cloné est : ~g~<C>{name}</C>~s~.");
                                 MenuController.CloseAllMenus();
                                 UpdateSavedPedsMenu();
                                 savedCharactersMenu.OpenMenu();
                             }
                             else
                             {
-                                Notify.Error("The clone could not be created, reason unknown. Does a character already exist with that name? :(");
+                                Notify.Error("Le clone n'a pas pu être créé, raison inconnue. Existe-t-il déjà un personnage portant ce nom ? :(");
                             }
                         }
                     }
@@ -2258,7 +2242,7 @@ namespace vMenuClient.menus
                 else if (item == renameCharacter)
                 {
                     var tmpCharacter = StorageManager.GetSavedMpCharacterData("mp_ped_" + selectedSavedCharacterManageName);
-                    var name = await GetUserInput(windowTitle: "Enter a new character name", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
+                    var name = await GetUserInput(windowTitle: "Saisir un nouveau nom de caractère", defaultText: tmpCharacter.SaveName.Substring(7), maxInputLength: 30);
                     if (string.IsNullOrEmpty(name))
                     {
                         Notify.Error(CommonErrors.InvalidInput);
@@ -2275,7 +2259,7 @@ namespace vMenuClient.menus
                             if (StorageManager.SaveJsonData("mp_ped_" + name, JsonConvert.SerializeObject(tmpCharacter), false))
                             {
                                 StorageManager.DeleteSavedStorageItem("mp_ped_" + selectedSavedCharacterManageName);
-                                Notify.Success($"Your character has been renamed to ~g~<C>{name}</C>~s~.");
+                                Notify.Success($"Votre personnage a été renommé en ~g~<C>{name}</C>~s~.");
                                 UpdateSavedPedsMenu();
                                 while (!MenuController.IsAnyMenuOpen())
                                 {
@@ -2285,36 +2269,36 @@ namespace vMenuClient.menus
                             }
                             else
                             {
-                                Notify.Error("Something went wrong while renaming your character, your old character will NOT be deleted because of this.");
+                                Notify.Error("Quelque chose s'est mal passé lors du renommage de votre personnage, votre ancien personnage ne sera PAS supprimé pour autant.");
                             }
                         }
                     }
                 }
                 else if (item == delPed)
                 {
-                    if (delPed.Label == "Are you sure?")
+                    if (delPed.Label == "Êtes-vous sûr ?")
                     {
                         delPed.Label = "";
                         DeleteResourceKvp("mp_ped_" + selectedSavedCharacterManageName);
-                        Notify.Success("Your saved character has been deleted.");
+                        Notify.Success("Votre personnage sauvegardé a été supprimé.");
                         manageSavedCharacterMenu.GoBack();
                         UpdateSavedPedsMenu();
                         manageSavedCharacterMenu.RefreshIndex();
                     }
                     else
                     {
-                        delPed.Label = "Are you sure?";
+                        delPed.Label = "Êtes-vous sûr ?";
                     }
                 }
                 else if (item == setAsDefaultPed)
                 {
-                    Notify.Success($"Your character <C>{selectedSavedCharacterManageName}</C> will now be used as your default character whenever you (re)spawn.");
+                    Notify.Success($"Votre personnage <C>{selectedSavedCharacterManageName}</C> sera désormais utilisé comme personnage par défaut à chaque (re)spawn.");
                     SetResourceKvp("vmenu_default_character", "mp_ped_" + selectedSavedCharacterManageName);
                 }
 
                 if (item != delPed)
                 {
-                    if (delPed.Label == "Are you sure?")
+                    if (delPed.Label == "Êtes-vous sûr ?")
                     {
                         delPed.Label = "";
                     }
@@ -2333,7 +2317,7 @@ namespace vMenuClient.menus
 
                 if (name == "Create New")
                 {
-                    var newName = await GetUserInput(windowTitle: "Enter a category name.", maxInputLength: 30);
+                    var newName = await GetUserInput(windowTitle: "Saisir un nom de catégorie.", maxInputLength: 30);
                     if (string.IsNullOrEmpty(newName) || newName.ToLower() == "uncategorized" || newName.ToLower() == "create new")
                     {
                         Notify.Error(CommonErrors.InvalidInput);
@@ -2341,7 +2325,7 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        var description = await GetUserInput(windowTitle: "Enter a category description (optional).", maxInputLength: 120);
+                        var description = await GetUserInput(windowTitle: "Saisissez une description de la catégorie (facultatif).", maxInputLength: 120);
                         var newCategory = new MpCharacterCategory
                         {
                             Name = newName,
@@ -2350,8 +2334,8 @@ namespace vMenuClient.menus
 
                         if (StorageManager.SaveJsonData("mp_character_category_" + newName, JsonConvert.SerializeObject(newCategory), false))
                         {
-                            Notify.Success($"Your category (~g~<C>{newName}</C>~s~) has been saved.");
-                            Log($"Saved Category {newName}.");
+                            Notify.Success($"Votre catégorie (~g~<C>{newName}</C>~s~) a été sauvegardé.");
+                            Log($"Catégorie sauvegardée {newName}.");
                             MenuController.CloseAllMenus();
                             UpdateSavedPedsMenu();
                             savedCharactersCategoryMenu.OpenMenu();
@@ -2361,7 +2345,7 @@ namespace vMenuClient.menus
                         }
                         else
                         {
-                            Notify.Error($"Saving failed, most likely because this name (~y~<C>{newName}</C>~s~) is already in use.");
+                            Notify.Error($"La sauvegarde a échoué, très probablement parce que ce nom (~y~<C>{newName}</C>~s~) est déjà utilisé.");
                             return;
                         }
                     }
@@ -2372,11 +2356,11 @@ namespace vMenuClient.menus
                 var json = JsonConvert.SerializeObject(tmpCharacter);
                 if (StorageManager.SaveJsonData(tmpCharacter.SaveName, json, true))
                 {
-                    Notify.Success("Your character was saved successfully.");
+                    Notify.Success("Votre personnage a été sauvegardé avec succès.");
                 }
                 else
                 {
-                    Notify.Error("Your character could not be saved. Reason unknown. :(");
+                    Notify.Error("Votre personnage n'a pas pu être sauvegardé. Raison inconnue. :(");
                 }
 
                 MenuController.CloseAllMenus();
@@ -2396,7 +2380,7 @@ namespace vMenuClient.menus
                 // Create new category
                 if (item.ItemData is not MpCharacterCategory)
                 {
-                    var name = await GetUserInput(windowTitle: "Enter a category name.", maxInputLength: 30);
+                    var name = await GetUserInput(windowTitle: "Saisir un nom de catégorie.", maxInputLength: 30);
                     if (string.IsNullOrEmpty(name) || name.ToLower() == "uncategorized" || name.ToLower() == "create new")
                     {
                         Notify.Error(CommonErrors.InvalidInput);
@@ -2404,7 +2388,7 @@ namespace vMenuClient.menus
                     }
                     else
                     {
-                        var description = await GetUserInput(windowTitle: "Enter a category description (optional).", maxInputLength: 120);
+                        var description = await GetUserInput(windowTitle: "Saisissez une description de la catégorie (facultatif).", maxInputLength: 120);
                         var newCategory = new MpCharacterCategory
                         {
                             Name = name,
@@ -2413,8 +2397,8 @@ namespace vMenuClient.menus
 
                         if (StorageManager.SaveJsonData("mp_character_category_" + name, JsonConvert.SerializeObject(newCategory), false))
                         {
-                            Notify.Success($"Your category (~g~<C>{name}</C>~s~) has been saved.");
-                            Log($"Saved Category {name}.");
+                            Notify.Success($"Votre catégorie (~g~<C>{name}</C>~s~) a été sauvegardé.");
+                            Log($"Catégorie sauvegardée {name}.");
                             MenuController.CloseAllMenus();
                             UpdateSavedPedsMenu();
                             savedCharactersCategoryMenu.OpenMenu();
@@ -2423,7 +2407,7 @@ namespace vMenuClient.menus
                         }
                         else
                         {
-                            Notify.Error($"Saving failed, most likely because this name (~y~<C>{name}</C>~s~) is already in use.");
+                            Notify.Error($"La sauvegarde a échoué, très probablement parce que ce nom (~y~<C>{name}</C>~s~) est déjà utilisé.");
                             return;
                         }
                     }
@@ -2434,10 +2418,10 @@ namespace vMenuClient.menus
                     currentCategory = item.ItemData;
                 }
 
-                bool isUncategorized = currentCategory.Name == "Uncategorized";
+                bool isUncategorized = currentCategory.Name == "Non classé";
 
                 savedCharactersCategoryMenu.MenuTitle = currentCategory.Name;
-                savedCharactersCategoryMenu.MenuSubtitle = $"~s~Category: ~y~{currentCategory.Name}";
+                savedCharactersCategoryMenu.MenuSubtitle = $"~s~Catégorie: ~y~{currentCategory.Name}";
                 savedCharactersCategoryMenu.ClearMenuItems();
 
                 var iconNames = Enum.GetNames(typeof(MenuItem.Icon)).ToList();
@@ -2465,25 +2449,25 @@ namespace vMenuClient.menus
                     return iconNames[newIndex];
                 }
 
-                var renameBtn = new MenuItem("Rename Category", "Rename this category.")
+                var renameBtn = new MenuItem("Renommer la catégorie", "Renommez cette catégorie.")
                 {
                     Enabled = !isUncategorized
                 };
-                var descriptionBtn = new MenuItem("Change Category Description", "Change this category's description.")
+                var descriptionBtn = new MenuItem("Modifier la description de la catégorie", "Modifiez la description de cette catégorie.")
                 {
                     Enabled = !isUncategorized
                 };
-                var iconBtn = new MenuDynamicListItem("Change Category Icon", iconNames[(int)currentCategory.Icon], new MenuDynamicListItem.ChangeItemCallback(ChangeCallback), "Change this category's icon. Select to save.")
+                var iconBtn = new MenuDynamicListItem("Changer l'icône de la catégorie", iconNames[(int)currentCategory.Icon], new MenuDynamicListItem.ChangeItemCallback(ChangeCallback), "Changez l'icône de cette catégorie. Sélectionnez pour sauvegarder.")
                 {
                     Enabled = !isUncategorized,
                     RightIcon = currentCategory.Icon
                 };
-                var deleteBtn = new MenuItem("Delete Category", "Delete this category. This can not be undone!")
+                var deleteBtn = new MenuItem("Supprimer la catégorie", "Supprimez cette catégorie. Cette action ne peut pas être annulée !")
                 {
                     RightIcon = MenuItem.Icon.WARNING,
                     Enabled = !isUncategorized
                 };
-                var deleteCharsBtn = new MenuCheckboxItem("Delete All Characters", "If checked, when \"Delete Category\" is pressed, all the saved characters in this category will be deleted as well. If not checked, saved characters will be moved to \"Uncategorized\".")
+                var deleteCharsBtn = new MenuCheckboxItem("Supprimer tous les personnages", "Si coché, lorsque \"Supprimer la catégorie\" est pressé, tous les personnages sauvegardés dans cette catégorie seront également supprimés. Si non coché, les personnages sauvegardés seront déplacés vers \"Non classé\".")
                 {
                     Enabled = !isUncategorized
                 };
@@ -2494,7 +2478,7 @@ namespace vMenuClient.menus
                 savedCharactersCategoryMenu.AddMenuItem(deleteBtn);
                 savedCharactersCategoryMenu.AddMenuItem(deleteCharsBtn);
 
-                var spacer = GetSpacerMenuItem("↓ Characters ↓");
+                var spacer = GetSpacerMenuItem("↓ Personnages ↓");
                 savedCharactersCategoryMenu.AddMenuItem(spacer);
 
                 List<string> names = GetAllMpCharacterNames();
@@ -2523,7 +2507,7 @@ namespace vMenuClient.menus
                             }
                         }
 
-                        var btn = new MenuItem(name, "Click to spawn, edit, clone, rename or delete this saved character.")
+                        var btn = new MenuItem(name, "Cliquez sur ce bouton pour créer, modifier, cloner, renommer ou supprimer ce personnage sauvegardé.")
                         {
                             Label = "→→→",
                             LeftIcon = tmpData.IsMale ? MenuItem.Icon.MALE : MenuItem.Icon.FEMALE,
@@ -2532,7 +2516,7 @@ namespace vMenuClient.menus
                         if (defaultChar == "mp_ped_" + name)
                         {
                             btn.LeftIcon = MenuItem.Icon.TICK;
-                            btn.Description += " ~g~This character is currently set as your default character and will be used whenever you (re)spawn.";
+                            btn.Description += " ~g~Ce caractère est actuellement défini comme votre caractère par défaut et sera utilisé chaque (re)spawn.";
                         }
                         savedCharactersCategoryMenu.AddMenuItem(btn);
                         MenuController.BindMenuItem(savedCharactersCategoryMenu, manageSavedCharacterMenu, btn);
@@ -2616,9 +2600,9 @@ namespace vMenuClient.menus
             {
                 switch (index)
                 {
-                    // Rename Category
+                    // Renommer la catégorie
                     case 0:
-                        var name = await GetUserInput(windowTitle: "Enter a new category name", defaultText: currentCategory.Name, maxInputLength: 30);
+                        var name = await GetUserInput(windowTitle: "Saisir un nouveau nom de catégorie", defaultText: currentCategory.Name, maxInputLength: 30);
 
                         if (string.IsNullOrEmpty(name) || name.ToLower() == "uncategorized" || name.ToLower() == "create new")
                         {
@@ -2666,48 +2650,48 @@ namespace vMenuClient.menus
                                     if (StorageManager.SaveJsonData(tmpData.SaveName, JsonConvert.SerializeObject(tmpData), true))
                                     {
                                         updatedCount++;
-                                        Log($"Updated category for \"{tmpData.SaveName}\"");
+                                        Log($"Catégorie mise à jour pour \"{tmpData.SaveName}\"");
                                     }
                                     else
                                     {
-                                        Log($"Something went wrong when updating category for \"{tmpData.SaveName}\"");
+                                        Log($"Un problème s'est produit lors de la mise à jour de la catégorie pour \"{tmpData.SaveName}\"");
                                     }
                                 }
                             }
 
-                            Notify.Success($"Your category has been renamed to ~g~<C>{name}</C>~s~. {updatedCount}/{totalCount} characters updated.");
+                            Notify.Success($"Votre catégorie a été renommée en ~g~<C>{name}</C>~s~. {updatedCount}/{totalCount} personnages mis à jour.");
                             MenuController.CloseAllMenus();
                             UpdateSavedPedsMenu();
                             savedCharactersMenu.OpenMenu();
                         }
                         else
                         {
-                            Notify.Error("Something went wrong while renaming your category, your old category will NOT be deleted because of this.");
+                            Notify.Error("Un problème s'est produit lors du changement de nom de votre catégorie. Votre ancienne catégorie ne sera PAS supprimée pour cette raison.");
                         }
                         break;
 
                     // Change Category Description
                     case 1:
-                        var description = await GetUserInput(windowTitle: "Enter a new category description", defaultText: currentCategory.Description, maxInputLength: 120);
+                        var description = await GetUserInput(windowTitle: "Saisir une nouvelle description de la catégorie", defaultText: currentCategory.Description, maxInputLength: 120);
 
                         currentCategory.Description = description;
 
                         if (StorageManager.SaveJsonData("mp_character_category_" + currentCategory.Name, JsonConvert.SerializeObject(currentCategory), true))
                         {
-                            Notify.Success($"Your category description has been changed.");
+                            Notify.Success($"La description de votre catégorie a été modifiée.");
                             MenuController.CloseAllMenus();
                             UpdateSavedPedsMenu();
                             savedCharactersMenu.OpenMenu();
                         }
                         else
                         {
-                            Notify.Error("Something went wrong while changing your category description.");
+                            Notify.Error("Un problème s'est produit lors de la mise à jour de la catégorie pour");
                         }
                         break;
 
                     // Delete Category
                     case 3:
-                        if (item.Label == "Are you sure?")
+                        if (item.Label == "Êtes-vous sûr ?")
                         {
                             bool deletePeds = (sender.GetMenuItems().ElementAt(4) as MenuCheckboxItem).Checked;
 
@@ -2750,24 +2734,24 @@ namespace vMenuClient.menus
                                         if (StorageManager.SaveJsonData(tmpData.SaveName, JsonConvert.SerializeObject(tmpData), true))
                                         {
                                             updatedCount++;
-                                            Log($"Updated category for \"{tmpData.SaveName}\"");
+                                            Log($"Catégorie mise à jour pour \"{tmpData.SaveName}\"");
                                         }
                                         else
                                         {
-                                            Log($"Something went wrong when updating category for \"{tmpData.SaveName}\"");
+                                            Log($"Un problème s'est produit lors de la mise à jour de la catégorie pour \"{tmpData.SaveName}\"");
                                         }
                                     }
                                 }
                             }
 
-                            Notify.Success($"Your saved category has been deleted. {updatedCount}/{totalCount} characters {(deletePeds ? "deleted" : "updated")}.");
+                            Notify.Success($"Catégorie sauvegardée. {updatedCount}/{totalCount} personnages {(deletePeds ? "deleted" : "updated")}.");
                             MenuController.CloseAllMenus();
                             UpdateSavedPedsMenu();
                             savedCharactersMenu.OpenMenu();
                         }
                         else
                         {
-                            item.Label = "Are you sure?";
+                            item.Label = "Êtes-vous sûr ?";
                         }
                         break;
 
@@ -2799,12 +2783,12 @@ namespace vMenuClient.menus
 
                 if (StorageManager.SaveJsonData("mp_character_category_" + currentCategory.Name, JsonConvert.SerializeObject(currentCategory), true))
                 {
-                    Notify.Success($"Your category icon been changed to ~g~<C>{iconNames[iconIndex]}</C>~s~.");
+                    Notify.Success($"L'icône de votre catégorie a été changée en ~g~<C>{iconNames[iconIndex]}</C>~s~.");
                     UpdateSavedPedsMenu();
                 }
                 else
                 {
-                    Notify.Error("Something went wrong while changing your category icon.");
+                    Notify.Error("Un problème s'est produit lors de la modification de l'icône de Votre catégorie.");
                 }
             };
 
@@ -2827,19 +2811,19 @@ namespace vMenuClient.menus
 
             savedCharactersMenu.ClearMenuItems();
 
-            var createCategoryBtn = new MenuItem("Create Category", "Create a new character category.")
+            var createCategoryBtn = new MenuItem("Créer une catégorie", "Créer une nouvelle catégorie de personnage.")
             {
                 Label = "→→→"
             };
             savedCharactersMenu.AddMenuItem(createCategoryBtn);
 
-            var spacer = GetSpacerMenuItem("↓ Character Categories ↓");
+            var spacer = GetSpacerMenuItem("↓ Catégories de personnage ↓");
             savedCharactersMenu.AddMenuItem(spacer);
 
             var uncategorized = new MpCharacterCategory
             {
                 Name = "Uncategorized",
-                Description = "All saved MP Characters that have not been assigned to a category."
+                Description = "Tous les caractères MP enregistrés qui n'ont pas été affectés à une catégorie."
             };
             var uncategorizedBtn = new MenuItem(uncategorized.Name, uncategorized.Description)
             {
